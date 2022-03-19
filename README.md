@@ -1,4 +1,6 @@
-## Minimundo - Sistema de Gerenciamento de Atividades Extracurriculares
+# Sistema de Gerenciamento de Atividades Extracurriculares
+
+## Minimundo
 
 Após cerca de dois anos com os cursos da graduação da Universidade Federal Rural do Rio de Janeiro (UFRRJ) sendo realizados de forma remota em decorrência da pandemia de Covid-19, foi divulgado o retorno às aulas presenciais, em 2022. Essa pandemia impactou como as relações interpessoais funcionavam e não possibilitou com que os novos discentes aprovados nos concursos desses últimos anos tivessem a oportunidade de se integrar com o ambiente acadêmico ainda. Além disso, há a necessidade de centralizar informações relacionadas às atividades extracurriculares possíveis de serem realizadas pela universidade, já que atualmente, muitos discentes não conseguem encontrar com facilidade essas informações. Considerando esses contextos, surge a necessidade de desenvolver um sistema que seja capaz de gerenciar as atividades extracurriculares e, com isso, será possível conectar a comunidade acadêmica, oferecendo-lhes oportunidades de interação com outras pessoas e de aprimoramento na formação profissional, além de facilitar para o discente na busca de informações sobre essas atividades. 
 
@@ -9,3 +11,14 @@ Para o cadastro de um evento, é necessário informar dados como o nome do event
 Os discentes cadastrados poderão se inscrever e se desinscrever de um evento já cadastrado até que as inscrições do evento selecionado sejam encerradas. A informação relacionada ao meio de comunicação de um evento somente deverá ser divulgada ao inscrito assim que for realizada a inscrição. Além disso, se um determinado evento possuir inscritos, o responsável por este evento poderá analisar os perfis dos inscritos. Caso um evento já tenha sido concluído, o responsável do evento também poderá marcar presença dos participantes para que seja gerado um comprovante de participação do evento ao participante.
 
 Os discentes também poderão adicionar informações em seu perfil dados como seu nome, data de nascimento, gênero, CPF, e-mail, matrícula da UFRRJ, campus em que estuda e o curso da graduação, seus interesses e hobbies, além de atividades extracurriculares que já fez. 
+
+## Pré-requisitos
+Para conseguir executar o projeto, é necessário que você tenha instalado na máquina os softwares a seguir:
+- Node.js na versão v14 ou superior. Para instalar o node.js, acesse o link: https://nodejs.org/en/download/
+- Visual Studio Code. Para instalar o software, acesse o link: https://code.visualstudio.com/Download
+
+## Instalando o Projeto
+Após baixar o projeto e entrar no diretório do projeto pelo terminal, para inicializar o servidor digite no terminal: 
+```
+node ace serve --watch
+```
