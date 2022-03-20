@@ -1,8 +1,11 @@
-# Sistema de Gerenciamento de Atividades Extracurriculares
+# liversity
+liversity é um sistema de gerenciamento de atividades extracurriculares da UFRRJ a ser desenvolvido por estudantes de Ciência da Computação na disciplina de Programação Web.
 
-## Minimundo
+## Motivação
 
 Após cerca de dois anos com os cursos da graduação da Universidade Federal Rural do Rio de Janeiro (UFRRJ) sendo realizados de forma remota em decorrência da pandemia de Covid-19, foi divulgado o retorno às aulas presenciais, em 2022. Essa pandemia impactou como as relações interpessoais funcionavam e não possibilitou com que os novos discentes aprovados nos concursos desses últimos anos tivessem a oportunidade de se integrar com o ambiente acadêmico ainda. Além disso, há a necessidade de centralizar informações relacionadas às atividades extracurriculares possíveis de serem realizadas pela universidade, já que atualmente, muitos discentes não conseguem encontrar com facilidade essas informações. Considerando esses contextos, surge a necessidade de desenvolver um sistema que seja capaz de gerenciar as atividades extracurriculares e, com isso, será possível conectar a comunidade acadêmica, oferecendo-lhes oportunidades de interação com outras pessoas e de aprimoramento na formação profissional, além de facilitar para o discente na busca de informações sobre essas atividades. 
+
+## Minimundo
 
 O sistema deverá disponibilizar informações relacionadas às divulgações de eventos de atividades extracurriculares, cadastradas por responsáveis dos eventos, que forem aprovadas por determinados coordenadores de cursos. Eventos já encerrados também deverão aparecer no histórico no mural de atividades. Os eventos poderão ser pesquisados por campus ou por categoria de atividade, tornando mais fácil de encontrar uma atividade que tenha mais a ver com a preferência do aluno.
 
@@ -17,8 +20,18 @@ Para conseguir executar o projeto, é necessário que você tenha instalado na m
 - Node.js na versão v14 ou superior. Para instalar o node.js, acesse o link: https://nodejs.org/en/download/
 - Visual Studio Code. Para instalar o software, acesse o link: https://code.visualstudio.com/Download
 
-## Instalando o Projeto
-Após baixar o projeto e entrar no diretório do projeto pelo terminal, para inicializar o servidor digite no terminal: 
+## Instalação do Projeto
+1 - Crie o ```.env```
+```
+cp .env.example .env
+```
+
+2 - Instale as dependências do projeto:
+```
+npm install
+```
+
+3 - Inicialize o projeto: 
 ```
 node ace serve --watch
 ```
