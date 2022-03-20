@@ -20,4 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', 'AccountController.login')
+Route.get('/', 'AccountController.index')
+Route.get('/Login', 'AccountController.login')
+Route.get('/Eventos', 'EventosController.index')
+// Route.get('/:id', 'EventosController.index')

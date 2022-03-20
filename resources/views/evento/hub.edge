@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
+        <title>liversity - Eventos</title>
         @entryPointStyles('app')
         @entryPointScripts('app')
     </head>
@@ -11,11 +11,13 @@
     
         <main>
         <div>
-            <h1 class="title"> SIGAE - Sistema de Gerenciamento de Atividades Extracurriculares </h1>
+            <h1 class="title"> liversity </h1>
             <p class="subtitle">
-                Bem vindo ao mais novo sistema criado pelos estudantes de Ciência da Computação!<br>
-                Realize seu login no SIGAE!
+            
             </p>
+            @each(evento in eventos) 
+            <a href="/Login">{{evento.nome}}</a>
+            @end
         </div>
         </main>
     </body>
