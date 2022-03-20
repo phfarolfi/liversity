@@ -17,8 +17,18 @@ Para conseguir executar o projeto, é necessário que você tenha instalado na m
 - Node.js na versão v14 ou superior. Para instalar o node.js, acesse o link: https://nodejs.org/en/download/
 - Visual Studio Code. Para instalar o software, acesse o link: https://code.visualstudio.com/Download
 
-## Instalando o Projeto
-Após baixar o projeto e entrar no diretório do projeto pelo terminal, para inicializar o servidor digite no terminal: 
+## Instalação do Projeto
+1 - Crie o ```.env```
+```
+cp .env.example .env
+```
+
+2 - Instale as dependências do projeto:
+```
+npm install
+```
+
+3 - Inicialize o projeto: 
 ```
 node ace serve --watch
 ```
