@@ -20,7 +20,17 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', 'AccountController.index')
-Route.get('/Login', 'AccountController.login')
+//pegar essa informação do cookie / sessão mais para frente
+var estalogado = false;
+if(!estalogado) 
+{
+    Route.on('/').redirect('/Login')
+}
+else {
+   Route.on('/').redirect('/Eventos') 
+}
+Route.get('/Login', 'AccountController.login'),
+Route.get('/ForgotPassword', 'AccountController.forgotPassword')
+Route.get('/SignUp', 'AccountController.signUp')
 Route.get('/Eventos', 'EventosController.index')
 // Route.get('/:id', 'EventosController.index')
