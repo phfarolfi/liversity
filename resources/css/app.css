@@ -85,7 +85,23 @@ main code {
   height: 420px;
 }
 
-.login-page .title {
+.forgotPassword-page {
+  background-color: white;
+  padding: 60px;
+  border-radius: 3px;
+  width: 530px;
+  height: 350px;
+}
+
+.signUp-page {
+  background-color: white;
+  padding: 60px;
+  border-radius: 3px;
+  width: 530px;
+  height: 485px;
+}
+
+.login-page .title, .forgotPassword-page .title, .signUp-page .title {
   font-weight: 700;
   font-size: 36px;
   line-height: 43px;
@@ -125,7 +141,7 @@ main code {
   margin-bottom: 30px !important;
 }
 
-.login-form .submit {
+.login-form .submit, .forgotPassword-page .submit, .signUp-page .submit {
   border-radius: 20px;
   padding: 7px 30px 3px 30px; 
   font-style: normal;
@@ -133,7 +149,7 @@ main code {
   font-size: 18px;
   line-height: 22px;
   float: right;
-  width: 30%
+  width: 35%
 }
 
 .voltar {
@@ -144,7 +160,7 @@ main code {
   font-size: 18px;
   line-height: 22px;
   float: left;
-  width: 30%
+  width: 35%
 }
 
 .lost-password {
