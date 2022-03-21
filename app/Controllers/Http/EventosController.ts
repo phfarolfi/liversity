@@ -13,7 +13,11 @@ export default class EventosController {
     }
 
     public async index({view} : HttpContextContract) {
-        return view.render('evento/hub', { eventos : this.eventos })
+        return view.render('evento/home', { eventos : this.eventos })
+    }
+
+    public async criarEvento({view} : HttpContextContract) {
+        return view.render('evento/criarEvento')
     }
 
 }

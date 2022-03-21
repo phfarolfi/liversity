@@ -27,10 +27,11 @@ if(!estalogado)
     Route.on('/').redirect('/Login')
 }
 else {
-   Route.on('/').redirect('/Eventos') 
+   Route.on('/').redirect('/Home') 
 }
 Route.get('/Login', 'AccountController.login'),
 Route.get('/ForgotPassword', 'AccountController.forgotPassword')
 Route.get('/SignUp', 'AccountController.signUp')
-Route.get('/Eventos', 'EventosController.index')
+Route.get('/Home', 'EventosController.index')
+Route.get('/CriarEvento', 'EventosController.criarEvento')
 // Route.get('/:id', 'EventosController.index')
