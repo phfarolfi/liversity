@@ -101,7 +101,7 @@ main code {
   height: 485px;
 }
 
-.login-page .title, .forgotPassword-page .title, .signUp-page .title {
+.login-page .title, .forgotPassword-page .title, .signUp-page .title, .eventregister-page .title {
   font-weight: 700;
   font-size: 36px;
   line-height: 43px;
@@ -117,7 +117,7 @@ main code {
   margin-bottom: 35px;
 }
 
-.login-form .form-label {
+.login-form .form-label, .event-form .form-label {
   color: #777777;
   font-weight: 400;
   font-size: 12px;
@@ -142,6 +142,26 @@ main code {
 }
 
 .login-form .submit, .forgotPassword-page .submit, .signUp-page .submit {
+  border-radius: 20px;
+  padding: 7px 30px 3px 30px; 
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  float: right;
+  width: 35%
+}
+
+.eventregister-page {
+  background-color: white;
+  padding: 7.5% 33.3%;
+  border-radius: 3px;
+  width: 750px;
+  height: 920px;
+}
+
+
+.event-form .submit {
   border-radius: 20px;
   padding: 7px 30px 3px 30px; 
   font-style: normal;
