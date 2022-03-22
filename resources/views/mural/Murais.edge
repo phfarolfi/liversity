@@ -1,0 +1,33 @@
+@layout('layouts/murais')
+@set('title', 'liversity - Criar Mural')
+
+@section('content')
+    <div class="row" style="width:100%;">
+        <div style="margin: 20px 0;">
+            <h5 class="text-center">Eventos</h5>
+            <div>
+                <form class="d-flex px-5 mt-3 mb-5">
+                    <input class="form-control me-2 searchbar" type="search" placeholder="Search" aria-label="Search" style="width: 100%;">
+                    <button class="btn btn-outline-success search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="row px-5">
+                @each((mural, index) in murais)
+                    <div class="col-4 mb-3 border">
+                        <div class="mural-img mb-2">
+                            <img src="{{mural.foto}}" class="card-img-top">
+                        </div>
+                        
+                        <div class="d-flex justify-content-between py-2">
+                            <div class="card-text" style="max-width: 75%"><strong>{{ mural.nome }}</strong></div>
+                            <div class="card-text">
+                                <a type="submit" style="font-size: 12px; text-align: right;" class="btn btn-primary submit mb-1" href="/CriarEvento"><span>Inscrever-se</span></a>
+                                <div class="card-text" style="font-size: 12px;"><strong>{{ mural.participantes }} participantes</strong></div>
+                            </div>
+                        </div>
+                    </div>   
+                @endeach
+            </div>
+        </div>
+    </div>
+@endsection
