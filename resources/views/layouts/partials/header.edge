@@ -1,29 +1,28 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/Home"><img src="assets/images/logo.png" style="max-height: 25px;"></a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="main-navbar">
+    <div class="container-fluid navbar-container">
+      <a class="navbar-brand" href="/Home"><img src="assets/images/sm-logo.png" style="margin-left: 5px; max-height: 25px"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Mural</a>
+            <a class="nav-link navbar-links" href="#">Mural</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Certificados</a>
+            <a class="nav-link navbar-links" href="#">Certificados</a>
           </li>
         </ul>
         <div>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input class="form-control me-2 searchbar" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </div>
-        <div>
-            <a type="submit" class="btn btn-primary submit" href="/CriarEvento">Criar novo evento</a>
-            <i class="fa-solid fa-2x fa-circle-user" style="color:#aaa"></i>
+        <div class="top-right">
+            <a type="submit" class="btn btn-primary submit" href="/CriarEvento"><span>Criar novo evento</span></a>
+            <a href=""><i class="fa-solid fa-2x fa-circle-user user-icon" style="color:#aaa"></i></a>
         </div>
       </div>
     </div>
   </nav>
-
