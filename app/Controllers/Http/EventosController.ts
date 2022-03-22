@@ -6,7 +6,7 @@ export default class EventosController {
             id: 1,
             nome: "Violino",
             descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu scelerisque felis imperdiet proin fermentum leo vel. Ultrices tincidunt arcu non sodales neque. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Purus sit amet volutpat consequat mauris. Commodo ullamcorper a lacus vestibulum sed arcu non odio. A iaculis at erat pellentesque adipiscing commodo elit.",
-            foto: "assets/images/evento-violino.jpg",
+            foto: "assets/images/eventos/evento-violino.jpg",
             data: "30/02/2022",
             participantes: 11,
             organizador: "Ciclano D. Tal",
@@ -16,7 +16,7 @@ export default class EventosController {
             id: 2,
             nome: "Dança",
             descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu scelerisque felis imperdiet proin fermentum leo vel. Ultrices tincidunt arcu non sodales neque. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Purus sit amet volutpat consequat mauris. Commodo ullamcorper a lacus vestibulum sed arcu non odio. A iaculis at erat pellentesque adipiscing commodo elit.",
-            foto: "assets/images/evento-danca.jpg",
+            foto: "assets/images/eventos/evento-danca.jpg",
             data: "30/03/2022",
             participantes: 15,
             organizador: "Ciclana D. Tal",
@@ -26,7 +26,7 @@ export default class EventosController {
             id: 3,
             nome: "Esportes",
             descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu scelerisque felis imperdiet proin fermentum leo vel. Ultrices tincidunt arcu non sodales neque. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Purus sit amet volutpat consequat mauris. Commodo ullamcorper a lacus vestibulum sed arcu non odio. A iaculis at erat pellentesque adipiscing commodo elit.",
-            foto: "assets/images/evento-esporte.jpg",
+            foto: "assets/images/eventos/evento-esporte.jpg",
             data: "30/04/2022",
             participantes: 20,
             organizador: "Fulana D. Tal",
@@ -35,7 +35,7 @@ export default class EventosController {
     }
 
     public usuario = { 
-        foto: "assets/images/estudante.jpg", 
+        foto: "assets/images/usuarios/estudante.jpg", 
         nome: "Fulano D. Tal", 
         curso: "Ciência da Computação", 
         campus: "Nova Iguaçu - IM", 
