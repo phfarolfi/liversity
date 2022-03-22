@@ -2,15 +2,33 @@
 @set('title', 'liversity - Página Inicial')
 
 @section('content')
-        <div>
-            <h1 class="title"> liversity </h1>
-            <p class="subtitle">
-            
-            </p>
-            @each(evento in eventos) 
-            <a href="/Login">{{evento.nome}}</a>
-            @end
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-2" style="margin-left: 50px;">
+            <h5 class="text-center">Suas Informações</h5>
+            <span class="card">
+                <img src="{{usuario.foto}}" class="card-img-top" style="margin-top: 10px;">
+                <div class="card-body text-center">
+                    <h6 class="card-text"><strong>{{ usuario.nome }}</strong></h6>
+                    <span><i class="fa-solid fa-book"></i> {{ usuario.curso }}</span><br>
+                    <span><i class="fa-solid fa-location-dot"></i> {{ usuario.campus }}</span><br>
+                    <span><i class="fa-solid fa-certificate"></i> {{ usuario.certificados }} certificados</span><br>
+                    <span><i class="fa-solid fa-calendar-plus"></i> {{ usuario.eventosCriados }} eventos criados</span><br>
+                </div>
+            </span>
+            <br>
+            <h5 class="text-center">Preferências</h5>
+            <div class="card">
+                <div class="card-body">
+                    @each((preferencia, index) in usuario.preferencias)
+                        <span class="card-text">{{ preferencia.nome }}</span>
+                        @if(index+1 != usuario.preferencias.length )
+                            <span> - </span>
+                        @end
+                    @endeach
+                </div>
+            </div>
         </div>
+    </div>
     
 @endsection
         
