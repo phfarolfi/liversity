@@ -20,12 +20,6 @@ html, body {
     padding: 0;
   }
   
-  a {
-    color: #0085FF;
-    font-weight: 600;
-    text-decoration: none;
-  }
-  
   main {
     max-width: 620px;
     margin: auto;
@@ -40,7 +34,7 @@ html, body {
     font-size: 50px;
     line-height: 50px;
     margin-bottom: 10px;
-    color: #1b1b1b;
+    color: #1B1B1B;
   }
   
   .subtitle {
@@ -74,23 +68,23 @@ html, body {
   }
   
   .container {
-    background-color: #1B1B1B;
+    background-color: #ffffff;
   }
   
-  .login-page {
+  .eventregister-page {
     background-color: white;
-    padding: 60px;
+    padding: 7.5% 33.3%;
     border-radius: 3px;
-    width: 530px;
-    height: 420px;
+    width: 480px;
+    height: 920px;
   }
   
-  .login-page .title {
+  /*.login-page .title {
     font-weight: 700;
     font-size: 36px;
     line-height: 43px;
     margin-bottom: 0px;
-  }
+  }*/
   
   .new-user-label {
     font-style: normal;
@@ -101,7 +95,7 @@ html, body {
     margin-bottom: 35px;
   }
   
-  .login-form .form-label {
+  .event-name {
     color: #777777;
     font-weight: 400;
     font-size: 12px;
@@ -109,23 +103,23 @@ html, body {
     margin: 0;
   }
   
-  .login-form .form-control {
+  .event-name .form-control {
     border: 0;
     border-bottom: 2px solid #CFCFCF ;
     border-radius: 2px;
     padding-left: 0;
   }
   
-  .login-form .form-control:focus {
+  .event-name .form-control:focus {
     box-shadow: none;
     border-bottom: 2px solid #0085FF;
   }
   
-  .login-password {
-    margin-bottom: 30px !important;
+  .event-date {
+    margin-bottom: 30px;
   }
   
-  .login-form .submit {
+  .login-form .submit, .event-form .submit {
     border-radius: 20px;
     padding: 7px 30px 3px 30px; 
     font-style: normal;
