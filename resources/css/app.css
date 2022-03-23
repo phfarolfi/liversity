@@ -1,5 +1,4 @@
 html, body {
-  background-color: #1B1B1B;
   font-family: "acumin-pro","Acumin Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
   height: 100vh;
   color: #46444c;
@@ -15,9 +14,14 @@ body:before {
   position: absolute;
 }
 
+p {
+  margin: 0;
+}
+
 * {
   margin: 0;
   padding: 0;
+  font-weight: 700;
 }
 
 a {
@@ -48,10 +52,6 @@ main {
   margin-bottom: 40px;
 }
 
-p {
-  margin-bottom: 20px;
-}
-
 main ul {
   list-style: none;
 }
@@ -73,18 +73,6 @@ main code {
   background: #e6e2ff;
 }
 
-.container {
-  background-color: #1B1B1B;
-}
-
-.login-page {
-  background-color: white;
-  padding: 60px;
-  border-radius: 3px;
-  width: 530px;
-  height: 420px;
-}
-
 .forgotPassword-page {
   background-color: white;
   padding: 60px;
@@ -101,23 +89,14 @@ main code {
   height: 485px;
 }
 
-.login-page .title, .forgotPassword-page .title, .signUp-page .title, .eventregister-page .title {
+.forgotPassword-page .title, .signUp-page .title, .eventregister-page .title {
   font-weight: 700;
   font-size: 36px;
   line-height: 43px;
   margin-bottom: 0px;
 }
 
-.new-user-label {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 16px;
-  color: #777777;
-  margin-bottom: 35px;
-}
-
-.login-form .form-label, .event-form .form-label {
+.event-form .form-label {
   color: #777777;
   font-weight: 400;
   font-size: 12px;
@@ -125,23 +104,7 @@ main code {
   margin: 0;
 }
 
-.login-form .form-control {
-  border: 0;
-  border-bottom: 2px solid #CFCFCF ;
-  border-radius: 2px;
-  padding-left: 0;
-}
-
-.login-form .form-control:focus {
-  box-shadow: none;
-  border-bottom: 2px solid #0085FF;
-}
-
-.login-password {
-  margin-bottom: 30px !important;
-}
-
-.login-form .submit, .forgotPassword-page .submit, .signUp-page .submit {
+.forgotPassword-page .submit, .signUp-page .submit {
   border-radius: 20px;
   padding: 7px 30px 3px 30px; 
   font-style: normal;
@@ -181,14 +144,6 @@ main code {
   line-height: 22px;
   float: left;
   width: 35%
-}
-
-.lost-password {
-  position: absolute;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 17px;
-  margin-top: 10px;
 }
 
 .eventregister-page {
