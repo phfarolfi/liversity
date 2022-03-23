@@ -18,4 +18,8 @@ export default class AccountController {
         return view.render('account/signUp')
     }
 
+    public async editarPerfil({view} : HttpContextContract) {
+        return view.render('account/editarPerfil')
+    }
+
 }
