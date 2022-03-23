@@ -2,6 +2,36 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class AccountController {
 
+    public generos = {
+        1: {
+            id: 1,
+            nome: "Masculino"
+        },
+        2: {
+            id: 2,
+            nome: "Feminino"
+        },
+        3: {
+            id: 3,
+            nome: "Outro"
+        }
+    }
+
+    public campi = {
+        1: {
+            id: 1,
+            nome: "Seropédica"
+        },
+        2: {
+            id: 2,
+            nome: "IM - Instituto Multidisciplinar"
+        },
+        3: {
+            id: 3,
+            nome: "ITR - Três Rios"
+        }
+    }
+
     public async index({view} : HttpContextContract) {
         return view.render('index')
     }
@@ -19,7 +49,7 @@ export default class AccountController {
     }
 
     public async editarPerfil({view} : HttpContextContract) {
-        return view.render('account/editarPerfil')
+        return view.render('account/editarPerfil', { generos : this.generos, campi : this.campi })
     }
 
 }
