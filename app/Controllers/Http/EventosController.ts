@@ -46,12 +46,35 @@ export default class EventosController {
 
     public eventoPrincipal = this.eventos[1];
 
+    public categoriasEvento = {
+        1: {
+            id: 1,
+            nome: "Aulas de Basquete"
+        },
+        2: {
+            id: 2,
+            nome: "Aulas de corrida e Yoga"
+        },
+        3: {
+            id: 3,
+            nome: "Campeonatos de dança e aulas de Ritmo"
+        },
+        4: {
+            id: 4,
+            nome: "Campeonatos de Tênis de Mesa"
+        },
+        5: {
+            id: 5,
+            nome: "Jogos/Aulas de Handebol"
+        }
+    }
+
     public async index({view} : HttpContextContract) {
         return view.render('evento/home', { eventos : this.eventos, usuario : this.usuario, eventoPrincipal : this.eventoPrincipal })
     }
 
     public async criarEvento({view} : HttpContextContract) {
-        return view.render('evento/criarEvento')
+        return view.render('evento/criarEvento', { categorias: this.categoriasEvento })
     }
 
 }

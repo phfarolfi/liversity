@@ -12,33 +12,39 @@
     </head>
     @!component('layouts/partials/header')
     <body class="eventContainer">
-        <main>
+        <main style="margin-top: 140px">
             <div class="eventregister-page">
                 <h1 class="title">Novo evento</h1> 
+                <br>
                 <form class="event-form">
                     <div class="mb-3 event-name">
-                        <label for="exampleEventName1" class="form-label">Nome do evento</label><br>
-                        <input type="text" class="form-control" id="exampleEventName1">
+                        <label for="nomeEvento" class="form-label">Nome do evento</label><br>
+                        <input type="text" class="form-control" id="nomeEvento">
                     </div>
                     <div class="mb-3 event-date">
-                        <label for="exampleEventDate1" class="form-label">Data do evento</label><br>
-                        <input type="date" class="form-control" id="exampleEventDate1">
+                        <label for="dataEvento" class="form-label">Data do evento</label><br>
+                        <input type="date" class="form-control" id="dataEvento">
                     </div>
                     <div class="mb-3 event-category">
-                        <label for="exampleCategory1" class="form-label">Categoria de Atividade</label><br>
-                        <input type="text" class="form-control" id="exampleEventCategory1">
+                        <label for="categoria" class="form-label">Categoria de atividade</label><br>
+                        <select class="form-select" name="categoria" id="categoria">
+                            <option value="">Selecione uma categoria</option>
+                            @each(categoria in categorias)
+                                <option value="{{ categoria.nome }}">{{ categoria.nome }}</option>
+                            @endeach
+                        </select>
                     </div>
                     <div class="mb-3 event-limitdate">
-                        <label for="exampleEventLimitDate1" class="form-label">Data limite de inscrição no evento</label><br>
-                        <input type="date" class="form-control" id="exampleInputLimitDate1">
+                        <label for="dataLimite" class="form-label">Data limite de inscrição no evento</label><br>
+                        <input type="date" class="form-control" id="dataLimite">
                     </div>
                     <div class="mb-3 event-organizer">
-                        <label for="exampleOrganizer1" class="form-label">Nome do repsonsável pelo evento</label><br>
-                        <input type="text" class="form-control" id="exampleOrganizer1">
+                        <label for="organizador" class="form-label">Nome do responsável pelo evento</label><br>
+                        <input type="text" class="form-control" id="organizador">
                     </div>
                     <div class="mb-3 event-description">
-                        <label for="exampleDescription1" class="form-label">Descrição do evento</label><br>
-                        <input type="text" class="form-control" id="exampleDescrpition1">
+                        <label for="descricao" class="form-label">Descrição do evento</label><br>
+                        <textarea type="text" class="form-control" id="descricao" rows="3"></textarea>
                     </div>
                     <div class="mb-3 event-link">
                         <label for="exampleLink1" class="form-label">Link de grupo do evento</label><br>
@@ -51,10 +57,10 @@
                         <input type="submit">
                         </form>
                     </div>
-                    <a type="submit" class="btn btn-primary submit" href="/Home">Criar</a>
+                    <a type="submit" class="btn btn-block btn-primary submit pull-r" href="/Home">Criar evento</a>
                 </form>
             </div>
         </main>
-        @!component('layouts/partials/footer')
+        {{--  @!component('layouts/partials/footer')  --}}
     </body>
 </html>

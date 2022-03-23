@@ -1,7 +1,7 @@
 html, body {
   background-color: #1B1B1B;
   font-family: "acumin-pro","Acumin Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   color: #46444c;
   position: relative;
 }
@@ -193,10 +193,10 @@ main code {
 
 .eventregister-page {
   background-color: white;
-  padding: 15% 30%;
+  padding: 50px;
   border-radius: 10px;
-  width: 750px;
-  height: 920px;
+  /* width: 750px; */
+  /* height: 920px; */
 }
 
 
