@@ -3,65 +3,79 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="../../css/evento/criarEvento.css" rel="stylesheet" type="text/css">
+        {{--  <link href="../../css/evento/criarEvento.css" rel="stylesheet" type="text/css">  --}}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <title>liversity - Criar novo evento</title>
+        <title>liversity - Editar Perfil</title>
         @entryPointStyles('app')
         @entryPointScripts('app')
     </head>
     @!component('layouts/partials/header')
-    <body class="eventContainer" style="background-color: #000000">
-        <main style="margin-top: 140px">
-            <div class="eventregister-page">
-                <h1 class="title">Editar perfil</h1> 
+    <body class="eventContainer">
+        <main>
+            <div class="eventregister-page d-inline-block">
+                <h1 class="title">Editar Perfil</h1> 
                 <br>
                 <form class="event-form">
                     <div class="mb-3 event-name">
-                        <label for="nomeEvento" class="form-label">Nome completo</label><br>
-                        <input type="text" class="form-control" id="nomeEvento">
+                        <label for="nome" class="form-label">Nome completo</label><br>
+                        <input type="text" class="form-control" id="nome">
                     </div>
                     <div class="mb-3 event-date">
-                        <label for="dataEvento" class="form-label">Data do evento</label><br>
-                        <input type="date" class="form-control" id="dataEvento">
+                        <label for="data" class="form-label">Data de nascimento</label><br>
+                        <input type="date" class="form-control" id="data">
                     </div>
                     <div class="mb-3 event-category">
-                        <label for="categoria" class="form-label">Categoria de atividade</label><br>
-                        <select class="form-select" name="categoria" id="categoria">
-                            <option value="">Selecione uma categoria</option>
-                            @each(categoria in categorias)
-                                <option value="{{ categoria.nome }}">{{ categoria.nome }}</option>
+                        <label for="genero" class="form-label">Gênero</label><br>
+                        <select class="form-select" name="genero" id="genero">
+                            <option value="">Selecione o seu gênero</option>
+                            @each(genero in generos)
+                                <option value="{{ genero.nome }}">{{ genero.nome }}</option>
                             @endeach
                         </select>
                     </div>
-                    <div class="mb-3 event-limitdate">
-                        <label for="dataLimite" class="form-label">Data limite de inscrição no evento</label><br>
-                        <input type="date" class="form-control" id="dataLimite">
+                    <div class="mb-3 event-name">
+                        <label for="cpf" class="form-label">CPF</label><br>
+                        <input type="text" class="form-control" id="cpf">
+                    </div>
+                    <div class="mb-3 event-name">
+                        <label for="email" class="form-label">E-mail</label><br>
+                        <input type="email" class="form-control" id="email" readonly>
+                    </div>
+                    <div class="mb-3 event-name">
+                        <label for="matricula" class="form-label">Matrícula da UFRRJ</label><br>
+                        <input type="text" class="form-control" id="matricula">
                     </div>
                     <div class="mb-3 event-organizer">
-                        <label for="organizador" class="form-label">Nome do responsável pelo evento</label><br>
-                        <input type="text" class="form-control" id="organizador">
+                        <label for="curso" class="form-label">Curso da graduação</label><br>
+                        <input type="text" class="form-control" id="curso">
+                    </div>
+                    <div class="mb-3 event-organizer">
+                        <label for="campus" class="form-label">Campus em que estuda</label><br>
+                        <select class="form-select" name="campus" id="campus">
+                            <option value="">Selecione o campus</option>
+                            @each(campus in campi)
+                                <option value="{{ campus.nome }}">{{ campus.nome }}</option>
+                            @endeach
+                        </select>
                     </div>
                     <div class="mb-3 event-description">
-                        <label for="descricao" class="form-label">Descrição do evento</label><br>
-                        <textarea type="text" class="form-control" id="descricao" rows="3"></textarea>
+                        <label for="interesses" class="form-label">Interesses e Hobbies</label><br>
+                        <textarea type="text" class="form-control" id="interesses" rows="2"></textarea>
                     </div>
-                    <div class="mb-3 event-link">
-                        <label for="exampleLink1" class="form-label">Link de grupo do evento</label><br>
-                        <input type="link" class="form-control" id="exampleLink1">
+                    <div class="mb-3 event-description">
+                        <label for="atividades" class="form-label">Atividades extracurriculares que já fez</label><br>
+                        <textarea type="text" class="form-control" id="atividades" rows="2"></textarea>
                     </div>
-                    <div class="mb-3 event-images">
-                        <form action="/action_page.php">
-                        <input type="file" id="myFile" 
-                        name="filename">
-                        <input type="submit">
-                        </form>
+                    <label for="foto" class="form-label">Foto de rosto</label><br>
+                    <div class="mb-3 event-images d-flex justify-content-between">
+                        <input type="file" id="foto" name="filename" accept="image/jpeg, image/png">
                     </div>
-                    <a type="submit" class="btn btn-block btn-primary submit pull-r" href="/Home">Criar evento</a>
+                    <a type="submit" class="btn btn-primary submit" href="/Home">Salvar</a>
                 </form>
             </div>
         </main>
-        {{--  @!component('layouts/partials/footer')  --}}
+        @!component('layouts/partials/footer')
     </body>
 </html>
