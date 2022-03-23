@@ -19,13 +19,13 @@
                         </div>
                         
                         <div class="d-flex justify-content-between py-2">
-                            <div class="card-text" style="max-width: 75%"><strong>{{ mural.nome }}</strong></div>
+                            <div class="card-text" style="max-width: 75%"><strong><a href="/Evento" style="color: #000000">{{ mural.nome }}</a></strong></div>
                             <div class="card-text">
                                 <a type="submit" style="font-size: 12px;" class="btn btn-primary submit mb-1" href="/CriarEvento"><span>Inscrever-se</span></a>
                                 <div class="card-text" style="font-size: 12px;"><strong>{{ mural.participantes }} participantes</strong></div>
                             </div>
                         </div>
-                    </div>   
+                    </div>
                 @endeach
             </div>
         </div>
