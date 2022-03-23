@@ -51,5 +51,4 @@ export default class AccountController {
     public async editProfile({view} : HttpContextContract) {
         return view.render('account/editProfile', { generos : this.generos, campi : this.campi })
     }
-
 }
