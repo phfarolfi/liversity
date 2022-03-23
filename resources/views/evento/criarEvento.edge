@@ -11,9 +11,9 @@
         @entryPointScripts('app')
     </head>
     @!component('layouts/partials/header')
-    <body class="eventContainer" style="background-color: #000000">
-        <main style="margin-top: 140px">
-            <div class="eventregister-page">
+    <body class="eventContainer">
+        <main>
+            <div class="eventregister-page d-inline-block">
                 <h1 class="title">Novo evento</h1> 
                 <br>
                 <form class="event-form">
@@ -50,17 +50,13 @@
                         <label for="exampleLink1" class="form-label">Link de grupo do evento</label><br>
                         <input type="link" class="form-control" id="exampleLink1">
                     </div>
-                    <div class="mb-3 event-images">
-                        <form action="/action_page.php">
-                        <input type="file" id="myFile" 
-                        name="filename">
-                        <input type="submit">
-                        </form>
+                    <div class="mb-3 event-images d-flex justify-content-between">
+                        <input type="file" id="myFile" name="filename">
                     </div>
-                    <a type="submit" class="btn btn-block btn-primary submit pull-r" href="/Home">Criar evento</a>
+                    <a type="submit" class="btn btn-primary submit pull-r" href="/Home">Criar evento</a>
                 </form>
             </div>
         </main>
-        {{--  @!component('layouts/partials/footer')  --}}
+        @!component('layouts/partials/footer')
     </body>
 </html>
