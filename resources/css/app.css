@@ -148,3 +148,21 @@ main code {
   margin-right: 20px;
 
 }
+
+.info{
+  max-width: 800px;
+  margin-bottom: 50px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.event-details{
+  margin-bottom: 20px;
+}
+
+.event-title {
+  font-weight: 700;
+  font-size: 36px;
+  margin-bottom: -30px;
+}
