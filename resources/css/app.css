@@ -173,6 +173,14 @@ main code {
   margin-bottom: 20px;
 }
 
-.section-participantes{
+.event-sidebar{
+  max-width: 500px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-participantes {
   margin-bottom: 40px;
 }
+

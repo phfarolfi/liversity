@@ -24,6 +24,7 @@
         </div>
 
         <div class="col-md-4" >
+            <div class="event-sidebar">
             <div class="section-participantes">
             <h4 class="event-sidebar-title">Participantes ({{eventoPrincipal.numParticipantes}})</h4>
             @each((participante, index) in participantes)
@@ -31,10 +32,13 @@
             @endeach
             </div>
 
+            <div class="section-galeria">
             <h4 class="event-sidebar-title">Galeria</h4>
             @each((evento, index) in eventos)
                 <img src="{{evento.foto}}" class="card-img-top" style="max-width:200px; margin-right: 5px; margin-bottom: 10px;">
             @endeach
+            </div>
+            </div>
         </div>
     </div>
     
