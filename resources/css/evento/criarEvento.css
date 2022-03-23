@@ -54,11 +54,10 @@
 
 .event-form .submit {
   font-size: 14px;
-  padding: 4px 0px 1px 0px;
+  padding: 6px 25px 3px 25px;
   border-radius: 20px;
   float: right;
   bottom: 0px;
-  width: 35%;
   font-style: normal;
   font-weight: 700;
   line-height: 22px;
