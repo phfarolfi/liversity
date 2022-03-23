@@ -13,15 +13,15 @@
             </div>
             <div class="row px-5">
                 @each((mural, index) in murais)
-                    <div class="col-4 mb-3 border">
+                    <div class="col-4 mb-3">
                         <div class="mural-img mb-2">
-                            <img src="{{mural.foto}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2">
+                            <img src="{{mural.foto}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0">
                         </div>
                         
                         <div class="d-flex justify-content-between py-2">
                             <div class="card-text" style="max-width: 75%"><strong>{{ mural.nome }}</strong></div>
                             <div class="card-text">
-                                <a type="submit" style="font-size: 12px; text-align: right;" class="btn btn-primary submit mb-1" href="/CriarEvento"><span>Inscrever-se</span></a>
+                                <a type="submit" style="font-size: 12px;" class="btn btn-primary submit mb-1" href="/CriarEvento"><span>Inscrever-se</span></a>
                                 <div class="card-text" style="font-size: 12px;"><strong>{{ mural.participantes }} participantes</strong></div>
                             </div>
                         </div>
