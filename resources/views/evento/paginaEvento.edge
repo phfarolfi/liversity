@@ -6,17 +6,17 @@
   
         <div class="col-md-8">
             <div class="info">
-            <h1 class="title">{{ eventoPrincipal.nome }}</h1>
+            <h1 class="event-title">{{ eventoPrincipal.nome }}</h1>
             <p class="event-info">
                 <span><i class="fa-solid fa-calendar-day" style="margin-top:50px;"></i>&nbsp;&nbsp;&nbsp;{{ eventoPrincipal.data }}</span>
                 <span><i class="fa-solid fa-person-chalkboard" style="margin-top:10px;"></i>&nbsp;&nbsp;{{ eventoPrincipal.organizador }}</span>
                 <span><i class="fa-solid fa-location-dot" style="margin-top:10px;"></i>&nbsp;&nbsp;&nbsp;{{ eventoPrincipal.local }}</span>
             </p>
-            <p class="lead">{{ eventoPrincipal.descricao }}</p>
             <div class="event-buttons">
                 <a class="btn btn-primary submit" href="#" role="button">Inscreva-se</a>
                 <a class="btn btn-outline-secondary submit" href="#" role="button">Acessar evento</a>
             </div>
+            <p class="event-details">{{ eventoPrincipal.descricao }}</p>
             <span class="principal-image">
                 <img class="card-img-top" src="{{ eventoPrincipal.foto }}" style="max-height: 370px;">
             </span>
