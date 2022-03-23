@@ -32,6 +32,7 @@ else {
 Route.get('/Login', 'AccountController.login'),
 Route.get('/ForgotPassword', 'AccountController.forgotPassword')
 Route.get('/SignUp', 'AccountController.signUp')
+Route.get('/EditarPerfil', 'AccountController.editarPerfil')
 Route.get('/Home', 'EventosController.index')
 Route.get('/CriarEvento', 'EventosController.criarEvento')
 Route.get('/Murais', 'MuralController.Murais')
