@@ -125,3 +125,26 @@ main code {
   float: left;
   width: 35%
 }
+
+.event-buttons{
+  margin: 20px 0px 20px 0px;
+}
+
+.event-buttons .submit {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  border-radius: 40px;
+  padding: 12px 14px 8px 14px;
+  margin-right: 10px;
+}
+
+.event-info {
+  margin-bottom: 20px;
+}
+
+.event-info span {
+  margin-right: 20px;
+
+}
