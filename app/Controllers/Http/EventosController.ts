@@ -50,6 +50,10 @@ export default class EventosController {
         return view.render('evento/home', { eventos : this.eventos, usuario : this.usuario, eventoPrincipal : this.eventoPrincipal })
     }
 
+    public async abrirEvento({view} : HttpContextContract) {
+        return view.render('evento/paginaEvento', { eventos : this.eventos, usuario : this.usuario, eventoPrincipal : this.eventoPrincipal })
+    }
+
     public async criarEvento({view} : HttpContextContract) {
         return view.render('evento/criarEvento')
     }

@@ -33,5 +33,6 @@ Route.get('/Login', 'AccountController.login'),
 Route.get('/ForgotPassword', 'AccountController.forgotPassword')
 Route.get('/SignUp', 'AccountController.signUp')
 Route.get('/Home', 'EventosController.index')
+Route.get('/Evento', 'EventosController.abrirEvento')
 Route.get('/CriarEvento', 'EventosController.criarEvento')
 // Route.get('/:id', 'EventosController.index')
