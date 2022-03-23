@@ -5,5 +5,5 @@ coverage
 .DS_STORE
 .env
 tmp
-public/assets/entrypoints.json
-public/assets/manifest.json
+/manifest.json
+/entrypoints.json
