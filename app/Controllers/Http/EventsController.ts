@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class EventosController {
-    public eventos = {
+export default class EventsController {
+    public events = {
         1: {
             id: 1,
             nome: "Violino",
@@ -34,7 +34,7 @@ export default class EventosController {
         }
     }
 
-    public participantes = {
+    public subscribers = {
         1: {
             id: 1,
             foto: "images/usuarios/estudante.jpg", 
@@ -43,7 +43,7 @@ export default class EventosController {
             campus: "Nova Iguaçu - IM", 
             certificados: 32, 
             eventosCriados: 11,
-            preferencias: this.eventos
+            preferencias: this.events
         },
         2: {
             id: 2,
@@ -53,7 +53,7 @@ export default class EventosController {
             campus: "Nova Iguaçu - IM", 
             certificados: 32, 
             eventosCriados: 11,
-            preferencias: this.eventos
+            preferencias: this.events
         },
         3: {
             id: 3,
@@ -63,7 +63,7 @@ export default class EventosController {
             campus: "Nova Iguaçu - IM", 
             certificados: 32, 
             eventosCriados: 11,
-            preferencias: this.eventos
+            preferencias: this.events
         },
         4: {
             id: 4,
@@ -73,7 +73,7 @@ export default class EventosController {
             campus: "Nova Iguaçu - IM", 
             certificados: 32, 
             eventosCriados: 11,
-            preferencias: this.eventos
+            preferencias: this.events
         },
         5: {
             id: 5,
@@ -83,23 +83,23 @@ export default class EventosController {
             campus: "Nova Iguaçu - IM", 
             certificados: 32, 
             eventosCriados: 11,
-            preferencias: this.eventos
+            preferencias: this.events
         }
     }
 
-    public usuario = { 
+    public user = { 
         foto: "images/usuarios/estudante.jpg", 
         nome: "Fulano D. Tal", 
         curso: "Ciência da Computação", 
         campus: "Nova Iguaçu - IM", 
         certificados: 32, 
         eventosCriados: 11,
-        preferencias: this.eventos
+        preferencias: this.events
     }
 
-    public eventoPrincipal = this.eventos[1];
+    public mainEvent = this.events[1];
 
-    public categoriasEvento = {
+    public eventCategories = {
         1: {
             id: 1,
             nome: "Aulas de Basquete"
@@ -123,15 +123,15 @@ export default class EventosController {
     }
 
     public async index({view} : HttpContextContract) {
-        return view.render('evento/home', { eventos : this.eventos, usuario : this.usuario, eventoPrincipal : this.eventoPrincipal })
+        return view.render('events/Home', { events : this.events, user : this.user, mainEvent : this.mainEvent })
     }
 
     public async abrirEvento({view} : HttpContextContract) {
-        return view.render('evento/paginaEvento', { eventos : this.eventos, usuario : this.usuario, eventoPrincipal : this.eventoPrincipal, participantes : this.participantes})
+        return view.render('events/EventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
     }
 
     public async criarEvento({view} : HttpContextContract) {
-        return view.render('evento/criarEvento', { categorias: this.categoriasEvento })
+        return view.render('events/CreateEvent', { categories: this.eventCategories })
     }
 
 }

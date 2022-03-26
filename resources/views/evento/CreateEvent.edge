@@ -12,14 +12,14 @@
         @entryPointScripts('app')
     </head>
     @!component('layouts/partials/header')
-    <body class="eventContainer">
-        <main>
+    <body class="form-container">
+        <main id="create-event">
             <div class="eventregister-page d-inline-block">
                 <h1 class="title">Novo evento</h1> 
                 <br>
                 <form class="event-form">
                     <div class="mb-3 event-name">
-                        <label for="nomeEvento" class="form-label">Nome do evento</label><br>
+                        <label for="name" class="form-label">Nome do evento</label><br>
                         <input type="text" class="form-control" id="nomeEvento">
                     </div>
                     <div class="mb-3 event-date">

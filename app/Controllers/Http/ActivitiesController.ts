@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class MuralController {
-    public murais = {
+export default class ActivitiesController {
+    public activities = {
         1: {
             id: 1,
             nome: "Aulas de Basquete",
@@ -33,7 +33,7 @@ export default class MuralController {
             participantes: 588,
         }
     }
-    public async Murais({view} : HttpContextContract) {
-        return view.render('mural/Murais', { murais : this.murais })
+    public async Activities({view} : HttpContextContract) {
+        return view.render('mural/Activities', { activities : this.activities })
     }
 }

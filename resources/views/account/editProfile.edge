@@ -12,22 +12,22 @@
         @entryPointScripts('app')
     </head>
     @!component('layouts/partials/header')
-    <body class="eventContainer">
+    <body class="form-container">
         <main id="edit-profile">
-            <div class="eventregister-page d-inline-block">
+            <div class="d-inline-block">
                 <h1 class="title">Editar Perfil</h1> 
                 <br>
-                <form class="event-form">
-                    <div class="mb-3 event-name">
+                <form class="form">
+                    <div class="mb-3 name">
                         <label for="nome" class="form-label">Nome completo</label><br>
                         <input type="text" class="form-control" id="nome">
                     </div>
-                    <div class="mb-3 event-date">
+                    <div class="mb-3 date">
                         <label for="data" class="form-label">Data de nascimento</label><br>
                         <input type="date" class="form-control" id="data">
                     </div>
-                    <div class="mb-3 event-category">
-                        <label for="genero" class="form-label">Gênero</label><br>
+                    <div class="mb-3 gender">
+                        <label for="gender" class="form-label">Gênero</label><br>
                         <select class="form-select" name="genero" id="genero">
                             <option value="">Selecione o seu gênero</option>
                             @each(genero in generos)
@@ -35,23 +35,23 @@
                             @endeach
                         </select>
                     </div>
-                    <div class="mb-3 event-name">
+                    <div class="mb-3 cpf">
                         <label for="cpf" class="form-label">CPF</label><br>
                         <input type="text" class="form-control" id="cpf">
                     </div>
-                    <div class="mb-3 event-name">
+                    <div class="mb-3 email">
                         <label for="email" class="form-label">E-mail</label><br>
                         <input type="email" class="form-control" id="email" readonly>
                     </div>
-                    <div class="mb-3 event-name">
+                    <div class="mb-3 registry">
                         <label for="matricula" class="form-label">Matrícula da UFRRJ</label><br>
                         <input type="text" class="form-control" id="matricula">
                     </div>
-                    <div class="mb-3 event-organizer">
+                    <div class="mb-3 course">
                         <label for="curso" class="form-label">Curso da graduação</label><br>
                         <input type="text" class="form-control" id="curso">
                     </div>
-                    <div class="mb-3 event-organizer">
+                    <div class="mb-3 campus">
                         <label for="campus" class="form-label">Campus em que estuda</label><br>
                         <select class="form-select" name="campus" id="campus">
                             <option value="">Selecione o campus</option>
@@ -60,16 +60,16 @@
                             @endeach
                         </select>
                     </div>
-                    <div class="mb-3 event-description">
+                    <div class="mb-3 interests">
                         <label for="interesses" class="form-label">Interesses e Hobbies</label><br>
                         <textarea type="text" class="form-control" id="interesses" rows="2"></textarea>
                     </div>
-                    <div class="mb-3 event-description">
+                    <div class="mb-3 activities">
                         <label for="atividades" class="form-label">Atividades extracurriculares que já fez</label><br>
                         <textarea type="text" class="form-control" id="atividades" rows="2"></textarea>
                     </div>
-                    <label for="foto" class="form-label">Foto de rosto</label><br>
-                    <div class="mb-3 event-images d-flex justify-content-between">
+                    <div class="mb-3 picture d-flex justify-content-between">
+                        <label for="foto" class="form-label">Foto de rosto</label><br>
                         <input type="file" id="foto" name="filename" accept="image/jpeg, image/png">
                     </div>
                     <a type="submit" class="btn btn-primary submit" href="/Home">Salvar</a>

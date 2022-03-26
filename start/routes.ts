@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -21,20 +22,19 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 //pegar essa informação do cookie / sessão mais para frente
-var estalogado = false;
-if(!estalogado) 
-{
-    Route.on('/').redirect('/Login')
+let isLoggedIn = false
+
+if (!isLoggedIn) {
+  Route.on('/').redirect('/Login')
+} else {
+  Route.on('/').redirect('/Home')
 }
-else {
-   Route.on('/').redirect('/Home') 
-}
-Route.get('/Login', 'AccountController.login'),
+
+Route.get('/Login', 'AccountController.login')
 Route.get('/ForgotPassword', 'AccountController.forgotPassword')
 Route.get('/SignUp', 'AccountController.signUp')
 Route.get('/Home', 'EventosController.index')
-Route.get('/Evento', 'EventosController.abrirEvento')
-Route.get('/CriarEvento', 'EventosController.criarEvento')
-Route.get('/Murais', 'MuralController.Murais')
-Route.get('/EditarPerfil', 'AccountController.editProfile')
-// Route.get('/:id', 'EventosController.index')
+Route.get('/EventPage', 'EventosController.abrirEvento')
+Route.get('/CreateEvent', 'EventosController.criarEvento')
+Route.get('/Events', 'MuralController.Murais')
+Route.get('/EditProfile', 'AccountController.editProfile')
