@@ -96,7 +96,7 @@ main code {
   margin-bottom: 0px;
 }
 
-.event-form .form-label {
+.form-label {
   color: #777777;
   font-weight: 400;
   font-size: 12px;
@@ -183,4 +183,3 @@ main code {
 .section-participantes {
   margin-bottom: 40px;
 }
-

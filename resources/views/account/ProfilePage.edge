@@ -1,4 +1,4 @@
-@layout('layouts/main')
+@layout('layouts/Main')
 @set('title', 'liversity - Página Inicial')
 
 @section('content')
@@ -6,9 +6,9 @@
         <div class="col-md-2">
             <h4 style="color: black; font-weight: 700;">Suas informações</h4>
             <div class="card p-1 bg-dark mb-5" style="height: 500px; border-radius: 0;">
-                <img src="{{usuario.foto}}" class="card-img-top p-2" style="border-radius: 0;">
+                <img src="{{user.photo}}" class="card-img-top p-2" style="border-radius: 0;">
                 <div class="card-body text-center">
-                    <h4 class="card-text text-light mb-4"><strong>{{ usuario.nome }}</strong></h4>
+                    <h4 class="card-text text-light mb-4"><strong>{{ user.name }}</strong></h4>
                     <div>
                         <ul class="list-group d-flex justify-content-center" style="text-size: 18px;">
                             <li class="d-flex list-group-item bg-dark text-light mb-3 p-0 justify-content-center" style="border: 0;">
@@ -16,7 +16,7 @@
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
                                         <i class="fa-solid fa-book"></i>
                                     </div>
-                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ usuario.curso }}</p>
+                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ user.course }}</p>
                                 </div>
                             </li>
                             <li class="d-flex list-group-item bg-dark text-light mb-3 p-0 justify-content-center" style="border: 0;">
@@ -24,7 +24,7 @@
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
                                         <i class="fa-solid fa-location-dot"></i>
                                     </div>
-                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ usuario.campus }}</p>
+                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ user.campus }}</p>
                                 </div>
                             </li>
                             <li class="d-flex list-group-item bg-dark text-light mb-3 p-0 justify-content-center" style="border: 0;">
@@ -32,14 +32,14 @@
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
                                         <i class="fa-solid fa-certificate"></i>
                                     </div>
-                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ usuario.certificados }} certificados</p>
+                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ user.certificatesNumber }} certificados</p>
                             </li>
                             <li class="d-flex list-group-item bg-dark text-light mb-3 p-0 justify-content-center" style="border: 0;">
                                 <div class="d-flex">
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
                                         <i class="fa-solid fa-calendar-plus"></i>
                                     </div>
-                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ usuario.eventosCriados }} eventos criados</p>
+                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ user.eventsCreated }} eventos criados</p>
                             </li>
                         </ul>
                     </div>
@@ -48,8 +48,8 @@
             <h4 style="color: black; font-weight: 700;">Preferências</h4>
             <div class="card rounded-0 border-0">
                 <div class="card-body d-flex p-0">
-                    @each((preferencia, index) in usuario.preferencias)
-                        <p class="card-text p-1 rounded m-1 fw-bolder" style="background-color: #C6F5FF; color: #0d6efd; font-size: 12px;">#&nbsp;{{ preferencia.nome }}</p>
+                    @each((preference, index) in user.preferences)
+                        <p class="card-text p-1 rounded m-1 fw-bolder" style="background-color: #C6F5FF; color: #0d6efd; font-size: 12px;">#&nbsp;{{ preference.name }}</p>
                     @endeach
                 </div>
             </div>
@@ -57,26 +57,26 @@
         <div class="col-md-7" style="min-height: 840px;">
             <h4 style="color: black; font-weight: 700;">Seu próximo evento</h4>
             <span class="card">
-                <img class="card-img-top rounded-0" src="{{ eventoPrincipal.foto }}" style="max-height: 600px; object-fit: cover; width: 100%;">
+                <img class="card-img-top rounded-0" src="{{ mainEvent.photo }}" style="max-height: 600px; object-fit: cover; width: 100%;">
             </span>
             <div class="d-flex justify-content-between mt-3">
                 <div style="width: 70%;">
-                    <h4 style="color: black; font-weight: 700; font-size: 24px;"><a href="/Evento" style="color: #000000">{{ eventoPrincipal.nome }}</a></h4>
-                    <p style="color: #777777; text-align: justify;">{{ eventoPrincipal.descricao }}</p>
+                    <h4 style="color: black; font-weight: 700; font-size: 24px;"><a href="/EventPage" style="color: #000000">{{ mainEvent.name }}</a></h4>
+                    <p style="color: #777777; text-align: justify;">{{ mainEvent.description }}</p>
                 </div>
                 <div style="color: #777777">
-                    <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-calendar-day"></i></div>{{ eventoPrincipal.data }}</span>
-                    <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-people-group"></i></div>{{ eventoPrincipal.numParticipantes }} participantes</span>
-                    <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-person-chalkboard"></i></div>{{ eventoPrincipal.organizador }}</span>
-                    <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-location-dot"></i></div>{{ eventoPrincipal.local }}</span>
+                    <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-calendar-day"></i></div>{{ mainEvent.date }}</span>
+                    <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-people-group"></i></div>{{ mainEvent.subscribersNumber }} participantes</span>
+                    <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-person-chalkboard"></i></div>{{ mainEvent.organizer }}</span>
+                    <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-location-dot"></i></div>{{ mainEvent.local }}</span>
                 </div>
             </div>
         </div>
         <div class="col-md-2 rounded-0">
             <h4 style="color: black; font-weight: 700;">Próximos eventos</h4>
-            @each((evento, index) in eventos)
-                <img src="{{evento.foto}}" class="card-img-top mb-1 rounded-0">
-                <span class="card-text"><strong><a href="/Evento" style="color: #000000">{{ evento.nome }}</a></strong></span><br><br>
+            @each((event, index) in events)
+                <img src="{{event.photo}}" class="card-img-top mb-1 rounded-0">
+                <span class="card-text"><strong><a href="/EventPage" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
             @endeach
         </div>
     </div>

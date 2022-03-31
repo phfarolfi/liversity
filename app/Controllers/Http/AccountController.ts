@@ -4,30 +4,30 @@ export default class AccountController {
     public genders = {
         1: {
             id: 1,
-            nome: "Masculino"
+            name: "Masculino"
         },
         2: {
             id: 2,
-            nome: "Feminino"
+            name: "Feminino"
         },
         3: {
             id: 3,
-            nome: "Outro"
+            name: "Outro"
         }
     }
 
     public campus = {
         1: {
             id: 1,
-            nome: "Seropédica"
+            name: "Seropédica"
         },
         2: {
             id: 2,
-            nome: "IM - Instituto Multidisciplinar"
+            name: "IM - Instituto Multidisciplinar"
         },
         3: {
             id: 3,
-            nome: "ITR - Três Rios"
+            name: "ITR - Três Rios"
         }
     }
 
