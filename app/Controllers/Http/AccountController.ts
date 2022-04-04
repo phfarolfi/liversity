@@ -35,8 +35,10 @@ export default class AccountController {
         return view.render('index')
     }
 
-    public async login({view} : HttpContextContract) {
+    public async login({view, response} : HttpContextContract) {
         return view.render('account/Login')
+        
+        // return response.redirect().toRoute('index') 
     }
 
     public async forgotPassword({view} : HttpContextContract) {
@@ -45,6 +47,12 @@ export default class AccountController {
 
     public async signUp({view} : HttpContextContract) {
         return view.render('account/SignUp')
+    }
+
+    public async createUser({request, response} : HttpContextContract) {
+        const { name, email, password } = request.all()
+        console.log(name + email + password);
+        return response.redirect().toRoute('login')
     }
 
     public async editProfile({view} : HttpContextContract) {

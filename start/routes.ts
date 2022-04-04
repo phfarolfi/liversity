@@ -24,16 +24,19 @@ import Route from '@ioc:Adonis/Core/Route'
 //pegar essa informação do cookie / sessão mais para frente
 let isLoggedIn = false
 
-if (!isLoggedIn) {
-  Route.on('/').redirect('/Login')
-} else {
-  Route.on('/').redirect('/Home')
-}
+Route.get('/', ({ response }) => {
+  if (!isLoggedIn) {
+    return response.redirect().toRoute('login')
+  } else {
+    return response.redirect().toRoute('index')
+  }
+})
+
 Route.get('/Login', 'AccountController.login').as('login')
 Route.get('/ForgotPassword', 'AccountController.forgotPassword').as('forgotPassword')
 Route.get('/SignUp', 'AccountController.signUp').as('signUp')
 Route.get('/Home', 'EventsController.index').as('index')
 Route.get('/CreateEvent', 'EventsController.createEvent').as('createEvent')
-Route.get('/EventPage', 'EventsController.seeEvent').as('eventPage')
-Route.get('/EventsPage', 'EventsController.seeEvents').as("listEvents")
+Route.get('/EventPage', 'EventsController.showEvent').as('eventPage')
+Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents")
 Route.get('/EditProfile', 'AccountController.editProfile').as('editProfile')

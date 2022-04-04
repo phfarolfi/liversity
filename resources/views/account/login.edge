@@ -13,14 +13,14 @@
             <div class="login-page">
                 <h1 class="title">Login</h1>
                 <label class="new-user-label">Novo usuário? <a href="{{ route('signUp') }}">Crie uma conta!</a></label>
-                <form class="login-form">
+                <form class="login-form" action="" method="post">
                     <div class="mb-3 login-email">
-                        <label for="exampleInputEmail1" class="form-label">E-mail</label><br>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="email" class="form-label">E-mail</label><br>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3 login-password">
-                        <label for="exampleInputPassword1" class="form-label">Senha</label><br>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
+                        <label for="password" class="form-label">Senha</label><br>
+                        <input type="password" class="form-control" id="password">
                     </div>
                     <a class="lost-password" href="{{ route('forgotPassword') }}">Esqueci minha senha</a>
                     <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Entrar</a>

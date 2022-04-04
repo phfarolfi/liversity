@@ -126,11 +126,11 @@ export default class EventsController {
         return view.render('account/ProfilePage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
     }
 
-    public async seeEvent({view} : HttpContextContract) {
+    public async showEvent({view} : HttpContextContract) {
         return view.render('events/EventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
     }
 
-    public async seeEvents({view} : HttpContextContract) {
+    public async showEvents({view} : HttpContextContract) {
         return view.render('events/EventsPage', { events : this.events })
     }
 
