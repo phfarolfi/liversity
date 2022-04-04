@@ -41,14 +41,14 @@ main {
 }
 
 .title {
-  font-size: 50px;
+  font-size: 3.125rem;
   line-height: 50px;
   margin-bottom: 10px;
   color: #1B1B1B;
 }
 
 .subtitle {
-  font-size: 26px;
+  font-size: 1.625rem;
   margin-bottom: 40px;
 }
 
@@ -69,7 +69,7 @@ main li:before {
 }
 
 main code {
-  font-size: 16px;
+  font-size: 1rem;
   background: #e6e2ff;
 }
 
@@ -91,7 +91,7 @@ main code {
 
 .forgotPassword-page .title, .signUp-page .title, .eventregister-page .title {
   font-weight: 700;
-  font-size: 36px;
+  font-size: 2.25rem;
   line-height: 43px;
   margin-bottom: 0px;
 }
@@ -99,7 +99,7 @@ main code {
 .form-label {
   color: #777777;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 14px;
   margin: 0;
 }
@@ -109,7 +109,7 @@ main code {
   padding: 7px 30px 3px 30px; 
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 22px;
   float: right;
   width: 35%
@@ -120,7 +120,7 @@ main code {
   padding: 7px 30px 3px 30px; 
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 22px;
   float: left;
   width: 35%
@@ -133,7 +133,7 @@ main code {
 .event-buttons .submit {
   font-style: normal;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 17px;
   border-radius: 40px;
   padding: 12px 14px 8px 14px;
@@ -163,13 +163,13 @@ main code {
 
 .event-title {
   font-weight: 700;
-  font-size: 36px;
+  font-size: 2.25rem;
   margin-bottom: -30px;
 }
 
 .event-sidebar-title {
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.5rem;
   margin-bottom: 20px;
 }
 

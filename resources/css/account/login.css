@@ -20,7 +20,7 @@
 .new-user-label {
   font-style: normal;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 0.875rem;
   line-height: 16px;
   color: #777777;
   margin-bottom: 35px;
@@ -63,7 +63,7 @@
 .lost-password {
   position: absolute;
   font-style: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 17px;
   margin-top: 10px;
 }
