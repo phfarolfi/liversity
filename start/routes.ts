@@ -27,14 +27,13 @@ let isLoggedIn = false
 if (!isLoggedIn) {
   Route.on('/').redirect('/Login')
 } else {
-  Route.on('/').redirect('/')
+  Route.on('/').redirect('/Home')
 }
 Route.get('/Login', 'AccountController.login').as('login')
 Route.get('/ForgotPassword', 'AccountController.forgotPassword').as('forgotPassword')
 Route.get('/SignUp', 'AccountController.signUp').as('signUp')
-// Route.get('/', 'EventsController.index').as('index')
-Route.get('/ProfilePage', 'EventsController.index').as('index')
-Route.get('/EventPage', 'EventsController.seeEvent').as('eventPage')
+Route.get('/Home', 'EventsController.index').as('index')
 Route.get('/CreateEvent', 'EventsController.createEvent').as('createEvent')
-Route.get('/EventsPage', 'EventsController.seeEvents')
+Route.get('/EventPage', 'EventsController.seeEvent').as('eventPage')
+Route.get('/EventsPage', 'EventsController.seeEvents').as("listEvents")
 Route.get('/EditProfile', 'AccountController.editProfile').as('editProfile')

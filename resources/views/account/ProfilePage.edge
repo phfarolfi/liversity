@@ -61,7 +61,7 @@
             </span>
             <div class="d-flex justify-content-between mt-3">
                 <div style="width: 70%;">
-                    <h4 style="color: black; font-weight: 700; font-size: 24px;"><a href="/EventPage" style="color: #000000">{{ mainEvent.name }}</a></h4>
+                    <h4 style="color: black; font-weight: 700; font-size: 24px;"><a href="{{ route('eventPage') }}" style="color: #000000">{{ mainEvent.name }}</a></h4>
                     <p style="color: #777777; text-align: justify;">{{ mainEvent.description }}</p>
                 </div>
                 <div style="color: #777777">
@@ -76,7 +76,7 @@
             <h4 style="color: black; font-weight: 700;">Próximos eventos</h4>
             @each((event, index) in events)
                 <img src="{{event.photo}}" class="card-img-top mb-1 rounded-0">
-                <span class="card-text"><strong><a href="/EventPage" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
+                <span class="card-text"><strong><a href="{{ route('eventPage') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
             @endeach
         </div>
     </div>

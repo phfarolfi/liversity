@@ -12,7 +12,7 @@
         <main>
             <div class="login-page">
                 <h1 class="title">Login</h1>
-                <label class="new-user-label">Novo usuário? <a href="/SignUp">Crie uma conta!</a></label>
+                <label class="new-user-label">Novo usuário? <a href="{{ route('signUp') }}">Crie uma conta!</a></label>
                 <form class="login-form">
                     <div class="mb-3 login-email">
                         <label for="exampleInputEmail1" class="form-label">E-mail</label><br>
@@ -22,7 +22,7 @@
                         <label for="exampleInputPassword1" class="form-label">Senha</label><br>
                         <input type="password" class="form-control" id="exampleInputPassword1">
                     </div>
-                    <a class="lost-password" href="/ForgotPassword">Esqueci minha senha</a>
+                    <a class="lost-password" href="{{ route('forgotPassword') }}">Esqueci minha senha</a>
                     <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Entrar</a>
                 </form>
             </div>
