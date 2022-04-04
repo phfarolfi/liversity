@@ -21,20 +21,19 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 //pegar essa informação do cookie / sessão mais para frente
-var estalogado = false;
-if(!estalogado) 
-{
-    Route.on('/').redirect('/Login')
+let isLoggedIn = false
+
+if (!isLoggedIn) {
+  Route.on('/').redirect('/Login')
+} else {
+  Route.on('/').redirect('/')
 }
-else {
-   Route.on('/').redirect('/Home') 
-}
-Route.get('/Login', 'AccountController.login'),
-Route.get('/ForgotPassword', 'AccountController.forgotPassword')
-Route.get('/SignUp', 'AccountController.signUp')
-Route.get('/Home', 'EventosController.index')
-Route.get('/Evento', 'EventosController.abrirEvento')
-Route.get('/CriarEvento', 'EventosController.criarEvento')
-Route.get('/Murais', 'MuralController.Murais')
-Route.get('/EditarPerfil', 'AccountController.editProfile')
-// Route.get('/:id', 'EventosController.index')
+Route.get('/Login', 'AccountController.login').as('login')
+Route.get('/ForgotPassword', 'AccountController.forgotPassword').as('forgotPassword')
+Route.get('/SignUp', 'AccountController.signUp').as('signUp')
+// Route.get('/', 'EventsController.index').as('index')
+Route.get('/ProfilePage', 'EventsController.index').as('index')
+Route.get('/EventPage', 'EventsController.seeEvent').as('eventPage')
+Route.get('/CreateEvent', 'EventsController.createEvent').as('createEvent')
+Route.get('/EventsPage', 'EventsController.seeEvents')
+Route.get('/EditProfile', 'AccountController.editProfile').as('editProfile')
