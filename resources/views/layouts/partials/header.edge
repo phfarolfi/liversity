@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="main-navbar">
     <div class="container-fluid navbar-container">
-      <a class="navbar-brand" href="/Home"><img src="images/logo.png" style="margin-left: 5px; max-height: 25px" /></a>
+      <a class="navbar-brand" href="/ProfilePage"><img src="images/logo.png" style="margin-left: 5px; max-height: 25px" /></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link navbar-links" href="/Murais">Mural</a>
+            <a class="nav-link navbar-links" href="/EventsPage">Mural</a>
           </li>
           <li class="nav-item">
             <a class="nav-link navbar-links" href="#">Certificados</a>
@@ -15,20 +15,20 @@
         </ul>
         <div>
             <form class="d-flex">
-                <input class="form-control me-2 searchbar" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2 searchbar bg-light" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </div>
         <div class="top-right">
-            <a type="submit" class="btn btn-primary submit" href="/CriarEvento"><span>Criar novo evento</span></a>
+            <a type="submit" class="btn btn-primary submit" href="/CreateEvent"><span>Criar novo evento</span></a>
 
-            <div class="btn-group" style="width:150px;">
-              <a href="" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="btn-group">
+              <a href="" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex align-items-center ms-3">
+                {{--  <span style="vertical-align: middle;" class="pt-1">Usuário</span>  --}}
                 <i class="fa-solid fa-2x fa-circle-user user-icon" style="color:#aaa"></i>
-                <span>Usuário</span>
               </a>
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li><a class="dropdown-item" href="/EditarPerfil"><i class="fa-solid fa-user-pen"></i> Editar perfil</a></li>
+              <ul class="dropdown-menu" style="left: -140%">
+                <li><a class="dropdown-item" href="/EditProfile"><i class="fa-solid fa-user-pen"></i> Editar perfil</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/Login"><i class="fa-solid fa-right-from-bracket"></i> Sair</a></li>
               </ul>

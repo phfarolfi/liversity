@@ -1,0 +1,45 @@
+@layout('layouts/main')
+@set('title', 'liversity - Evento')
+
+@section('content')
+    <div class="d-flex" style="margin-top: 20px;">
+  
+        <div class="col-md-8">
+            <div class="info">
+                <h1 class="event-title">{{ mainEvent.name }}</h1>
+                <p class="event-info">
+                    <span><i class="fa-solid fa-calendar-day" style="margin-top:50px;"></i>&nbsp;&nbsp;&nbsp;{{ mainEvent.date }}</span>
+                    <span><i class="fa-solid fa-person-chalkboard" style="margin-top:10px;"></i>&nbsp;&nbsp;{{ mainEvent.organizer }}</span>
+                    <span><i class="fa-solid fa-location-dot" style="margin-top:10px;"></i>&nbsp;&nbsp;&nbsp;{{ mainEvent.local }}</span>
+                </p>
+                <div class="event-buttons">
+                    <a class="btn btn-primary submit" href="#" role="button">Inscreva-se</a>
+                    <a class="btn btn-outline-secondary submit" href="#" role="button">Acessar evento</a>
+                </div>
+                <p class="event-details">{{ mainEvent.description }}</p>
+                <span class="principal-image">
+                    <img class="card-img-top" src="{{ mainEvent.photo }}" style="max-height: 370px;">
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-4" >
+            <div class="event-sidebar">
+            <div class="section-participantes">
+            <h4 class="event-sidebar-title">Participantes ({{mainEvent.subscribersNumber}})</h4>
+            @each((subscriber, index) in subscribers)
+                <img src="{{subscriber.photo}}" class="card-img-top" style="border-radius: 50%; max-width:100px;">
+            @endeach
+            </div>
+
+            <div class="section-galeria">
+            <h4 class="event-sidebar-title">Galeria</h4>
+            @each((event, index) in events)
+                <img src="{{event.photo}}" class="card-img-top" style="max-width:200px; margin-right: 5px; margin-bottom: 10px;">
+            @endeach
+            </div>
+            </div>
+        </div>
+    </div>
+    
+@endsection

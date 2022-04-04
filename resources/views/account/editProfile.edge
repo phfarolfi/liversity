@@ -12,65 +12,65 @@
         @entryPointScripts('app')
     </head>
     @!component('layouts/partials/header')
-    <body class="eventContainer">
+    <body class="form-container">
         <main id="edit-profile">
-            <div class="eventregister-page d-inline-block">
+            <div class="form-page d-inline-block">
                 <h1 class="title">Editar Perfil</h1> 
                 <br>
-                <form class="event-form">
-                    <div class="mb-3 event-name">
+                <form class="form">
+                    <div class="mb-3 form-entry">
                         <label for="nome" class="form-label">Nome completo</label><br>
                         <input type="text" class="form-control" id="nome">
                     </div>
-                    <div class="mb-3 event-date">
+                    <div class="mb-3 form-entry">
                         <label for="data" class="form-label">Data de nascimento</label><br>
                         <input type="date" class="form-control" id="data">
                     </div>
-                    <div class="mb-3 event-category">
-                        <label for="genero" class="form-label">Gênero</label><br>
+                    <div class="mb-3 form-entry">
+                        <label for="gender" class="form-label">Gênero</label><br>
                         <select class="form-select" name="genero" id="genero">
                             <option value="">Selecione o seu gênero</option>
-                            @each(genero in generos)
-                                <option value="{{ genero.nome }}">{{ genero.nome }}</option>
+                            @each(gender in genders)
+                                <option value="{{ gender.name }}">{{ gender.name }}</option>
                             @endeach
                         </select>
                     </div>
-                    <div class="mb-3 event-name">
+                    <div class="mb-3 form-entry">
                         <label for="cpf" class="form-label">CPF</label><br>
                         <input type="text" class="form-control" id="cpf">
                     </div>
-                    <div class="mb-3 event-name">
+                    <div class="mb-3 form-entry">
                         <label for="email" class="form-label">E-mail</label><br>
                         <input type="email" class="form-control" id="email" readonly>
                     </div>
-                    <div class="mb-3 event-name">
+                    <div class="mb-3 form-entry">
                         <label for="matricula" class="form-label">Matrícula da UFRRJ</label><br>
                         <input type="text" class="form-control" id="matricula">
                     </div>
-                    <div class="mb-3 event-organizer">
+                    <div class="mb-3 form-entry">
                         <label for="curso" class="form-label">Curso da graduação</label><br>
                         <input type="text" class="form-control" id="curso">
                     </div>
-                    <div class="mb-3 event-organizer">
+                    <div class="mb-3 form-entry">
                         <label for="campus" class="form-label">Campus em que estuda</label><br>
                         <select class="form-select" name="campus" id="campus">
                             <option value="">Selecione o campus</option>
-                            @each(campus in campi)
-                                <option value="{{ campus.nome }}">{{ campus.nome }}</option>
+                            @each(campus in campus)
+                                <option value="{{ campus.name }}">{{ campus.name }}</option>
                             @endeach
                         </select>
                     </div>
-                    <div class="mb-3 event-description">
+                    <div class="mb-3 form-entry">
                         <label for="interesses" class="form-label">Interesses e Hobbies</label><br>
                         <textarea type="text" class="form-control" id="interesses" rows="2"></textarea>
                     </div>
-                    <div class="mb-3 event-description">
+                    <div class="mb-3 form-entry">
                         <label for="atividades" class="form-label">Atividades extracurriculares que já fez</label><br>
                         <textarea type="text" class="form-control" id="atividades" rows="2"></textarea>
                     </div>
-                    <label for="foto" class="form-label">Foto de rosto</label><br>
-                    <div class="mb-3 event-images d-flex justify-content-between">
-                        <input type="file" id="foto" name="filename" accept="image/jpeg, image/png">
+                    <div class="mb-3 picture inline-block form-entry">
+                        <label for="foto" class="form-label">Foto de rosto</label><br>
+                        <input type="file" id="myFile" name="filename" accept="image/jpeg, image/png">
                     </div>
                     <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Salvar</a>
                 </form>

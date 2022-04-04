@@ -96,7 +96,7 @@ main code {
   margin-bottom: 0px;
 }
 
-.event-form .form-label {
+.form-label {
   color: #777777;
   font-weight: 400;
   font-size: 12px;
@@ -124,4 +124,62 @@ main code {
   line-height: 22px;
   float: left;
   width: 35%
+}
+
+.event-buttons{
+  margin: 20px 0px 20px 0px;
+}
+
+.event-buttons .submit {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  border-radius: 40px;
+  padding: 12px 14px 8px 14px;
+  margin-right: 10px;
+}
+
+.event-info {
+  margin-bottom: 20px;
+}
+
+.event-info span {
+  margin-right: 20px;
+
+}
+
+.info{
+  max-width: 800px;
+  margin-bottom: 50px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.event-details{
+  margin-bottom: 20px;
+}
+
+.event-title {
+  font-weight: 700;
+  font-size: 36px;
+  margin-bottom: -30px;
+}
+
+.event-sidebar-title {
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.event-sidebar{
+  max-width: 500px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-participantes {
+  margin-bottom: 40px;
 }

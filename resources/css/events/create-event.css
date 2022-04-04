@@ -1,26 +1,30 @@
-@media screen and (max-width: 1366px) {
+@media screen and (max-width: 1400px) {
   main {
     margin: 150px auto;
   }
 }
 
-.eventContainer {
+.form-container {
   background-color: #1B1B1B !important;
 }
 
-.eventregister-page {
+.form-page {
   background-color: white;
   padding: 50px;
   border-radius: 3px;
   width: 480px;
 }
 
-.event-name {
+.form-entry {
   color: #777777;
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
   margin: 0;
+}
+
+#myFile{
+  margin-top: 8px;
 }
 
 .event-images {
@@ -43,15 +47,15 @@
   margin-bottom: 30px;
 }
 
-#descricao {
+#description {
   height: 140px;
   min-height: 140px;
   max-height: 140px;
 }
 
-.event-form .submit {
+.form .submit {
   font-size: 14px;
-  padding: 6px 25px 3px 25px;
+  padding: 5px 20px;
   border-radius: 20px;
   float: right;
   bottom: 0px;

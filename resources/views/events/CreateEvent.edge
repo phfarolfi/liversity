@@ -12,21 +12,21 @@
         @entryPointScripts('app')
     </head>
     @!component('layouts/partials/header')
-    <body class="eventContainer">
-        <main>
-            <div class="eventregister-page d-inline-block">
+    <body class="form-container">
+        <main id="create-event">
+            <div class="form-page d-inline-block">
                 <h1 class="title">Novo evento</h1> 
                 <br>
-                <form class="event-form">
-                    <div class="mb-3 event-name">
-                        <label for="nomeEvento" class="form-label">Nome do evento</label><br>
+                <form class="form">
+                    <div class="mb-3 form-entry">
+                        <label for="name" class="form-label">Nome do evento</label><br>
                         <input type="text" class="form-control" id="nomeEvento">
                     </div>
-                    <div class="mb-3 event-date">
+                    <div class="mb-3 form-entry">
                         <label for="dataEvento" class="form-label">Data do evento</label><br>
                         <input type="date" class="form-control" id="dataEvento">
                     </div>
-                    <div class="mb-3 event-category">
+                    <div class="mb-3 form-entry">
                         <label for="categoria" class="form-label">Categoria de atividade</label><br>
                         <select class="form-select" name="categoria" id="categoria">
                             <option value="">Selecione uma categoria</option>
@@ -35,25 +35,24 @@
                             @endeach
                         </select>
                     </div>
-                    <div class="mb-3 event-limitdate">
+                    <div class="mb-3 form-entry">
                         <label for="dataLimite" class="form-label">Data limite de inscrição no evento</label><br>
                         <input type="date" class="form-control" id="dataLimite">
                     </div>
-                    <div class="mb-3 event-organizer">
+                    <div class="mb-3 form-entry">
                         <label for="organizador" class="form-label">Nome do responsável pelo evento</label><br>
                         <input type="text" class="form-control" id="organizador">
                     </div>
-                    <div class="mb-3 event-description">
+                    <div class="mb-3 form-entry">
                         <label for="descricao" class="form-label">Descrição do evento</label><br>
-                        <textarea type="text" class="form-control" id="descricao" rows="3"></textarea>
+                        <textarea type="text" class="form-control" id="description" rows="3"></textarea>
                     </div>
-                    <div class="mb-3 event-link">
+                    <div class="mb-3 form-entry">
                         <label for="exampleLink1" class="form-label">Link de grupo do evento</label><br>
                         <input type="link" class="form-control" id="exampleLink1">
                     </div>
-
-                    <label for="foto" class="form-label">Documento de oficialização de evento</label><br>
-                    <div class="mb-3 event-images d-flex justify-content-between">
+                    <div class="mb-3 event-images inline-block form-entry">
+                        <label for="foto" class="form-label">Documento de oficialização de evento</label><br>
                         <input type="file" id="myFile" name="filename" accept="application/pdf">
                     </div>
                     <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Criar novo evento</a>
