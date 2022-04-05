@@ -10,13 +10,13 @@
                 <div class="card-body text-center">
                     <h4 class="card-text text-light mb-4"><strong>{{ user.name }}</strong></h4>
                     <div>
-                        <ul class="list-group d-flex justify-content-center" style="text-size: 18px;">
+                        <ul class="list-group d-flex justify-content-center" style="font-size: 1.125rem;">
                             <li class="d-flex list-group-item bg-dark text-light mb-3 p-0 justify-content-center" style="border: 0;">
                                 <div class="d-flex">
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
                                         <i class="fa-solid fa-book"></i>
                                     </div>
-                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ user.course }}</p>
+                                    <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ user.course }}</p>
                                 </div>
                             </li>
                             <li class="d-flex list-group-item bg-dark text-light mb-3 p-0 justify-content-center" style="border: 0;">
@@ -24,7 +24,7 @@
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
                                         <i class="fa-solid fa-location-dot"></i>
                                     </div>
-                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ user.campus }}</p>
+                                    <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ user.campus }}</p>
                                 </div>
                             </li>
                             <li class="d-flex list-group-item bg-dark text-light mb-3 p-0 justify-content-center" style="border: 0;">
@@ -32,14 +32,14 @@
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
                                         <i class="fa-solid fa-certificate"></i>
                                     </div>
-                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ user.certificatesNumber }} certificados</p>
+                                    <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ user.certificatesNumber }} certificados</p>
                             </li>
                             <li class="d-flex list-group-item bg-dark text-light mb-3 p-0 justify-content-center" style="border: 0;">
                                 <div class="d-flex">
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
                                         <i class="fa-solid fa-calendar-plus"></i>
                                     </div>
-                                    <p style="font-size: 12px; font-weight: 400; text-align: start;">{{ user.eventsCreated }} eventos criados</p>
+                                    <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ user.eventsCreated }} eventos criados</p>
                             </li>
                         </ul>
                     </div>
@@ -49,7 +49,7 @@
             <div class="card rounded-0 border-0">
                 <div class="card-body d-flex p-0">
                     @each((preference, index) in user.preferences)
-                        <p class="card-text p-1 rounded m-1 fw-bolder" style="background-color: #C6F5FF; color: #0d6efd; font-size: 12px;">#&nbsp;{{ preference.name }}</p>
+                        <p class="card-text p-1 rounded m-1 fw-bolder" style="background-color: #C6F5FF; color: #0d6efd; font-size: 0.75rem;">#&nbsp;{{ preference.name }}</p>
                     @endeach
                 </div>
             </div>
@@ -61,7 +61,7 @@
             </span>
             <div class="d-flex justify-content-between mt-3">
                 <div style="width: 70%;">
-                    <h4 style="color: black; font-weight: 700; font-size: 24px;"><a href="{{ route('eventPage') }}" style="color: #000000">{{ mainEvent.name }}</a></h4>
+                    <h4 style="color: black; font-weight: 700; font-size: 1.5rem;"><a href="{{ route('eventPage') }}" style="color: #000000">{{ mainEvent.name }}</a></h4>
                     <p style="color: #777777; text-align: justify;">{{ mainEvent.description }}</p>
                 </div>
                 <div style="color: #777777">
