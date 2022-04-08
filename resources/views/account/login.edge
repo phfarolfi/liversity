@@ -13,17 +13,22 @@
             <div class="login-page">
                 <h1 class="title">Login</h1>
                 <label class="new-user-label">Novo usuário? <a href="{{ route('signUp') }}">Crie uma conta!</a></label>
-                <form class="login-form" action="" method="post">
+                <form class="login-form" action="{{ route('login.store') }}" method="POST">
                     <div class="mb-3 login-email">
                         <label for="email" class="form-label">E-mail</label><br>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-                    </div>
+                        <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
                     <div class="mb-3 login-password">
                         <label for="password" class="form-label">Senha</label><br>
-                        <input type="password" class="form-control" id="password">
+                        <input name="password" type="password" class="form-control" id="password">
                     </div>
+                    @if(flashMessages.has(errors))
+                        {{ flashMessages.all().errors }}
+                        <p>
+                            {{ flashMessages.get(errors.login) }}
+                        </p>
+                    @endif
                     <a class="lost-password" href="{{ route('forgotPassword') }}">Esqueci minha senha</a>
-                    <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Entrar</a>
+                    <button type="submit" class="btn btn-primary submit">Entrar</button>
                 </form>
             </div>
         </main>

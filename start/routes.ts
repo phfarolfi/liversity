@@ -32,7 +32,9 @@ Route.get('/', ({ response }) => {
   }
 })
 
-Route.get('/Login', 'AccountController.login').as('login')
+Route.get('/Login', 'AccountController.create').as('login.create')
+Route.post('/Login', 'AccountController.store').as('login.store')
+
 Route.get('/ForgotPassword', 'AccountController.forgotPassword').as('forgotPassword')
 Route.get('/SignUp', 'AccountController.signUp').as('signUp')
 Route.get('/Home', 'EventsController.index').as('index')
