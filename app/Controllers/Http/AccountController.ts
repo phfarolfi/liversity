@@ -2,44 +2,27 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 
 export default class AccountController {
-    public genders = {
-        1: {
-            id: 1,
-            name: "Masculino"
-        },
-        2: {
-            id: 2,
-            name: "Feminino"
-        },
-        3: {
-            id: 3,
-            name: "Outro"
-        }
-    }
-
-    public campus = {
-        1: {
-            id: 1,
-            name: "Seropédica"
-        },
-        2: {
-            id: 2,
-            name: "IM - Instituto Multidisciplinar"
-        },
-        3: {
-            id: 3,
-            name: "ITR - Três Rios"
-        }
-    }
-
     public async index({view} : HttpContextContract) {
         return view.render('index')
     }
 
-    public async login({view, response} : HttpContextContract) {
+    public async create({ view } : HttpContextContract) {
         return view.render('account/Login')
-        
-        // return response.redirect().toRoute('index') 
+    }
+
+    public async store({ auth, request, response, session } : HttpContextContract) {
+        const email = request.input('email')
+        const password = request.input('password')
+
+        try {
+          await auth.use('web').attempt(email, password)
+          response.redirect().toRoute('index')
+        } catch {
+          session.flashExcept(['login'])
+          session.flash({ errors: { login: 'Dados incorretos.' } })
+
+          return response.redirect().toRoute('AccountController.create')
+        }
     }
     
     public async forgotPassword({view} : HttpContextContract) {
@@ -66,7 +49,7 @@ export default class AccountController {
         }
     }
 
-    public async editProfile({view} : HttpContextContract) {
+    /* public async editProfile({view} : HttpContextContract) {
         return view.render('account/EditProfile', { genders : this.genders, campus : this.campus })
-    }
+    } */
 }

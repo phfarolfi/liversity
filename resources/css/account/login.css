@@ -46,10 +46,6 @@
   border-bottom: 2px solid #0085FF;
 }
 
-.login-password {
-  margin-bottom: 30px !important;
-}
-
 .login-form .submit {
   border-radius: 20px;
   padding: 7px 30px 3px 30px; 
