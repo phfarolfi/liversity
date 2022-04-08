@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import User from 'App/Models/User'
 
 export default class AccountController {
     public genders = {
@@ -40,7 +41,7 @@ export default class AccountController {
         
         // return response.redirect().toRoute('index') 
     }
-
+    
     public async forgotPassword({view} : HttpContextContract) {
         return view.render('account/ForgotPassword')
     }
@@ -49,10 +50,20 @@ export default class AccountController {
         return view.render('account/SignUp')
     }
 
-    public async createUser({request, response} : HttpContextContract) {
+    public async createUser({request, response, session} : HttpContextContract) {
         const { name, email, password } = request.all()
         console.log(name + email + password);
-        return response.redirect().toRoute('login')
+
+        try {
+            //profileId == 1 (admin) and profileId == 2 (student)
+            await User.create({ name: name, email: email, password: password, profileId: 2});
+            response.redirect().toRoute('login.create')
+        } catch {
+            session.flashExcept(['signUp'])
+            session.flash({ errors: { signUp: 'Não foi possível realizar o cadastro.' } })
+
+            return response.redirect().toRoute('AccountController.signUp')
+        }
     }
 
     public async editProfile({view} : HttpContextContract) {
