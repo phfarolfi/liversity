@@ -12,15 +12,13 @@ export default class AccountController {
     public async store({ auth, request, response, session } : HttpContextContract) {
         const email = request.input('email')
         const password = request.input('password')
-        
-        console.log(email, password)
-    
+
         try {
           await auth.use('web').attempt(email, password)
           response.redirect().toRoute('index')
         } catch {
           session.flashExcept(['login'])
-          session.flash({ errors: { login: 'Não encontramos nenhuma conta com essas credenciais.' } })
+          session.flash({ errors: { login: 'Dados incorretos.' } })
 
           return response.redirect().toRoute('AccountController.create')
         }

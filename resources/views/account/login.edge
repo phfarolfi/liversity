@@ -17,18 +17,23 @@
                     <div class="mb-3 login-email">
                         <label for="email" class="form-label">E-mail</label><br>
                         <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
-                    <div class="mb-3 login-password">
+                    <div class="login-password">
                         <label for="password" class="form-label">Senha</label><br>
                         <input name="password" type="password" class="form-control" id="password">
                     </div>
-                    @if(flashMessages.has(errors))
-                        {{ flashMessages.all().errors }}
-                        <p>
-                            {{ flashMessages.get(errors.login) }}
-                        </p>
+                    @if(flashMessages.all()?.errors)
+                        <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors.login }}</small></p>
                     @endif
-                    <a class="lost-password" href="{{ route('forgotPassword') }}">Esqueci minha senha</a>
-                    <button type="submit" class="btn btn-primary submit">Entrar</button>
+                    <div style=
+                        @if(flashMessages.all()?.errors)
+                            "margin-top: 8px;"
+                        @else
+                            "margin-top: 40px;"
+                        @endif
+                    )>
+                        <a class="lost-password" href="{{ route('forgotPassword') }}">Esqueci minha senha</a>
+                        <button type="submit" class="btn btn-primary submit">Entrar</button>
+                    </div>
                 </form>
             </div>
         </main>
