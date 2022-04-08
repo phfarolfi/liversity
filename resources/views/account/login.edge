@@ -35,11 +35,6 @@
                         <a class="lost-password" href="{{ route('forgotPassword') }}">Esqueci minha senha</a>
                         <button type="submit" class="btn btn-primary submit">Entrar</button>
                     </div>
-                    @if(flashMessages.all()?.errors)
-                        <p>{{flashMessages.all()?.errors.login}}</p>
-                    @endif
-                    <a class="lost-password" href="{{ route('forgotPassword') }}">Esqueci minha senha</a>
-                    <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Entrar</a>
                 </form>
             </div>
         </main>

@@ -35,7 +35,6 @@ export default class AccountController {
 
     public async createUser({request, response, session} : HttpContextContract) {
         const { name, email, password } = request.all()
-        console.log(name + email + password);
 
         try {
             //profileId == 1 (admin) and profileId == 2 (student)
