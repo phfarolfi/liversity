@@ -3,6 +3,47 @@
 
 @section('content')
     <div class="d-flex justify-content-center">
-        This is the profile page!
+        <div class="col-md-2">
+            <div class="card mb-5" style="height: 450px; border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
+                <img src="{{user.photo}}" class="card-img-top" style="width: 100px; height: 100px; border-radius: 10px;">
+                <div class="card-body text-center">
+                    <h4 class="card-text text-dark mb-5"><strong>{{ user.name }}</strong></h4>
+                    <div>
+                        <ul class="list-group d-flex justify-content-center" style="font-size: 1.125rem;">
+                            <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
+                                <div class="d-flex">
+                                    <div class="me-2 d-flex justify-content-center" style="width: 20px;">
+                                        <i class="fa-solid fa-book"></i>
+                                    </div>
+                                    <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ user.course }}</p>
+                                </div>
+                            </li>
+                            <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
+                                <div class="d-flex">
+                                    <div class="me-2 d-flex justify-content-center" style="width: 20px;">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ user.campus }}</p>
+                                </div>
+                            </li>
+                            <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
+                                <div class="d-flex">
+                                    <div class="me-2 d-flex justify-content-center" style="width: 20px;">
+                                        <i class="fa-solid fa-certificate"></i>
+                                    </div>
+                                    <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ user.certificatesNumber }} certificados</p>
+                            </li>
+                            <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
+                                <div class="d-flex">
+                                    <div class="me-2 d-flex justify-content-center" style="width: 20px;">
+                                        <i class="fa-solid fa-calendar-plus"></i>
+                                    </div>
+                                    <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ user.eventsCreated }} eventos criados</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

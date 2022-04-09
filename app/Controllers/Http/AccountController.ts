@@ -48,8 +48,16 @@ export default class AccountController {
         }
     }
 
+    public user = {
+        photo: "images/users/estudante.jpg", 
+        name: "Fulano D. Tal", 
+        course: "Ciência da Computação", 
+        campus: "Nova Iguaçu - IM", 
+        certificatesNumber: 32, 
+        eventsCreated: 11
+    }
     public async showProfile({view} : HttpContextContract) {
-        return view.render('account/ProfilePage')
+        return view.render('account/ProfilePage', { user: this.user })
     }
 
     public async editProfile({view} : HttpContextContract) {
