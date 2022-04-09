@@ -48,7 +48,11 @@ export default class AccountController {
         }
     }
 
-    /* public async editProfile({view} : HttpContextContract) {
+    public async showProfile({view} : HttpContextContract) {
+        return view.render('account/ProfilePage')
+    }
+
+    public async editProfile({view} : HttpContextContract) {
         return view.render('account/EditProfile', { genders : this.genders, campus : this.campus })
-    } */
+    }
 }

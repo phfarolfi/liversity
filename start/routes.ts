@@ -43,4 +43,6 @@ Route.get('/Home', 'EventsController.index').as('index')
 Route.get('/CreateEvent', 'EventsController.createEvent').as('createEvent')
 Route.get('/EventPage', 'EventsController.showEvent').as('eventPage')
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents")
+
+Route.get('/ProfilePage', 'AccountController.showProfile').as('showProfile')
 Route.get('/EditProfile', 'AccountController.editProfile').as('editProfile')
