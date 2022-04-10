@@ -91,19 +91,53 @@ export default class AccountController {
         return view.render('account/ForgotPassword')
     }
 
-    public async editProfileView({auth, response, view} : HttpContextContract) {
+    public async editProfileView({auth, response, view } : HttpContextContract) {
         await auth.use('web').check()
         if(!auth.use('web').isLoggedIn)
             return response.redirect().toRoute('login.view')
 
         var genders = await Gender.query().orderBy('name', 'asc')
         var campuses = await Campus.query().orderBy('name', 'asc')
-
-        return view.render('account/EditProfile', { genders: genders, campuses: campuses})
+        var user = await User.findByOrFail('email', auth.user!.email)
+        var student = await Student.findByOrFail('userId', user.id)
+        if(!student.completedProfile)
+            return view.render('account/EditProfile', { genders: genders, campuses: campuses, user: user })
+        else
+            return view.render('account/EditProfile', { genders: genders, campuses: campuses, user: user, student: student })
     }
 
-    public async updateProfile({request, response} : HttpContextContract) {
+    public async updateProfile({request, response, session} : HttpContextContract) {
         const profile = request.all();
+        console.log(profile)
+        if(!profile.name || !profile.birthDate || !profile.genderId || !profile.cpf ||
+            !profile.email || !profile.numberEnrollment || !profile.course ||
+            !profile.campusId || !profile.extracurricularActivities) {
+            session.flashExcept(['editProfile'])
+            session.flash({ errors: { editProfile: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('AccountController.editProfileView')
+        }
+        //alterar depois para o upload de foto pela tela
+        profile.photo = "s3://liversity-app/students/photo/allef-vinicius-BqNEe_ZAtxg-unsplash.jpg";
+        var studentUser = await User.findByOrFail('email', profile.email)
+        if(studentUser) {
+            studentUser.name = profile.name
+            await studentUser.save()
+        }
+
+        var studentProfile = await Student.findByOrFail('userId', studentUser.id)
+        if(studentProfile) {
+            studentProfile.completedProfile = true
+            studentProfile.birthDate = profile.birthDate
+            studentProfile.genderId = profile.genderId
+            studentProfile.cpf = profile.cpf
+            studentProfile.numberEnrollment = profile.numberEnrollment
+            studentProfile.course = profile.course
+            studentProfile.campusId = profile.campusId
+            studentProfile.extracurricularActivities = profile.extracurricularActivities
+            studentProfile.photo = profile.photo
+            await studentProfile.save()
+        }
+
         return response.redirect().toRoute('editProfile.view')
     }
 
