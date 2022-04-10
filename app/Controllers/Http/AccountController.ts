@@ -107,7 +107,6 @@ export default class AccountController {
 
     public async updateProfile({request, response, session} : HttpContextContract) {
         const profile = request.all();
-        console.log(profile)
         if(!profile.name || !profile.birthDate || !profile.genderId || !profile.cpf ||
             !profile.email || !profile.numberEnrollment || !profile.course ||
             !profile.campusId || !profile.extracurricularActivities) {
@@ -137,18 +136,35 @@ export default class AccountController {
             await studentProfile.save()
         }
 
-        return response.redirect().toRoute('editProfile.view')
+        return response.redirect().toRoute('showProfile')
     }
 
-    public user = {
-        photo: "images/users/mike.jpg", 
-        name: "Fulano D. Tal", 
-        course: "Ciência da Computação", 
-        campus: "Nova Iguaçu - IM", 
-        certificatesNumber: 32, 
-        eventsCreated: 11
-    }
-    public async showProfile({view} : HttpContextContract) {
-        return view.render('account/ProfilePage', { user: this.user })
+    // public user = {
+    //     photo: "images/users/mike.jpg", 
+    //     name: "Fulano D. Tal", 
+    //     course: "Ciência da Computação", 
+    //     campus: "Nova Iguaçu - IM", 
+    //     certificatesNumber: 32, 
+    //     eventsCreated: 11
+    // }
+    public async showProfile({auth, response, view} : HttpContextContract) {
+        await auth.use('web').check()
+        if(!auth.use('web').isLoggedIn)
+            return response.redirect().toRoute('login.view')
+
+        var genders = await Gender.query().orderBy('name', 'asc')
+        var campuses = await Campus.query().orderBy('name', 'asc')
+        var user = await User.findBy('email', auth.user!.email)
+        var student = await Student.findBy('userId', user?.id)
+        console.log(user)
+        console.log(student)
+        var studentGender = await Gender.findBy('id', student?.genderId)
+        var studentCampus = await Campus.findBy('id', student?.campusId)
+
+        if(!student?.completedProfile)
+            return view.render('account/ProfilePage', { genders: genders, campuses: campuses, user: user })
+        else
+            return view.render('account/ProfilePage', { genders: genders, campuses: campuses, user: user, student: student,
+                                                        studentGender: studentGender?.name, studentCampus: studentCampus?.name })
     }
 }
