@@ -20,15 +20,15 @@
                 <form class="form">
                     <div class="mb-3 form-entry">
                         <label for="name" class="form-label">Nome do evento</label><br>
-                        <input type="text" class="form-control" id="nomeEvento">
+                        <input type="text" class="form-control" id="name">
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="dataEvento" class="form-label">Data do evento</label><br>
-                        <input type="date" class="form-control" id="dataEvento">
+                        <label for="eventDate" class="form-label">Data do evento</label><br>
+                        <input type="date" class="form-control" id="eventDate">
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="categoria" class="form-label">Categoria de atividade</label><br>
-                        <select class="form-select" name="categoria" id="categoria">
+                        <label for="category" class="form-label">Categoria de atividade</label><br>
+                        <select class="form-select" name="categoria" id="category">
                             <option value="">Selecione uma categoria</option>
                             @each(categoria in categorias)
                                 <option value="{{ categoria.nome }}">{{ categoria.nome }}</option>
@@ -36,26 +36,26 @@
                         </select>
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="dataLimite" class="form-label">Data limite de inscrição no evento</label><br>
-                        <input type="date" class="form-control" id="dataLimite">
+                        <label for="limitSubscriptionDate" class="form-label">Data limite de inscrição no evento</label><br>
+                        <input type="date" class="form-control" id="limitSubscriptionDate">
                     </div>
-                    <div class="mb-3 form-entry">
+                    {{--  <div class="mb-3 form-entry">
                         <label for="organizador" class="form-label">Nome do responsável pelo evento</label><br>
                         <input type="text" class="form-control" id="organizador">
-                    </div>
+                    </div>  --}}
                     <div class="mb-3 form-entry">
-                        <label for="descricao" class="form-label">Descrição do evento</label><br>
+                        <label for="description" class="form-label">Descrição do evento</label><br>
                         <textarea type="text" class="form-control" id="description" rows="3"></textarea>
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="exampleLink1" class="form-label">Link de grupo do evento</label><br>
-                        <input type="link" class="form-control" id="exampleLink1">
+                        <label for="linkCommunicationGroup" class="form-label">Link de grupo do evento</label><br>
+                        <input type="link" class="form-control" id="linkCommunicationGroup">
                     </div>
                     <div class="mb-3 event-images inline-block form-entry">
-                        <label for="foto" class="form-label">Documento de oficialização de evento</label><br>
-                        <input type="file" id="myFile" name="filename" accept="application/pdf">
+                        <label for="document" class="form-label">Documento de oficialização de evento</label><br>
+                        <input type="file" id="document" name="filename" accept="application/pdf">
                     </div>
-                    <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Criar novo evento</a>
+                    <button type="submit" class="btn btn-primary submit">Criar novo evento</button>
                 </form>
             </div>
         </main>
