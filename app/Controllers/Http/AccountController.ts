@@ -10,7 +10,7 @@ export default class AccountController {
         if(auth.use('web').isLoggedIn)
             return response.redirect().toRoute('index')
 
-        return view.render('account/Login')
+        return view.render('account/login')
     }
 
     public async authenticate({ auth, request, response, session } : HttpContextContract) {
@@ -45,7 +45,7 @@ export default class AccountController {
         if(auth.use('web').isLoggedIn)
             return response.redirect().toRoute('index')
 
-        return view.render('account/SignUp')
+        return view.render('account/signUp')
     }
 
     public async createUser({request, response, session} : HttpContextContract) {
