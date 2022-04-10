@@ -88,8 +88,8 @@ export default class EventsController {
     }
 
     public user = {
-        photo: "images/users/estudante.jpg", 
-        name: "Fulano D. Tal", 
+        photo: "images/users/mike.jpg", 
+        name: "Maicu Azalski", 
         course: "Ciência da Computação", 
         campus: "Nova Iguaçu - IM", 
         certificatesNumber: 32, 

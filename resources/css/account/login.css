@@ -1,3 +1,17 @@
+@media screen and (max-width: 576px) {
+  body {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    margin: 0;
+  }
+  #login-page {
+    width: 500px;
+  }
+  .login-page {
+    max-width: 490px;
+  }
+}
+
 .container {
   background-color: #1B1B1B;
 }

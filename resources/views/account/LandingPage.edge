@@ -2,11 +2,13 @@
 @set('title', 'liversity - Página Inicial')
 
 @section('content')
-    <div class="d-flex justify-content-between mx-5 mt-4 px-3">
+    <div class="d-flex justify-content-between mx-5 mt-4 px-3" id="landing-page">
         <div class="col-md-2">
             <h4 style="color: black; font-weight: 700;">Suas informações</h4>
-            <div class="card mb-5" style="height: 450px; border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
-                <img src="{{user.photo}}" class="card-img-top px-5 pt-3" style="border-radius: 10px;">
+            <div class="d-flex mb-5 justify-content-center flex-wrap" style="height: 450px; border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
+                <div class="profile-pic-container mt-4">
+                    <img src="{{user.photo}}" class="profile-pic">
+                </div>
                 <div class="card-body text-center">
                     <h4 class="card-text text-dark mb-5"><strong>{{ user.name }}</strong></h4>
                     <div>
@@ -45,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <h4 style="color: black; font-weight: 700;">Preferências</h4>
+            <h4 style="color: black; font-weight: 700;">Interesses</h4>
             <div class="card" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
                 <div class="card-body d-flex p-0 justify-content-center">
                     @each((preference, index) in user.preferences)

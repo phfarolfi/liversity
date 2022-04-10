@@ -81,7 +81,7 @@ export default class AccountController {
     }
 
     public user = {
-        photo: "images/users/estudante.jpg", 
+        photo: "images/users/mike.jpg", 
         name: "Fulano D. Tal", 
         course: "Ciência da Computação", 
         campus: "Nova Iguaçu - IM", 

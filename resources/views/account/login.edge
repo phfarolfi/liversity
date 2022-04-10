@@ -9,9 +9,8 @@
         @entryPointScripts('app')
     </head>
     <body class="container">
-        <main>
+        <main id="login-page">
             <div class="login-page">
-                {{--  {{ inspect(flashMessages.all()) }}  --}}
                 <h1 class="title">Login</h1>
                 <label class="new-user-label">Novo usuário? <a href="{{ route('signUp.view') }}">Crie uma conta!</a></label>
                 <form class="login-form" action="{{ route('login.authenticate') }}" method="POST">
