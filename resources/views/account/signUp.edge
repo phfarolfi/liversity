@@ -13,7 +13,7 @@
             <div class="signUp-page">
                 <h1 class="title">Cadastro</h1>
                 <br>
-                <form class="login-form" action="{{ route('signUp.store') }}" method="POST">
+                <form class="login-form" action="{{ route('signUp.createUser') }}" method="POST">
                     <div class="mb-3 login-name">
                         <label for="name" class="form-label">Nome Completo</label><br>
                         <input name="name" type="text" class="form-control" id="name">
@@ -26,8 +26,18 @@
                         <label for="password" class="form-label">Senha</label><br>
                         <input name="password" type="password" class="form-control" id="password">
                     </div>
+                    @if(flashMessages.all()?.errors)
+                        <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors.signUp }}</small></p>
+                    @endif
+                    <div style=
+                        @if(flashMessages.all()?.errors)
+                            "margin-top: 8px;"
+                        @else
+                            "margin-top: 40px;"
+                        @endif
+                    )>
                     <br>
-                    <a href="{{ route('login.create') }}" class="btn btn-outline-dark voltar">Voltar</a>
+                    <a href="{{ route('login.view') }}" class="btn btn-outline-dark voltar">Voltar</a>
                     <button type="submit" class="btn btn-primary submit">Registrar</button>
                 </form>
             </div>

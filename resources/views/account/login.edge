@@ -13,8 +13,8 @@
             <div class="login-page">
                 {{--  {{ inspect(flashMessages.all()) }}  --}}
                 <h1 class="title">Login</h1>
-                <label class="new-user-label">Novo usuário? <a href="{{ route('signUp') }}">Crie uma conta!</a></label>
-                <form class="login-form" action="{{ route('login.store') }}" method="POST">
+                <label class="new-user-label">Novo usuário? <a href="{{ route('signUp.view') }}">Crie uma conta!</a></label>
+                <form class="login-form" action="{{ route('login.authenticate') }}" method="POST">
                     <div class="mb-3 login-email">
                         <label for="email" class="form-label">E-mail</label><br>
                         <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
@@ -32,7 +32,7 @@
                             "margin-top: 40px;"
                         @endif
                     )>
-                        <a class="lost-password" href="{{ route('forgotPassword') }}">Esqueci minha senha</a>
+                        <a class="lost-password" href="{{ route('forgotPassword.view') }}">Esqueci minha senha</a>
                         <button type="submit" class="btn btn-primary submit">Entrar</button>
                     </div>
                 </form>
