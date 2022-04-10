@@ -90,21 +90,6 @@ export default class AccountController {
         return view.render('account/ForgotPassword')
     }
 
-    public async editProfileView({auth, response, view } : HttpContextContract) {
-        await auth.use('web').check()
-        if(!auth.use('web').isLoggedIn)
-            return response.redirect().toRoute('login.view')
-
-        var genders = await Gender.query().orderBy('name', 'asc')
-        var campuses = await Campus.query().orderBy('name', 'asc')
-        var user = await User.findBy('email', auth.user!.email)
-        var student = await Student.findBy('userId', user?.id)
-        if(!student?.completedProfile)
-            return view.render('account/EditProfile', { genders: genders, campuses: campuses, user: user })
-        else
-            return view.render('account/EditProfile', { genders: genders, campuses: campuses, user: user, student: student })
-    }
-
     public async updateProfile({request, response, session} : HttpContextContract) {
         const profile = request.all();
         if(!profile.name || !profile.birthDate || !profile.genderId || !profile.cpf ||
@@ -112,7 +97,7 @@ export default class AccountController {
             !profile.campusId || !profile.extracurricularActivities) {
             session.flashExcept(['editProfile'])
             session.flash({ errors: { editProfile: 'Preencha todos os campos solicitados' } })
-            return response.redirect().toRoute('AccountController.editProfileView')
+            return response.redirect().toRoute('AccountController.userProfileView')
         }
         //alterar depois para o upload de foto pela tela
         profile.photo = "https://liversity-app.s3.amazonaws.com/students/photo/allef-vinicius-BqNEe_ZAtxg-unsplash.jpg";
@@ -136,10 +121,10 @@ export default class AccountController {
             await studentProfile.save()
         }
 
-        return response.redirect().toRoute('showProfile')
+        return response.redirect().toRoute('userProfile.view')
     }
 
-    public async showProfile({auth, response, view} : HttpContextContract) {
+    public async userProfileView({auth, response, view} : HttpContextContract) {
         await auth.use('web').check()
         if(!auth.use('web').isLoggedIn)
             return response.redirect().toRoute('login.view')
@@ -161,9 +146,9 @@ export default class AccountController {
         //var eventsCreatedNumber = await
 
         if(!student?.completedProfile)
-            return view.render('account/ProfilePage', { genders: genders, campuses: campuses, user: user, nullPhoto: nullPhoto })
+            return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, nullPhoto: nullPhoto })
         else
-            return view.render('account/ProfilePage', { genders: genders, campuses: campuses, user: user, student: student.$attributes,
+            return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, student: student.$attributes,
                                                         studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto })
     }
 }

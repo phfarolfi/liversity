@@ -17,7 +17,7 @@
             <div class="form-page d-inline-block">
                 <h1 class="title">Editar Perfil</h1> 
                 <br>
-                <form class="form" action="{{ route('editProfile.update') }}" method="POST">
+                <form class="form" action="{{ route('userProfile.update') }}" method="POST">
                     <div class="mb-3 form-entry">
                         <label for="name" class="form-label">Nome completo</label><br>
                         <input name="name" value="{{ user?.name != null? user?.name : ''}}" type="text" class="form-control" id="name">

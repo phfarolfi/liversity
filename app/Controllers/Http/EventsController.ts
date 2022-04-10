@@ -129,7 +129,7 @@ export default class EventsController {
         if(auth.use('web').isLoggedIn)
             return response.redirect().toRoute('index')
 
-        return view.render('events/CreateEvent')
+        return view.render('events/createEvent')
     }
 
     public async publishEvent({/*auth,*/ request, response, session} : HttpContextContract) {
@@ -162,19 +162,19 @@ export default class EventsController {
     }
 
     public async index({view} : HttpContextContract) {
-        return view.render('account/LandingPage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
+        return view.render('account/landingPage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
     }
 
     public async showEvent({view} : HttpContextContract) {
-        return view.render('events/EventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
+        return view.render('events/eventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
     }
 
     public async showEvents({view} : HttpContextContract) {
-        return view.render('events/EventsPage', { events : this.events })
+        return view.render('events/eventsPage', { events : this.events })
     }
 
     public async createEvent({view} : HttpContextContract) {
-        return view.render('events/CreateEvent', { categories: this.eventCategories })
+        return view.render('events/createEvent', { categories: this.eventCategories })
     }
 
 }
