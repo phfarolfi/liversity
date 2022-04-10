@@ -139,32 +139,31 @@ export default class AccountController {
         return response.redirect().toRoute('showProfile')
     }
 
-    // public user = {
-    //     photo: "images/users/mike.jpg", 
-    //     name: "Fulano D. Tal", 
-    //     course: "Ciência da Computação", 
-    //     campus: "Nova Iguaçu - IM", 
-    //     certificatesNumber: 32, 
-    //     eventsCreated: 11
-    // }
     public async showProfile({auth, response, view} : HttpContextContract) {
         await auth.use('web').check()
         if(!auth.use('web').isLoggedIn)
             return response.redirect().toRoute('login.view')
+        var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
 
         var genders = await Gender.query().orderBy('name', 'asc')
         var campuses = await Campus.query().orderBy('name', 'asc')
         var user = await User.findBy('email', auth.user!.email)
         var student = await Student.findBy('userId', user?.id)
-        console.log(user)
-        console.log(student)
         var studentGender = await Gender.findBy('id', student?.genderId)
         var studentCampus = await Campus.findBy('id', student?.campusId)
+        // console.log(user)
+        // console.log(student)
+        console.log(student?.$attributes.photo)
+
+        //pegar as variáveis abaixo:
+        //var certificatesNumber = await
+        //var eventsSubscriptionNumber = await
+        //var eventsCreatedNumber = await
 
         if(!student?.completedProfile)
-            return view.render('account/ProfilePage', { genders: genders, campuses: campuses, user: user })
+            return view.render('account/ProfilePage', { genders: genders, campuses: campuses, user: user, nullPhoto: nullPhoto })
         else
-            return view.render('account/ProfilePage', { genders: genders, campuses: campuses, user: user, student: student,
-                                                        studentGender: studentGender?.name, studentCampus: studentCampus?.name })
+            return view.render('account/ProfilePage', { genders: genders, campuses: campuses, user: user, student: student.$attributes,
+                                                        studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto })
     }
 }

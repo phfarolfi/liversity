@@ -7,49 +7,50 @@
             <h4 style="color: black; font-weight: 700;">Seu perfil</h4>
             <div class="d-flex px-5 mb-5 justify-content-center" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
                 <div class="profile-pic-container mt-4 me-4">
-                    <img src="{{student?.photo}}" class="profile-pic">
+                    <img src="{{ student?.photo != null? student?.photo : nullPhoto}}" class="profile-pic">
                 </div>
                 <div class="card-body mt-2">
                     <ul class="list-group" style="font-size: 1.125rem;">
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Nome:&nbsp;</label><br>
-                            <p>{{ user?.name }}</p>
+                            <p>{{ user?.name != null? user?.name : ''}}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Data de Nascimento:&nbsp;</label>
-                            <p>{{ student?.birthDate.toLocaleDateString() }}</p>
+                            <p>{{ student?.birthDate != null? student?.birthDate.toLocaleDateString() : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Gênero:&nbsp;</label>
-                            <p>{{ studentGender }}</p>
+                            <p>{{ student?.genderId != null? studentGender : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">CPF:&nbsp;</label>
-                            <p>{{ student?.cpf }}</p>
+                            <p>{{ student?.cpf != null? student?.cpf : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">E-mail:&nbsp;</label>
-                            <p>{{ user.email }}</p>
+                            <p>{{ user?.email != null? user?.email : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Curso:&nbsp;</label>
-                            <p>{{ student?.course }}</p>
+                            <p>{{ student?.course != null? student?.course : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Campus:&nbsp;</label>
-                            <p>{{ studentCampus }}</p>
+                            <p>{{  student?.campusId != null? studentCampus : '' }}</p>
                         </li>
+                        <!-- parte de certificados ainda precisa ser implementado -->
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Certificados:&nbsp;</label>
-                            <p>{{ user.certificatesNumber }}</p>
+                            <p>{{ certificatesNumber != null? certificatesNumber : 0 }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Eventos Participados:&nbsp;</label>
-                            <p>{{ user.numberEnrollment }}</p>
+                            <p>{{ eventsSubscriptionNumber != null? eventsSubscriptionNumber : 0 }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
-                            <label for="">Eventos criados:&nbsp;</label>
-                            <p>{{ user.eventsCreated }}</p>
+                            <label for="">Eventos Criados:&nbsp;</label>
+                            <p>{{ eventsCreatedNumber != null? eventsCreatedNumber : 0 }}</p>
                         </li>
                     </ul>
                 </div>
