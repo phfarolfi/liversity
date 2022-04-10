@@ -17,14 +17,14 @@
             <div class="form-page d-inline-block">
                 <h1 class="title">Editar Perfil</h1> 
                 <br>
-                <form class="form">
+                <form class="form" action="{{ route('editProfile.update') }}" method="POST">
                     <div class="mb-3 form-entry">
-                        <label for="nome" class="form-label">Nome completo</label><br>
-                        <input type="text" class="form-control" id="nome">
+                        <label for="name" class="form-label">Nome completo</label><br>
+                        <input name="name" type="text" class="form-control" id="name">
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="data" class="form-label">Data de nascimento</label><br>
-                        <input type="date" class="form-control" id="data">
+                        <label for="birthDate" class="form-label">Data de nascimento</label><br>
+                        <input name="birthDate" type="date" class="form-control" id="birthDate">
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="gender" class="form-label">Gênero</label><br>
@@ -55,7 +55,7 @@
                         <label for="campus" class="form-label">Campus em que estuda</label><br>
                         <select class="form-select" name="campus" id="campus">
                             <option value="">Selecione o campus</option>
-                            @each(campus in campus)
+                            @each(campus in campuses)
                                 <option value="{{ campus.name }}">{{ campus.name }}</option>
                             @endeach
                         </select>
@@ -72,7 +72,7 @@
                         <label for="foto" class="form-label">Foto de rosto</label><br>
                         <input type="file" id="myFile" name="filename" accept="image/jpeg, image/png">
                     </div>
-                    <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Salvar</a>
+                    <button type="submit" class="btn btn-primary submit">Salvar</a>
                 </form>
             </div>
         </main>

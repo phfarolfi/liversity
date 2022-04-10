@@ -1,4 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Campus from 'App/Models/Campus'
+import Gender from 'App/Models/Gender'
+import Student from 'App/Models/Student'
 import User from 'App/Models/User'
 
 export default class AccountController {
@@ -60,9 +63,17 @@ export default class AccountController {
             return response.redirect().toRoute('AccountController.signUpView')
         }
 
+        var userAlreadyExist = await User.findByOrFail('email', email);
+        if(userAlreadyExist != null) {
+            session.flashExcept(['signUp'])
+            session.flash({ errors: { signUp: 'Já existe uma conta associada ao e-mail inserido' } })
+            return response.redirect().toRoute('AccountController.signUpView')
+        }
+
         try {
             //profileId == 1 (admin) and profileId == 2 (student)
-            await User.create({ name: name, email: email, password: password, profileId: 2});
+            var userCreated = await User.create({ name: name, email: email, password: password, profileId: 2});
+            await Student.create({ userId: userCreated.id, completedProfile: false })
             response.redirect().toRoute('login.view')
         } catch {
             session.flashExcept(['signUp'])
@@ -80,6 +91,22 @@ export default class AccountController {
         return view.render('account/ForgotPassword')
     }
 
+    public async editProfileView({auth, response, view} : HttpContextContract) {
+        await auth.use('web').check()
+        if(!auth.use('web').isLoggedIn)
+            return response.redirect().toRoute('login.view')
+
+        var genders = await Gender.query().orderBy('name', 'asc')
+        var campuses = await Campus.query().orderBy('name', 'asc')
+
+        return view.render('account/EditProfile', { genders: genders, campuses: campuses})
+    }
+
+    public async updateProfile({request, response} : HttpContextContract) {
+        const profile = request.all();
+        return response.redirect().toRoute('editProfile.view')
+    }
+
     public user = {
         photo: "images/users/estudante.jpg", 
         name: "Fulano D. Tal", 
@@ -90,9 +117,5 @@ export default class AccountController {
     }
     public async showProfile({view} : HttpContextContract) {
         return view.render('account/ProfilePage', { user: this.user })
-    }
-
-    public async editProfile({view} : HttpContextContract) {
-        return view.render('account/EditProfile')
     }
 }
