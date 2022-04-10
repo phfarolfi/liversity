@@ -63,13 +63,12 @@ export default class AccountController {
             return response.redirect().toRoute('AccountController.signUpView')
         }
 
-        var userAlreadyExist = await User.findByOrFail('email', email);
+        var userAlreadyExist = await User.findBy('email', email);
         if(userAlreadyExist != null) {
             session.flashExcept(['signUp'])
             session.flash({ errors: { signUp: 'Já existe uma conta associada ao e-mail inserido' } })
             return response.redirect().toRoute('AccountController.signUpView')
         }
-
         try {
             //profileId == 1 (admin) and profileId == 2 (student)
             var userCreated = await User.create({ name: name, email: email, password: password, profileId: 2});
@@ -98,9 +97,9 @@ export default class AccountController {
 
         var genders = await Gender.query().orderBy('name', 'asc')
         var campuses = await Campus.query().orderBy('name', 'asc')
-        var user = await User.findByOrFail('email', auth.user!.email)
-        var student = await Student.findByOrFail('userId', user.id)
-        if(!student.completedProfile)
+        var user = await User.findBy('email', auth.user!.email)
+        var student = await Student.findBy('userId', user?.id)
+        if(!student?.completedProfile)
             return view.render('account/EditProfile', { genders: genders, campuses: campuses, user: user })
         else
             return view.render('account/EditProfile', { genders: genders, campuses: campuses, user: user, student: student })
@@ -117,14 +116,14 @@ export default class AccountController {
             return response.redirect().toRoute('AccountController.editProfileView')
         }
         //alterar depois para o upload de foto pela tela
-        profile.photo = "s3://liversity-app/students/photo/allef-vinicius-BqNEe_ZAtxg-unsplash.jpg";
-        var studentUser = await User.findByOrFail('email', profile.email)
+        profile.photo = "https://liversity-app.s3.amazonaws.com/students/photo/allef-vinicius-BqNEe_ZAtxg-unsplash.jpg";
+        var studentUser = await User.findBy('email', profile.email)
         if(studentUser) {
             studentUser.name = profile.name
             await studentUser.save()
         }
 
-        var studentProfile = await Student.findByOrFail('userId', studentUser.id)
+        var studentProfile = await Student.findBy('userId', studentUser?.id)
         if(studentProfile) {
             studentProfile.completedProfile = true
             studentProfile.birthDate = profile.birthDate
