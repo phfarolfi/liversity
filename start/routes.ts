@@ -39,6 +39,8 @@ Route.get('/ProfilePage', 'AccountController.userProfileView').as('userProfile.v
 Route.post('/ProfilePage', 'AccountController.updateProfile').as('userProfile.update')
 
 Route.get('/Home', 'EventsController.index').as('index')
-Route.get('/CreateEvent', 'EventsController.createEvent').as('createEvent')
+Route.get('/CreateEvent', 'EventsController.createEventView').as('createEvent.view')
+Route.post('/CreateEvent', 'EventsController.createEvent').as('createEvent.create')
+
 Route.get('/EventPage', 'EventsController.showEvent').as('eventPage')
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents")

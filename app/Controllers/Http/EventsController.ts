@@ -1,6 +1,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import Event from 'App/Models/Event'
+import Database from '@ioc:Adonis/Lucid/Database'
+import Student from 'App/Models/Student'
+import EventOrganizer from 'App/Models/EventOrganizer'
 
 export default class EventsController {
     public events = {
@@ -124,45 +127,81 @@ export default class EventsController {
         }
     }
 
-    public async eventView({ auth, response, view } : HttpContextContract) {
+    public async index({auth, view} : HttpContextContract) {
+        //landing page
+        
+        // console.log(await auth.user?.id)
+        var studentQuery = await Database.rawQuery(
+            'select s.id from students s join users u on :column1: = :column2: where u.id = :userId:' ,
+            {
+                column1: 's.user_id',
+                column2: 'u.id',
+                userId: 1
+            }
+        )
+        var studentId = studentQuery.rows[0].id
+
+        var eventsQuery = await Database.rawQuery(
+            'select es.event_id, e.event_date from event_subscriptions as es inner join events as e on :column1: = :column2: where :column3: = :studentId: order by e.event_date limit 4',
+            {
+                column1: 'es.event_id',
+                column2: 'e.id',
+                column3: 'es.student_id',
+                studentId: studentId
+            }
+        )
+        var events = eventsQuery.rows
+        console.log(events)
+
+        var certificatesNumberQuery = await Database.rawQuery(
+            "select count(presenca) from event_subscriptions es where :column1: = :studentId: and :column2: = ':presenca:'",
+            {
+                column1: 'es.student_id',
+                studentId: studentId,
+                column2: 'es.presenca',
+                presenca: 'PRESENTE'
+            }
+        )
+        var certificatesNumber = certificatesNumberQuery.rows[0]
+        console.log(certificatesNumber)
+
+        return view.render('account/landingPage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
+    }
+
+    public async createEventView({ auth, response, view } : HttpContextContract) {
         await auth.use('web').check()
-        if(auth.use('web').isLoggedIn)
+        if(!auth.use('web').isLoggedIn)
             return response.redirect().toRoute('index')
 
         return view.render('events/createEvent')
     }
 
-    public async publishEvent({/*auth,*/ request, response, session} : HttpContextContract) {
-        const { name, eventDate, limitSubscriptionDate, description, linkCommunicationGroup, /*photo, document*/ } = request.all()
+    public async createEvent({auth, request, response, session} : HttpContextContract) {
+        const { name, eventDate, category,  limitSubscriptionDate , description, linkCommunicationGroup /*,photo, document*/ } = request.all()
 
-        if(!name || !eventDate || !limitSubscriptionDate || !description || !linkCommunicationGroup /*|| !photo || !document*/) {
-            session.flashExcept(['signUp'])
-            session.flash({ errors: { signUp: 'Preencha todos os campos solicitados' } })
-            return response.redirect().toRoute('EventsController.eventView')
-        }
-
-        var eventAlreadyExist = await Event.findByOrFail('name', name);
-        if(name != null) {
-            session.flashExcept(['signUp'])
-            session.flash({ errors: { signUp: 'Já existe ' } })
-            return response.redirect().toRoute('AccountController.eventView')
+        if(!name || !eventDate ||  !category || !limitSubscriptionDate || !description || !linkCommunicationGroup /*|| !photo || !document*/) {
+            session.flashExcept(['createEvent'])
+            session.flash({ errors: { createEvent: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('createEvent.view')
         }
 
         try {
-            //var user = await User.findBy('email', auth.user!.email) caso coloquemos o organizador no banco como usuário
-            var eventCreated = await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: eventDate, limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:3, local:'Campus', linkCommunicationGroup: linkCommunicationGroup, /*photo: photo, document:document,*/ campusId: 1, statusId:1 });
-            //await Student.create({ userId: userCreated.id, completedProfile: false })
-            response.redirect().toRoute('event.view')
+            var event = await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: new Date(), 
+                limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:category, 
+                local:'Campus', linkCommunicationGroup: linkCommunicationGroup, 
+                photo: "https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg", 
+                document: "https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg", 
+                campusId: 1, statusId:1 });
+
+            // var user = await User.findBy('email', auth.user!.email)
+            // await EventOrganizer.create({ userId: user?.id, eventId: event.id} )
+            response.redirect().toRoute('eventPage')
         } catch {
-            session.flashExcept(['signUp'])
-            session.flash({ errors: { signUp: 'Não foi possível realizar o cadastro do evento.' } })
+            session.flashExcept(['createEvent'])
+            session.flash({ errors: { createEvent: 'Não foi possível realizar o cadastro do evento' } })
 
-            return response.redirect().toRoute('AccountController.eventView')
+            return response.redirect().toRoute('createEvent.view')
         }
-    }
-
-    public async index({view} : HttpContextContract) {
-        return view.render('account/landingPage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
     }
 
     public async showEvent({view} : HttpContextContract) {
@@ -172,9 +211,4 @@ export default class EventsController {
     public async showEvents({view} : HttpContextContract) {
         return view.render('events/eventsPage', { events : this.events })
     }
-
-    public async createEvent({view} : HttpContextContract) {
-        return view.render('events/createEvent', { categories: this.eventCategories })
-    }
-
 }
