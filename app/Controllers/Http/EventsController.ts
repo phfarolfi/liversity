@@ -266,6 +266,20 @@ export default class EventsController {
     }
 
     public async showEvents({view} : HttpContextContract) {
-        return view.render('events/eventsPage', { events : this.events })
+        var eventsQuery = await Database.rawQuery(
+            'select e.id, e.name, e.photo, e.event_date from events e order by e.event_date')
+        var events = eventsQuery.rows
+        for(var event of events) {
+             var participantsAmountQuery = await Database.rawQuery(
+                "select count(student_id) from event_subscriptions es where :column1: = :eventId:",
+                {
+                    column1: 'es.event_id',
+                    eventId: event.id
+                }
+            )
+            event.subscribersNumber = participantsAmountQuery.rows[0].count
+        }
+
+        return view.render('events/eventsPage', { events : events })
     }
 }
