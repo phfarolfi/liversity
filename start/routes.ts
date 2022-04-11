@@ -35,11 +35,10 @@ Route.get('/Logout', 'AccountController.logout').as('logout')
 Route.get('/SignUp', 'AccountController.signUpView').as('signUp.view')
 Route.post('/SignUp', 'AccountController.createUser').as('signUp.createUser')
 Route.get('/ForgotPassword', 'AccountController.forgotPasswordView').as('forgotPassword.view')
+Route.get('/ProfilePage', 'AccountController.userProfileView').as('userProfile.view')
+Route.post('/ProfilePage', 'AccountController.updateProfile').as('userProfile.update')
 
 Route.get('/Home', 'EventsController.index').as('index')
-Route.get('/EditProfile', 'AccountController.editProfileView').as('editProfile.view')
-Route.post('/EditProfile', 'AccountController.updateProfile').as('editProfile.update')
-
 Route.get('/CreateEvent', 'EventsController.createEvent').as('createEvent')
 Route.post('/CreateEvent', 'EventsController.CreateEvent').as('createEvent.register')
 Route.get('/EventPage', 'EventsController.showEvent').as('eventPage')

@@ -24,12 +24,10 @@
 
             <div class="btn-group">
               <a href="" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex align-items-center ms-3">
-                {{--  <span style="vertical-align: middle;" class="pt-1">Usuário</span>  --}}
                 <i class="fa-solid fa-2x fa-circle-user user-icon" style="color:#aaa"></i>
               </a>
               <ul class="dropdown-menu" style="left: -140%">
-                <li><a class="dropdown-item" href="{{ route('showProfile') }}"><i class="fa-solid fa-user"></i> Ver perfil</a></li>
-                <li><a class="dropdown-item" href="{{ route('editProfile.view') }}"><i class="fa-solid fa-user-pen"></i> Editar perfil</a></li>
+                <li><a class="dropdown-item" href="{{ route('userProfile.view') }}"><i class="fa-solid fa-user"></i> Ver perfil</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Sair</a></li>
               </ul>

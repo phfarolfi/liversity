@@ -155,20 +155,57 @@ export default class EventsController {
         }
     }
 
+    public async eventView({ auth, response, view } : HttpContextContract) {
+        await auth.use('web').check()
+        if(auth.use('web').isLoggedIn)
+            return response.redirect().toRoute('index')
+
+        return view.render('events/createEvent')
+    }
+
+    public async publishEvent({/*auth,*/ request, response, session} : HttpContextContract) {
+        const { name, eventDate, limitSubscriptionDate, description, linkCommunicationGroup, /*photo, document*/ } = request.all()
+
+        if(!name || !eventDate || !limitSubscriptionDate || !description || !linkCommunicationGroup /*|| !photo || !document*/) {
+            session.flashExcept(['signUp'])
+            session.flash({ errors: { signUp: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('EventsController.eventView')
+        }
+
+        var eventAlreadyExist = await Event.findByOrFail('name', name);
+        if(name != null) {
+            session.flashExcept(['signUp'])
+            session.flash({ errors: { signUp: 'Já existe ' } })
+            return response.redirect().toRoute('AccountController.eventView')
+        }
+
+        try {
+            //var user = await User.findBy('email', auth.user!.email) caso coloquemos o organizador no banco como usuário
+            var eventCreated = await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: eventDate, limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:3, local:'Campus', linkCommunicationGroup: linkCommunicationGroup, /*photo: photo, document:document,*/ campusId: 1, statusId:1 });
+            //await Student.create({ userId: userCreated.id, completedProfile: false })
+            response.redirect().toRoute('event.view')
+        } catch {
+            session.flashExcept(['signUp'])
+            session.flash({ errors: { signUp: 'Não foi possível realizar o cadastro do evento.' } })
+
+            return response.redirect().toRoute('AccountController.eventView')
+        }
+    }
+
     public async index({view} : HttpContextContract) {
-        return view.render('account/LandingPage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
+        return view.render('account/landingPage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
     }
 
     public async showEvent({view} : HttpContextContract) {
-        return view.render('events/EventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
+        return view.render('events/eventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
     }
 
     public async showEvents({view} : HttpContextContract) {
-        return view.render('events/EventsPage', { events : this.events })
+        return view.render('events/eventsPage', { events : this.events })
     }
 
     public async createEvent({view} : HttpContextContract) {
-        return view.render('events/CreateEvent', { categories: this.eventCategories })
+        return view.render('events/createEvent', { categories: this.eventCategories })
     }
 
 }

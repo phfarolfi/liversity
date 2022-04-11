@@ -10,7 +10,7 @@ export default class AccountController {
         if(auth.use('web').isLoggedIn)
             return response.redirect().toRoute('index')
 
-        return view.render('account/Login')
+        return view.render('account/login')
     }
 
     public async authenticate({ auth, request, response, session } : HttpContextContract) {
@@ -45,7 +45,7 @@ export default class AccountController {
         if(auth.use('web').isLoggedIn)
             return response.redirect().toRoute('index')
 
-        return view.render('account/SignUp')
+        return view.render('account/signUp')
     }
 
     public async createUser({request, response, session} : HttpContextContract) {
@@ -63,13 +63,12 @@ export default class AccountController {
             return response.redirect().toRoute('AccountController.signUpView')
         }
 
-        var userAlreadyExist = await User.findByOrFail('email', email);
+        var userAlreadyExist = await User.findBy('email', email);
         if(userAlreadyExist != null) {
             session.flashExcept(['signUp'])
             session.flash({ errors: { signUp: 'Já existe uma conta associada ao e-mail inserido' } })
             return response.redirect().toRoute('AccountController.signUpView')
         }
-
         try {
             //profileId == 1 (admin) and profileId == 2 (student)
             var userCreated = await User.create({ name: name, email: email, password: password, profileId: 2});
@@ -91,40 +90,24 @@ export default class AccountController {
         return view.render('account/ForgotPassword')
     }
 
-    public async editProfileView({auth, response, view } : HttpContextContract) {
-        await auth.use('web').check()
-        if(!auth.use('web').isLoggedIn)
-            return response.redirect().toRoute('login.view')
-
-        var genders = await Gender.query().orderBy('name', 'asc')
-        var campuses = await Campus.query().orderBy('name', 'asc')
-        var user = await User.findByOrFail('email', auth.user!.email)
-        var student = await Student.findByOrFail('userId', user.id)
-        if(!student.completedProfile)
-            return view.render('account/EditProfile', { genders: genders, campuses: campuses, user: user })
-        else
-            return view.render('account/EditProfile', { genders: genders, campuses: campuses, user: user, student: student })
-    }
-
     public async updateProfile({request, response, session} : HttpContextContract) {
         const profile = request.all();
-        console.log(profile)
         if(!profile.name || !profile.birthDate || !profile.genderId || !profile.cpf ||
             !profile.email || !profile.numberEnrollment || !profile.course ||
             !profile.campusId || !profile.extracurricularActivities) {
             session.flashExcept(['editProfile'])
             session.flash({ errors: { editProfile: 'Preencha todos os campos solicitados' } })
-            return response.redirect().toRoute('AccountController.editProfileView')
+            return response.redirect().toRoute('AccountController.userProfileView')
         }
         //alterar depois para o upload de foto pela tela
-        profile.photo = "s3://liversity-app/students/photo/allef-vinicius-BqNEe_ZAtxg-unsplash.jpg";
-        var studentUser = await User.findByOrFail('email', profile.email)
+        profile.photo = "https://liversity-app.s3.amazonaws.com/students/photo/allef-vinicius-BqNEe_ZAtxg-unsplash.jpg";
+        var studentUser = await User.findBy('email', profile.email)
         if(studentUser) {
             studentUser.name = profile.name
             await studentUser.save()
         }
 
-        var studentProfile = await Student.findByOrFail('userId', studentUser.id)
+        var studentProfile = await Student.findBy('userId', studentUser?.id)
         if(studentProfile) {
             studentProfile.completedProfile = true
             studentProfile.birthDate = profile.birthDate
@@ -138,18 +121,34 @@ export default class AccountController {
             await studentProfile.save()
         }
 
-        return response.redirect().toRoute('editProfile.view')
+        return response.redirect().toRoute('userProfile.view')
     }
 
-    public user = {
-        photo: "images/users/mike.jpg", 
-        name: "Fulano D. Tal", 
-        course: "Ciência da Computação", 
-        campus: "Nova Iguaçu - IM", 
-        certificatesNumber: 32, 
-        eventsCreated: 11
-    }
-    public async showProfile({view} : HttpContextContract) {
-        return view.render('account/ProfilePage', { user: this.user })
+    public async userProfileView({auth, response, view} : HttpContextContract) {
+        await auth.use('web').check()
+        if(!auth.use('web').isLoggedIn)
+            return response.redirect().toRoute('login.view')
+        var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
+
+        var genders = await Gender.query().orderBy('name', 'asc')
+        var campuses = await Campus.query().orderBy('name', 'asc')
+        var user = await User.findBy('email', auth.user!.email)
+        var student = await Student.findBy('userId', user?.id)
+        var studentGender = await Gender.findBy('id', student?.genderId)
+        var studentCampus = await Campus.findBy('id', student?.campusId)
+        // console.log(user)
+        // console.log(student)
+        console.log(student?.$attributes.photo)
+
+        //pegar as variáveis abaixo:
+        //var certificatesNumber = await
+        //var eventsSubscriptionNumber = await
+        //var eventsCreatedNumber = await
+
+        if(!student?.completedProfile)
+            return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, nullPhoto: nullPhoto })
+        else
+            return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, student: student.$attributes,
+                                                        studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto })
     }
 }

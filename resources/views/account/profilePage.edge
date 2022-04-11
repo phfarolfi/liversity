@@ -1,4 +1,4 @@
-@layout('layouts/Main')
+@layout('layouts/main')
 @set('title', 'liversity - Perfil do Usuário')
 
 @section('content')
@@ -7,49 +7,50 @@
             <h4 style="color: black; font-weight: 700;">Seu perfil</h4>
             <div class="d-flex px-5 mb-5 justify-content-center" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
                 <div class="profile-pic-container mt-4 me-4">
-                    <img src="{{user.photo}}" class="profile-pic">
+                    <img src="{{ student?.photo != null? student?.photo : nullPhoto}}" class="profile-pic">
                 </div>
                 <div class="card-body mt-2">
                     <ul class="list-group" style="font-size: 1.125rem;">
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Nome:&nbsp;</label><br>
-                            <p>{{ user.name }}</p>
+                            <p>{{ user?.name != null? user?.name : ''}}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Data de Nascimento:&nbsp;</label>
-                            <p>{{ user.birthDate }}</p>
+                            <p>{{ student?.birthDate != null? student?.birthDate.toLocaleDateString() : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Gênero:&nbsp;</label>
-                            <p>{{ user.gender }}</p>
+                            <p>{{ student?.genderId != null? studentGender : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">CPF:&nbsp;</label>
-                            <p>{{ user.cpf }}</p>
+                            <p>{{ student?.cpf != null? student?.cpf : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">E-mail:&nbsp;</label>
-                            <p>{{ user.email }}</p>
+                            <p>{{ user?.email != null? user?.email : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Curso:&nbsp;</label>
-                            <p>{{ user.course }}</p>
+                            <p>{{ student?.course != null? student?.course : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Campus:&nbsp;</label>
-                            <p>{{ user.campus }}</p>
+                            <p>{{  student?.campusId != null? studentCampus : '' }}</p>
                         </li>
+                        <!-- parte de certificados ainda precisa ser implementado -->
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Certificados:&nbsp;</label>
-                            <p>{{ user.certificatesNumber }}</p>
+                            <p>{{ certificatesNumber != null? certificatesNumber : 0 }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Eventos Participados:&nbsp;</label>
-                            <p>{{ user.numberEnrollment }}</p>
+                            <p>{{ eventsSubscriptionNumber != null? eventsSubscriptionNumber : 0 }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
-                            <label for="">Eventos criados:&nbsp;</label>
-                            <p>{{ user.eventsCreated }}</p>
+                            <label for="">Eventos Criados:&nbsp;</label>
+                            <p>{{ eventsCreatedNumber != null? eventsCreatedNumber : 0 }}</p>
                         </li>
                     </ul>
                 </div>
@@ -70,58 +71,73 @@
         <section>
             <h4 style="color: black; font-weight: 700;">Editar perfil</h4>
             <div id="edit-profile" class="form-page d-inline-block">
-                <form class="form">
+                <form class="form" action="{{ route('userProfile.update') }}" method="POST">
                     <div class="mb-3 form-entry">
-                        <label for="nome" class="form-label">Nome completo</label><br>
-                        <input type="text" class="form-control" id="nome">
+                        <label for="name" class="form-label">Nome completo</label><br>
+                        <input name="name" value="{{ user?.name != null? user?.name : ''}}" type="text" class="form-control" id="name">
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="data" class="form-label">Data de nascimento</label><br>
-                        <input type="date" class="form-control" id="data">
+                        <label for="birthDate" class="form-label">Data de nascimento</label><br>
+                        <input name="birthDate" value="{{ student?.birthDate.toLocaleDateString() }}" type="date" class="form-control" id="birthDate">
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="gender" class="form-label">Gênero</label><br>
-                        <select class="form-select" name="genero" id="genero">
+                        <label for="genderId" class="form-label">Gênero</label><br>
+                        <select value="{{ student?.genderId != null? student?.genderId : ''}}" name="genderId" class="form-select" id="genderId">
                             <option value="">Selecione o seu gênero</option>
                             @each(gender in genders)
-                                <option value="{{ gender.name }}">{{ gender.name }}</option>
+                                <option value="{{ gender.id }}">{{ gender.name }}</option>
                             @endeach
                         </select>
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="cpf" class="form-label">CPF</label><br>
-                        <input type="text" class="form-control" id="cpf">
+                        <input name="cpf" value="{{ student?.cpf != null? student?.cpf : ''}}" type="text" class="form-control" id="cpf">
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="email" class="form-label">E-mail</label><br>
-                        <input type="email" class="form-control" id="email" readonly>
+                        <input name="email" value="{{ user?.email != null? user?.email : '' }}" type="email" class="form-control" id="email" readonly>
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="matricula" class="form-label">Matrícula da UFRRJ</label><br>
-                        <input type="text" class="form-control" id="matricula">
+                        <label for="numberEnrollment" class="form-label">Matrícula da UFRRJ</label><br>
+                        <input name="numberEnrollment" type="text" value="{{ student?.numberEnrollment != null? student?.numberEnrollment : '' }}" class="form-control" id="numberEnrollment">
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="curso" class="form-label">Curso da graduação</label><br>
-                        <input type="text" class="form-control" id="curso">
+                        <label for="course" class="form-label">Curso da graduação</label><br>
+                        <input name="course" type="text" value="{{ student?.course != null? student?.course : '' }}" class="form-control" id="course">
                     </div>
                     <div class="mb-3 form-entry">
-                        <label for="campus" class="form-label">Campus em que estuda</label><br>
-                        <select class="form-select" name="campus" id="campus">
+                        <label for="campusId" class="form-label">Campus em que estuda</label><br>
+                        <select value="{{ student?.campusId != null? student?.campusId : '' }}" class="form-select" name="campusId" id="campus">
                             <option value="">Selecione o campus</option>
-                            @each(campus in campus)
-                                <option value="{{ campus.name }}">{{ campus.name }}</option>
+                            @each(campus in campuses)
+                                <option value="{{ campus.id }}">{{ campus.name }}</option>
                             @endeach
                         </select>
                     </div>
+                    <!-- Fazer a seção de interesses como uma dropdown de categorias que possa escolher multiplas opções -->
                     <div class="mb-3 form-entry">
                         <label for="interesses" class="form-label">Interesses</label><br>
                         <textarea type="text" class="form-control" id="interesses" rows="2"></textarea>
                     </div>
-                    <div class="mb-3 picture inline-block form-entry">
-                        <label for="foto" class="form-label">Foto de rosto</label><br>
-                        <input type="file" id="myFile" name="filename" accept="image/jpeg, image/png">
+                    <div class="mb-3 form-entry">
+                        <label for="extracurricularActivities" class="form-label">Atividades extracurriculares que já fez</label><br>
+                        <textarea name="extracurricularActivities" value="{{ student?.extracurricularActivities != null? student?.extracurricularActivities : '' }}" type="text" class="form-control" id="extracurricularActivities" rows="2"></textarea>
                     </div>
-                    <a type="submit" class="btn btn-primary submit" href="{{ route('index') }}">Salvar</a>
+                    <div class="mb-3 picture inline-block form-entry">
+                        <label for="photo" class="form-label">Foto de rosto</label><br>
+                        <input name="photo" type="file" id="photo" accept="image/jpeg, image/png">
+                    </div>
+                    @if(flashMessages.all()?.errors)
+                        <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors.editProfile }}</small></p>
+                    @endif
+                    <div style=
+                        @if(flashMessages.all()?.errors)
+                            "margin-top: 8px;"
+                        @else
+                            "margin-top: 40px;"
+                        @endif
+                    )>
+                    <button type="submit" class="btn btn-primary submit">Salvar</button>
                 </form>
             </div>
         </section>
