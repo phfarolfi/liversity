@@ -161,6 +161,8 @@ export default class EventsController {
             }
         )
         var events = eventsQuery.rows
+        var firstEvent = eventsQuery.rows[0]
+        var nextEvents = eventsQuery.rows.slice(1)
 
         var certificatesNumberQuery = await Database.rawQuery(
             "select count(presenca) from event_subscriptions es where :column1: = :studentId: and :column2: = ':presenca:'",
@@ -206,7 +208,7 @@ export default class EventsController {
 
         return view.render('account/landingPage', { mainEvent : this.mainEvent, user: this.user, 
                                                     nullPhoto : nullPhoto, student : student, studentCampus : studentCampusName, 
-                                                    events : events, numberCertificates : certificatesNumber, numberEventsCreated : eventsCreatedNumber,
+                                                    events : events, firstEvent : firstEvent, nextEvents : nextEvents, numberCertificates : certificatesNumber, numberEventsCreated : eventsCreatedNumber,
                                                     numberParticipants: participantsAmount, organizer: eventOrganizer })
     }
 
