@@ -87,7 +87,7 @@ export default class AccountController {
         if(auth.use('web').isLoggedIn)
             return response.redirect().toRoute('index')
 
-        return view.render('account/ForgotPassword')
+        return view.render('account/forgotPassword')
     }
 
     public async updateProfile({request, response, session} : HttpContextContract) {
