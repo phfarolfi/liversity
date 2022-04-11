@@ -129,14 +129,16 @@ export default class EventsController {
 
     public async index({auth, view} : HttpContextContract) {
         //landing page
-        
-        // console.log(await auth.user?.id)
+        await auth.check()
+        var userIdAsync = await auth.user?.id
+        var userId = userIdAsync != null ? userIdAsync : ''
+
         var studentQuery = await Database.rawQuery(
-            'select s.id from students s join users u on :column1: = :column2: where u.id = :userId:' ,
+            ('select s.id from students s join users u on :column1: = :column2: where :column2: = :userId:') ,
             {
                 column1: 's.user_id',
                 column2: 'u.id',
-                userId: 1
+                userId: userId
             }
         )
         var studentId = studentQuery.rows[0].id
@@ -151,7 +153,6 @@ export default class EventsController {
             }
         )
         var events = eventsQuery.rows
-        console.log(events)
 
         var certificatesNumberQuery = await Database.rawQuery(
             "select count(presenca) from event_subscriptions es where :column1: = :studentId: and :column2: = ':presenca:'",
@@ -163,7 +164,35 @@ export default class EventsController {
             }
         )
         var certificatesNumber = certificatesNumberQuery.rows[0]
-        console.log(certificatesNumber)
+
+        var eventsCreatedNumberQuery = await Database.rawQuery(
+            "select count(event_id) from event_organizers eo where :column1: = :userId:",
+            {
+                column1: 'eo.user_id',
+                userId: userId
+            }
+        )
+        var eventsCreatedNumber = eventsCreatedNumberQuery.rows[0]
+
+        var participantsAmountQuery = await Database.rawQuery(
+            "select count(student_id) from event_subscriptions es where :column1: = :eventId:",
+            {
+                column1: 'es.event_id',
+                eventId: events[0].event_id
+            }
+        )
+        var participantsAmount = participantsAmountQuery.rows[0]
+        
+        var eventOrganizerQuery = await Database.rawQuery(
+            "select u.name from users u join event_organizers eo on :column1: = :column2: join events e on :column3: = :eventId:",
+            {
+                column1: 'u.id',
+                column2: 'eo.user_id',
+                column3: 'eo.event_id',
+                eventId: events[0].event_id
+            }
+        )
+        var eventOrganizer = eventOrganizerQuery.rows[0]
 
         return view.render('account/landingPage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
     }
@@ -193,8 +222,8 @@ export default class EventsController {
                 document: "https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg", 
                 campusId: 1, statusId:1 });
 
-            // var user = await User.findBy('email', auth.user!.email)
-            // await EventOrganizer.create({ userId: user?.id, eventId: event.id} )
+            await auth.check()
+            await EventOrganizer.create({ userId: auth.user!.id, eventId: event.id} )
             response.redirect().toRoute('eventPage')
         } catch {
             session.flashExcept(['createEvent'])
