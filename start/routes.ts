@@ -38,6 +38,7 @@ Route.get('/ForgotPassword', 'AccountController.forgotPasswordView').as('forgotP
 
 Route.get('/Home', 'EventsController.index').as('index')
 Route.get('/CreateEvent', 'EventsController.createEvent').as('createEvent')
+Route.post('/CreateEvent', 'EventsController.CreateEvent').as('createEvent.register')
 Route.get('/EventPage', 'EventsController.showEvent').as('eventPage')
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents")
 Route.get('/ProfilePage', 'AccountController.showProfile').as('showProfile')

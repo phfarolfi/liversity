@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import User from 'App/Models/User'
+//import User from 'App/Models/User'
 import Event from 'App/Models/Event'
 
 export default class EventsController {
@@ -12,32 +12,28 @@ export default class EventsController {
         return view.render('events/CreateEvent')
     }
 
-    public async publishEvent({/*auth,*/ request, response, session} : HttpContextContract) {
-        const { name, eventDate, limitSubscriptionDate, description, linkCommunicationGroup, /*photo, document*/ } = request.all()
+    public async CreateEvent({/*auth,*/ request, response, session} : HttpContextContract) {
+        const { name, eventDate, category,  limitSubscriptionDate , description, linkCommunicationGroup /*,photo, document*/ } = request.all()
 
-        if(!name || !eventDate || !limitSubscriptionDate || !description || !linkCommunicationGroup /*|| !photo || !document*/) {
-            session.flashExcept(['signUp'])
-            session.flash({ errors: { signUp: 'Preencha todos os campos solicitados' } })
-            return response.redirect().toRoute('EventsController.eventView')
-        }
-
-        var eventAlreadyExist = await Event.findByOrFail('name', name);
-        if(name != null) {
-            session.flashExcept(['signUp'])
-            session.flash({ errors: { signUp: 'Já existe ' } })
-            return response.redirect().toRoute('AccountController.eventView')
+        if(!name || !eventDate ||  !category || !limitSubscriptionDate || !description || !linkCommunicationGroup /*|| !photo || !document*/) {
+            console.log('ferovsky');
+            session.flashExcept(['CreateEvent'])
+            session.flash({ errors: { event: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('createEvent')
         }
 
         try {
             //var user = await User.findBy('email', auth.user!.email) caso coloquemos o organizador no banco como usuário
-            var eventCreated = await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: eventDate, limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:3, local:'Campus', linkCommunicationGroup: linkCommunicationGroup, /*photo: photo, document:document,*/ campusId: 1, statusId:1 });
+            console.log('awawawaw');
+            await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: eventDate, limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:category, local:'Campus', linkCommunicationGroup: linkCommunicationGroup, photo: "s3://liversity-app/events/photo/md-duran-E0ylfF52C6M-unsplash.jpg", document: "s3://liversity-app/events/photo/md-duran-E0ylfF52C6M-unsplash.jpg", campusId: 1, statusId:1 });
             //await Student.create({ userId: userCreated.id, completedProfile: false })
-            response.redirect().toRoute('event.view')
+            response.redirect().toRoute('eventPage')
         } catch {
-            session.flashExcept(['signUp'])
-            session.flash({ errors: { signUp: 'Não foi possível realizar o cadastro do evento.' } })
+            console.log('awfefaoefhoaw');
+            session.flashExcept(['CreateEvent'])
+            session.flash({ errors: { event: 'Não foi possível realizar o cadastro do evento.' } })
 
-            return response.redirect().toRoute('AccountController.eventView')
+            return response.redirect().toRoute('createEvent')
         }
     }
 
