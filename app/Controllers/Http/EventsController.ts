@@ -16,7 +16,6 @@ export default class EventsController {
         const { name, eventDate, category,  limitSubscriptionDate , description, linkCommunicationGroup /*,photo, document*/ } = request.all()
 
         if(!name || !eventDate ||  !category || !limitSubscriptionDate || !description || !linkCommunicationGroup /*|| !photo || !document*/) {
-            console.log('ferovsky');
             session.flashExcept(['CreateEvent'])
             session.flash({ errors: { event: 'Preencha todos os campos solicitados' } })
             return response.redirect().toRoute('createEvent')
@@ -24,12 +23,10 @@ export default class EventsController {
 
         try {
             //var user = await User.findBy('email', auth.user!.email) caso coloquemos o organizador no banco como usuário
-            console.log('awawawaw');
             await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: eventDate, limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:category, local:'Campus', linkCommunicationGroup: linkCommunicationGroup, photo: "s3://liversity-app/events/photo/md-duran-E0ylfF52C6M-unsplash.jpg", document: "s3://liversity-app/events/photo/md-duran-E0ylfF52C6M-unsplash.jpg", campusId: 1, statusId:1 });
             //await Student.create({ userId: userCreated.id, completedProfile: false })
             response.redirect().toRoute('eventPage')
         } catch {
-            console.log('awfefaoefhoaw');
             session.flashExcept(['CreateEvent'])
             session.flash({ errors: { event: 'Não foi possível realizar o cadastro do evento.' } })
 
