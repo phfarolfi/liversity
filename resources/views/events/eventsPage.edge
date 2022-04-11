@@ -3,14 +3,8 @@
 
 @section('content')
     <div class="row" style="width:100%;">
-        <div style="margin: 20px 0;">
-            <h5 class="text-center">Eventos</h5>
-            <div>
-                <form class="d-flex px-5 mt-3 mb-5">
-                    <input class="form-control me-2 searchbar" type="search" placeholder="Search" aria-label="Search" style="width: 100%;">
-                    <button class="btn btn-outline-success search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
-            </div>
+        <div style="margin: 30px 0;">
+            <h1 class="text-center"><strong>Eventos ativos</strong></h1>
             <div class="row px-5">
                 @each((event, index) in events)
                     <div class="col-4 mb-3">
