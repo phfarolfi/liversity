@@ -240,8 +240,8 @@ export default class EventsController {
             var event = await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: new Date(), 
                 limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:category, 
                 local:'Campus', linkCommunicationGroup: linkCommunicationGroup, 
-                photo: "https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg", 
-                document: "https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg", 
+                photo: "https://liversity-app.s3.amazonaws.com/events/photo/andrei-stratu-kcJsQ3PJrYU-unsplash.jpg", 
+                document: "https://liversity-app.s3.amazonaws.com/events/photo/andrei-stratu-kcJsQ3PJrYU-unsplash.jpg", 
                 campusId: 1, statusId:1 });
 
             await auth.check()
