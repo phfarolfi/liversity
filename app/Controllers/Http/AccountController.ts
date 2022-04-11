@@ -3,8 +3,22 @@ import Campus from 'App/Models/Campus'
 import Gender from 'App/Models/Gender'
 import Student from 'App/Models/Student'
 import User from 'App/Models/User'
-
 export default class AccountController {
+    public interests = {
+        1: {
+            id: 1,
+            name: "Violino",
+        },
+        2: {
+            id: 2,
+            name: "Dança",
+        },
+        3: {
+            id: 3,
+            name: "Esportes",
+        }
+    }
+
     public async loginView({ auth, response, view } : HttpContextContract) {
         await auth.use('web').check()
         if(auth.use('web').isLoggedIn)
@@ -135,18 +149,11 @@ export default class AccountController {
         var student = await Student.findBy('userId', user?.id)
         var studentGender = await Gender.findBy('id', student?.genderId)
         var studentCampus = await Campus.findBy('id', student?.campusId)
-        // console.log(user)
-        // console.log(student)
-
-        //pegar as variáveis abaixo:
-        //var certificatesNumber = await
-        //var eventsSubscriptionNumber = await
-        //var eventsCreatedNumber = await
 
         if(!student?.completedProfile)
-            return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, nullPhoto: nullPhoto })
+            return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, nullPhoto: nullPhoto, interests : this.interests })
         else
             return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, student: student.$attributes,
-                                                        studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto })
+                                                        studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto, interests : this.interests })
     }
 }
