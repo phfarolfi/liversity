@@ -4,6 +4,7 @@ import Event from 'App/Models/Event'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Student from 'App/Models/Student'
 import EventOrganizer from 'App/Models/EventOrganizer'
+import Campus from 'App/Models/Campus'
 
 export default class EventsController {
     public events = {
@@ -127,24 +128,31 @@ export default class EventsController {
         }
     }
 
-    public async index({auth, view} : HttpContextContract) {
+    public async index({auth, view, response} : HttpContextContract) {
+        await auth.use('web').check()
+        if(!auth.use('web').isLoggedIn)
+            return response.redirect().toRoute('index')
+
         //landing page
-        await auth.check()
         var userIdAsync = await auth.user?.id
         var userId = userIdAsync != null ? userIdAsync : ''
-
+        
         var studentQuery = await Database.rawQuery(
-            ('select s.id from students s join users u on :column1: = :column2: where :column2: = :userId:') ,
+            ('select s.*, u.name from students s join users u on :column1: = :column2: where :column2: = :userId:') ,
             {
                 column1: 's.user_id',
                 column2: 'u.id',
                 userId: userId
             }
         )
-        var studentId = studentQuery.rows[0].id
+        var student = studentQuery.rows[0]
+        var studentId = student.id
+        var studentCampus = await Campus.findBy('id', student?.campus_id)
+        var studentCampusName = studentCampus?.$attributes.name
+        console.log(student)
 
         var eventsQuery = await Database.rawQuery(
-            'select es.event_id, e.event_date from event_subscriptions as es inner join events as e on :column1: = :column2: where :column3: = :studentId: order by e.event_date limit 4',
+            'select e.name, e.description, e.local, e.event_date, e.photo, es.event_id from event_subscriptions as es inner join events as e on :column1: = :column2: where :column3: = :studentId: order by e.event_date limit 4',
             {
                 column1: 'es.event_id',
                 column2: 'e.id',
@@ -163,7 +171,7 @@ export default class EventsController {
                 presenca: 'PRESENTE'
             }
         )
-        var certificatesNumber = certificatesNumberQuery.rows[0]
+        var certificatesNumber = certificatesNumberQuery.rows[0].count
 
         var eventsCreatedNumberQuery = await Database.rawQuery(
             "select count(event_id) from event_organizers eo where :column1: = :userId:",
@@ -172,7 +180,7 @@ export default class EventsController {
                 userId: userId
             }
         )
-        var eventsCreatedNumber = eventsCreatedNumberQuery.rows[0]
+        var eventsCreatedNumber = eventsCreatedNumberQuery.rows[0].count
 
         var participantsAmountQuery = await Database.rawQuery(
             "select count(student_id) from event_subscriptions es where :column1: = :eventId:",
@@ -181,7 +189,7 @@ export default class EventsController {
                 eventId: events[0].event_id
             }
         )
-        var participantsAmount = participantsAmountQuery.rows[0]
+        var participantsAmount = participantsAmountQuery.rows[0].count
         
         var eventOrganizerQuery = await Database.rawQuery(
             "select u.name from users u join event_organizers eo on :column1: = :column2: join events e on :column3: = :eventId:",
@@ -192,9 +200,14 @@ export default class EventsController {
                 eventId: events[0].event_id
             }
         )
-        var eventOrganizer = eventOrganizerQuery.rows[0]
+        var eventOrganizer = eventOrganizerQuery.rows[0].name
 
-        return view.render('account/landingPage', { events : this.events, user : this.user, mainEvent : this.mainEvent })
+        var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
+
+        return view.render('account/landingPage', { mainEvent : this.mainEvent, user: this.user, 
+                                                    nullPhoto : nullPhoto, student : student, studentCampus : studentCampusName, 
+                                                    events : events, numberCertificates : certificatesNumber, numberEventsCreated : eventsCreatedNumber,
+                                                    numberParticipants: participantsAmount, organizer: eventOrganizer })
     }
 
     public async createEventView({ auth, response, view } : HttpContextContract) {
