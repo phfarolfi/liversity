@@ -149,7 +149,7 @@ export default class EventsController {
         var studentId = student.id
         var studentCampus = await Campus.findBy('id', student?.campus_id)
         var studentCampusName = studentCampus?.$attributes.name
-        console.log(student)
+        // console.log(student)
 
         var eventsQuery = await Database.rawQuery(
             'select e.name, e.description, e.local, e.event_date, e.photo, es.event_id from event_subscriptions as es inner join events as e on :column1: = :column2: where :column3: = :studentId: order by e.event_date limit 4',
@@ -161,9 +161,10 @@ export default class EventsController {
             }
         )
         var events = eventsQuery.rows
+        // console.log(events)
         var firstEvent = eventsQuery.rows[0]
         var nextEvents = eventsQuery.rows.slice(1)
-
+        
         var certificatesNumberQuery = await Database.rawQuery(
             "select count(presenca) from event_subscriptions es where :column1: = :studentId: and :column2: = ':presenca:'",
             {
@@ -184,25 +185,31 @@ export default class EventsController {
         )
         var eventsCreatedNumber = eventsCreatedNumberQuery.rows[0].count
 
-        var participantsAmountQuery = await Database.rawQuery(
-            "select count(student_id) from event_subscriptions es where :column1: = :eventId:",
-            {
-                column1: 'es.event_id',
-                eventId: events[0].event_id
-            }
-        )
-        var participantsAmount = participantsAmountQuery.rows[0].count
+        if(events.length > 0) {
+            var participantsAmountQuery = await Database.rawQuery(
+                "select count(student_id) from event_subscriptions es where :column1: = :eventId:",
+                {
+                    column1: 'es.event_id',
+                    eventId: events[0].event_id
+                }
+            )
+            var participantsAmount = participantsAmountQuery.rows[0].count
         
-        var eventOrganizerQuery = await Database.rawQuery(
-            "select u.name from users u join event_organizers eo on :column1: = :column2: join events e on :column3: = :eventId:",
-            {
-                column1: 'u.id',
-                column2: 'eo.user_id',
-                column3: 'eo.event_id',
-                eventId: events[0].event_id
-            }
-        )
-        var eventOrganizer = eventOrganizerQuery.rows[0].name
+            var eventOrganizerQuery = await Database.rawQuery(
+                "select u.name from users u join event_organizers eo on :column1: = :column2: join events e on :column3: = :eventId:",
+                {
+                    column1: 'u.id',
+                    column2: 'eo.user_id',
+                    column3: 'eo.event_id',
+                    eventId: events[0].event_id
+                }
+            )
+            var eventOrganizer = eventOrganizerQuery.rows[0].name
+        }
+        else { 
+            participantsAmount = 0
+            eventOrganizer = 0
+        }
 
         var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
 
@@ -239,7 +246,7 @@ export default class EventsController {
 
             await auth.check()
             await EventOrganizer.create({ userId: auth.user!.id, eventId: event.id} )
-            response.redirect().toRoute('eventPage')
+            response.redirect().toRoute('eventPage.view')
         } catch {
             session.flashExcept(['createEvent'])
             session.flash({ errors: { createEvent: 'Não foi possível realizar o cadastro do evento' } })
@@ -248,7 +255,13 @@ export default class EventsController {
         }
     }
 
-    public async showEvent({view} : HttpContextContract) {
+    // public async showEvent({view} : HttpContextContract) {
+    //     return view.render('events/eventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
+    // }
+
+    public async eventPageView({ params, view }: HttpContextContract) {
+        // const evento = await Event.find(params.id)
+        // console.log(evento)
         return view.render('events/eventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
     }
 
