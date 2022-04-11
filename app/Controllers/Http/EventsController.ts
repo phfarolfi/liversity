@@ -1,6 +1,39 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+//import User from 'App/Models/User'
+import Event from 'App/Models/Event'
 
 export default class EventsController {
+
+    public async eventView({ auth, response, view } : HttpContextContract) {
+        await auth.use('web').check()
+        if(auth.use('web').isLoggedIn)
+            return response.redirect().toRoute('index')
+
+        return view.render('events/CreateEvent')
+    }
+
+    public async CreateEvent({/*auth,*/ request, response, session} : HttpContextContract) {
+        const { name, eventDate, category,  limitSubscriptionDate , description, linkCommunicationGroup /*,photo, document*/ } = request.all()
+
+        if(!name || !eventDate ||  !category || !limitSubscriptionDate || !description || !linkCommunicationGroup /*|| !photo || !document*/) {
+            session.flashExcept(['CreateEvent'])
+            session.flash({ errors: { event: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('createEvent')
+        }
+
+        try {
+            //var user = await User.findBy('email', auth.user!.email) caso coloquemos o organizador no banco como usuário
+            await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: eventDate, limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:category, local:'Campus', linkCommunicationGroup: linkCommunicationGroup, photo: "s3://liversity-app/events/photo/md-duran-E0ylfF52C6M-unsplash.jpg", document: "s3://liversity-app/events/photo/md-duran-E0ylfF52C6M-unsplash.jpg", campusId: 1, statusId:1 });
+            //await Student.create({ userId: userCreated.id, completedProfile: false })
+            response.redirect().toRoute('eventPage')
+        } catch {
+            session.flashExcept(['CreateEvent'])
+            session.flash({ errors: { event: 'Não foi possível realizar o cadastro do evento.' } })
+
+            return response.redirect().toRoute('createEvent')
+        }
+    }
+
     public events = {
         1: {
             id: 1,
@@ -88,8 +121,8 @@ export default class EventsController {
     }
 
     public user = {
-        photo: "images/users/mike.jpg", 
-        name: "Maicu Azalski", 
+        photo: "images/users/estudante.jpg", 
+        name: "Fulano D. Tal", 
         course: "Ciência da Computação", 
         campus: "Nova Iguaçu - IM", 
         certificatesNumber: 32, 
