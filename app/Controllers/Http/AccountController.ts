@@ -25,7 +25,6 @@ export default class AccountController {
 
         try {
           await auth.use('web').attempt(email, password)
-          await auth.use('web').authenticate()
           response.redirect().toRoute('index')
         } catch {
           session.flashExcept(['login'])
@@ -128,8 +127,8 @@ export default class AccountController {
         await auth.use('web').check()
         if(!auth.use('web').isLoggedIn)
             return response.redirect().toRoute('login.view')
-        var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
 
+        var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
         var genders = await Gender.query().orderBy('name', 'asc')
         var campuses = await Campus.query().orderBy('name', 'asc')
         var user = await User.findBy('email', auth.user!.email)
@@ -138,7 +137,6 @@ export default class AccountController {
         var studentCampus = await Campus.findBy('id', student?.campusId)
         // console.log(user)
         // console.log(student)
-        console.log(student?.$attributes.photo)
 
         //pegar as variáveis abaixo:
         //var certificatesNumber = await
