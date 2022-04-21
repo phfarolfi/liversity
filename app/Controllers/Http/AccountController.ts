@@ -107,15 +107,15 @@ export default class AccountController {
         return response.redirect().toRoute('editProfile.view')
     }
 
-    public user = {
+    public student = {
         photo: "images/users/mike.jpg", 
-        name: "Fulano D. Tal", 
+        name: "Maico Azalski", 
         course: "Ciência da Computação", 
         campus: "Nova Iguaçu - IM", 
         certificatesNumber: 32, 
         eventsCreated: 11
     }
     public async showProfile({view} : HttpContextContract) {
-        return view.render('account/ProfilePage', { user: this.user })
+        return view.render('account/ProfilePage', { user: this.student })
     }
 }
