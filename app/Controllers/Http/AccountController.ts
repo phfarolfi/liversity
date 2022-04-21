@@ -105,6 +105,7 @@ export default class AccountController {
 
     public async updateProfile({request, response, session} : HttpContextContract) {
         const profile = request.all();
+        
         if(!profile.name || !profile.birthDate || !profile.genderId || !profile.cpf ||
             !profile.email || !profile.numberEnrollment || !profile.course ||
             !profile.campusId || !profile.extracurricularActivities) {
@@ -147,11 +148,11 @@ export default class AccountController {
         var student = await Student.findBy('userId', user?.id)
         var studentGender = await Gender.findBy('id', student?.genderId)
         var studentCampus = await Campus.findBy('id', student?.campusId)
-
+        var birthDate = new Date(student?.birthDate + ' 00:00:00').toLocaleDateString()
         if(!student?.completedProfile)
             return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, nullPhoto: nullPhoto, interests : this.interests })
         else
-            return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, student: student.$attributes,
+            return view.render('account/profilePage', { genders: genders, campuses: campuses, user: user, student: student.$attributes, birthDate : birthDate,
                                                         studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto, interests : this.interests })
     }
 }
