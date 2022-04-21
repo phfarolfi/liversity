@@ -31,16 +31,19 @@ Route.get('/', async ({ auth,response }) => {
 
 Route.get('/Login', 'AccountController.loginView').as('login.view')
 Route.post('/Login', 'AccountController.authenticate').as('login.authenticate')
-Route.get('/Logout', 'AccountController.logout').as('logout')
 Route.get('/SignUp', 'AccountController.signUpView').as('signUp.view')
 Route.post('/SignUp', 'AccountController.createUser').as('signUp.createUser')
 Route.get('/ForgotPassword', 'AccountController.forgotPasswordView').as('forgotPassword.view')
 
-Route.get('/Home', 'EventsController.index').as('index')
-Route.get('/EditProfile', 'AccountController.editProfileView').as('editProfile.view')
-Route.post('/EditProfile', 'AccountController.updateProfile').as('editProfile.update')
+Route.get('/Home', 'EventsController.index').as('index').middleware('auth');
+Route.get('/Logout', 'AccountController.logout').as('logout').middleware('auth');
+Route.get('/ProfilePage', 'AccountController.userProfileView').as('userProfile.view').middleware('auth');
+Route.post('/ProfilePage', 'AccountController.updateProfile').as('userProfile.update').middleware('auth');
+Route.get('/CreateEvent', 'EventsController.createEventView').as('createEvent.view').middleware('auth');
+Route.post('/CreateEvent', 'EventsController.createEvent').as('createEvent.create').middleware('auth');
 
-Route.get('/CreateEvent', 'EventsController.createEvent').as('createEvent')
-Route.get('/EventPage', 'EventsController.showEvent').as('eventPage')
-Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents")
-Route.get('/ProfilePage', 'AccountController.showProfile').as('showProfile')
+Route.get('/EventPage', 'EventsController.eventPageView').as('eventPage.view').middleware('auth');
+// Route.get('/EventPage/:id', 'EventsController.eventPageView')
+//   .where('id', /^[0-9]$/)
+//   .as('eventPage.view')
+Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middleware('auth');
