@@ -49,7 +49,7 @@
             <h4 style="color: black; font-weight: 700;">Interesses</h4>
             <div class="card mb-5" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
                 <div class="d-flex p-0 justify-content-center" style="min-height: 128px;">
-                    @if(!student?.completedProfile)
+                    @if(interests.length < 1)
                         <p class="text-dark mt-3" style="max-height: 23px;">Você ainda não cadastrou seus interesses</p>
                     @else
                         @each((interest, index) in interests)
@@ -107,8 +107,12 @@
                     </div>
                     <!-- Fazer a seção de interesses como uma dropdown de categorias que possa escolher multiplas opções -->
                     <div class="mb-3 form-entry">
-                        <label for="interesses" class="form-label">Interesses</label><br>
-                        <textarea type="text" class="form-control" id="interesses" rows="2"></textarea>
+                        <label for="interests" class="form-label">Interesses</label><br>
+                        <select name="interests" class="form-select" id="interests" multiple>
+                            @each(category in categories)
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            @endeach
+                        </select>
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="extracurricularActivities" class="form-label">Atividades extracurriculares que já fez</label><br>

@@ -93,16 +93,6 @@ export default class EventsController {
         }
     }
 
-    public user = {
-        photo: "images/users/mike.jpg", 
-        name: "Maicu Azalski", 
-        course: "Ciência da Computação", 
-        campus: "Nova Iguaçu - IM", 
-        certificatesNumber: 32, 
-        eventsCreated: 11,
-        preferences: this.events
-    }
-
     public mainEvent = this.events[1];
 
     public eventCategories = {
@@ -134,6 +124,7 @@ export default class EventsController {
         var events: any[] = []
         var firstEvent: any = {}
         var nextEvents: any[] = []
+        var interests: any[] = []
         var participantsAmount = 0
         var eventOrganizer = ''
         var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
@@ -172,6 +163,15 @@ export default class EventsController {
             .firstOrFail()
             eventsCreatedNumber = eventsCreatedNumber['count(`event_id`)'];
 
+            interests = await Database
+            .from('interests')
+            .join('categories', (query) => {
+              query.on('interests.category_id', '=', 'categories.id')
+            })
+            .whereRaw('interests.student_id = ?', [student!.id])
+            .select('categories.id')
+            .select('categories.name')
+
             events = await Database
             .from('event_subscriptions')
             .join('events', (query) => {
@@ -203,9 +203,9 @@ export default class EventsController {
                 .firstOrFail()
             }
         }
-        return view.render('account/landingPage', { user: this.user, 
+        return view.render('account/landingPage', { 
                 nullPhoto : nullPhoto, student : student, studentCampus : studentCampusName, 
-                events : events, firstEvent : firstEvent, nextEvents : nextEvents, 
+                events : events, firstEvent : firstEvent, nextEvents : nextEvents, interests: interests,
                 numberCertificates : certificatesNumber, numberEventsCreated : eventsCreatedNumber,
                 numberParticipants: participantsAmount, organizer: eventOrganizer })
     }
