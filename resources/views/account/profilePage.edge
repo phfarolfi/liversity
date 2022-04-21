@@ -2,14 +2,14 @@
 @set('title', 'liversity - Perfil do Usuário')
 
 @section('content')
-    <div class="d-flex justify-content-between m-5 px-3" style="min-height: 900px;">
-        <section class="col-md-4">
+    <div id="profile-page" class="d-flex justify-content-between m-5 px-3" style="min-height: 900px;">
+        <section class="col-4">
             <h4 style="color: black; font-weight: 700;">Seu perfil</h4>
-            <div class="d-flex px-5 mb-5 justify-content-center" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
-                <div class="profile-pic-container mt-4 me-4">
+            <div class="d-flex px-5 mb-5 justify-content-center flex-wrap" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
+                <div class="profile-pic-container mt-4 mx-4">
                     <img src="{{ student?.photo != null? student?.photo : nullPhoto}}" class="profile-pic">
                 </div>
-                <div class="card-body mt-2">
+                <div class="card-body d-flex justify-content-center mt-2">
                     <ul class="list-group" style="font-size: 1.125rem;">
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Nome:&nbsp;</label><br>
@@ -59,16 +59,16 @@
             <div class="card mb-5" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
                 <div class="d-flex p-0 justify-content-center" style="min-height: 128px;">
                     @if(!student?.completedProfile)
-                        <p class="text-dark mt-3">Você ainda não cadastrou seus interesses</p>
+                        <p class="text-dark mt-3" style="max-height: 23px;">Você ainda não cadastrou seus interesses</p>
                     @else
                         @each((interest, index) in interests)
-                            <p class="card-text p-1 rounded m-1" style="background-color: #C6F5FF; color: #0d6efd; font-size: 0.75rem;">#&nbsp;{{ interest.name }}</p>
+                            <p class="card-text p-1 rounded m-1"  style="max-height: 23px; background-color: #C6F5FF; color: #0d6efd; font-size: 0.75rem;">#&nbsp;{{ interest.name }}</p>
                         @endeach
                     @endif
                 </div>
             </div>
         </section>
-        <section>
+        <section class="col-3">
             <h4 style="color: black; font-weight: 700;">Editar perfil</h4>
             <div id="edit-profile" class="form-page d-inline-block">
                 <form class="form" action="{{ route('userProfile.update') }}" method="POST">
@@ -141,7 +141,7 @@
                 </form>
             </div>
         </section>
-        <section class="col-md-3">
+        <section class="col-4">
             <h4 style="color: black; font-weight: 700;">Histórico de eventos participados</h4>
             <div class="card events-history">
                 <div class="d-flex p-0 justify-content-center">
