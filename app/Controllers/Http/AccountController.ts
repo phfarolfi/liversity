@@ -137,10 +137,8 @@ export default class AccountController {
         return response.redirect().toRoute('userProfile.view')
     }
 
-    public async userProfileView({auth, response, view} : HttpContextContract) {
+    public async userProfileView({auth, view} : HttpContextContract) {
         await auth.use('web').check()
-        if(!auth.use('web').isLoggedIn)
-            return response.redirect().toRoute('login.view')
 
         var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
         var genders = await Gender.query().orderBy('name', 'asc')

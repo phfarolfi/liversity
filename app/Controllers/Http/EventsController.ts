@@ -129,101 +129,88 @@ export default class EventsController {
     }
 
     public async index({auth, view, response} : HttpContextContract) {
-        await auth.use('web').check()
-        if(!auth.use('web').isLoggedIn)
-            return response.redirect().toRoute('index')
-
-        //landing page
-        var userIdAsync = await auth.user?.id
-        var userId = userIdAsync != null ? userIdAsync : ''
-        
-        var studentQuery = await Database.rawQuery(
-            ('select s.*, u.name from students s join users u on :column1: = :column2: where :column2: = :userId:') ,
-            {
-                column1: 's.user_id',
-                column2: 'u.id',
-                userId: userId
-            }
-        )
-        var student = studentQuery.rows[0]
-        var studentId = student.id
-        var studentCampus = await Campus.findBy('id', student?.campus_id)
-        var studentCampusName = studentCampus?.$attributes.name
-        // console.log(student)
-
-        var eventsQuery = await Database.rawQuery(
-            'select e.name, e.description, e.local, e.event_date, e.photo, es.event_id from event_subscriptions as es inner join events as e on :column1: = :column2: where :column3: = :studentId: order by e.event_date limit 4',
-            {
-                column1: 'es.event_id',
-                column2: 'e.id',
-                column3: 'es.student_id',
-                studentId: studentId
-            }
-        )
-        var events = eventsQuery.rows
-        // console.log(events)
-        var firstEvent = eventsQuery.rows[0]
-        var nextEvents = eventsQuery.rows.slice(1)
-        
-        var certificatesNumberQuery = await Database.rawQuery(
-            "select count(presenca) from event_subscriptions es where :column1: = :studentId: and :column2: = ':presenca:'",
-            {
-                column1: 'es.student_id',
-                studentId: studentId,
-                column2: 'es.presenca',
-                presenca: 'PRESENTE'
-            }
-        )
-        var certificatesNumber = certificatesNumberQuery.rows[0].count
-
-        var eventsCreatedNumberQuery = await Database.rawQuery(
-            "select count(event_id) from event_organizers eo where :column1: = :userId:",
-            {
-                column1: 'eo.user_id',
-                userId: userId
-            }
-        )
-        var eventsCreatedNumber = eventsCreatedNumberQuery.rows[0].count
-
-        if(events.length > 0) {
-            var participantsAmountQuery = await Database.rawQuery(
-                "select count(student_id) from event_subscriptions es where :column1: = :eventId:",
-                {
-                    column1: 'es.event_id',
-                    eventId: events[0].event_id
-                }
-            )
-            var participantsAmount = participantsAmountQuery.rows[0].count
-        
-            var eventOrganizerQuery = await Database.rawQuery(
-                "select u.name from users u join event_organizers eo on :column1: = :column2: join events e on :column3: = :eventId:",
-                {
-                    column1: 'u.id',
-                    column2: 'eo.user_id',
-                    column3: 'eo.event_id',
-                    eventId: events[0].event_id
-                }
-            )
-            var eventOrganizer = eventOrganizerQuery.rows[0].name
-        }
-        else { 
-            participantsAmount = 0
-            eventOrganizer = 0
-        }
-
+        //landing page (homepage)
+        var userId = auth.user!.id;
+        var events: any[] = []
+        var firstEvent: any = {}
+        var nextEvents: any[] = []
+        var participantsAmount = 0
+        var eventOrganizer = ''
         var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
 
-        return view.render('account/landingPage', { mainEvent : this.mainEvent, user: this.user, 
-                                                    nullPhoto : nullPhoto, student : student, studentCampus : studentCampusName, 
-                                                    events : events, firstEvent : firstEvent, nextEvents : nextEvents, numberCertificates : certificatesNumber, numberEventsCreated : eventsCreatedNumber,
-                                                    numberParticipants: participantsAmount, organizer: eventOrganizer })
+        var student = await Database
+        .from('students')
+        .join('users', (query) => {
+          query.on('students.user_id', '=', 'users.id')
+        })
+        .whereRaw('users.id = ?', [userId])
+        .select('students.*')
+        .select('users.name')
+        .firstOrFail()
+
+        if(student) {
+            if(student.campus_id) {
+                var studentCampus = await Campus.findByOrFail('id', student.campus_id)
+                if(studentCampus) {
+                    console.log(studentCampus)
+                    var studentCampusName = studentCampus?.$attributes.name
+                }
+            }
+
+            var certificatesNumber = await Database
+            .from('event_subscriptions')
+            .whereRaw('student_id = ?', [student.id])
+            .andWhereRaw('presenca = ?', ['PRESENTE'])
+            .count('presenca')
+            .firstOrFail()
+            certificatesNumber = certificatesNumber['count(`presenca`)'];
+
+            var eventsCreatedNumber = await Database
+            .from('event_organizers')
+            .whereRaw('user_id = ?', [userId])
+            .count('event_id')
+            .firstOrFail()
+            eventsCreatedNumber = eventsCreatedNumber['count(`event_id`)'];
+
+            events = await Database
+            .from('event_subscriptions')
+            .join('events', (query) => {
+              query.on('event_subscriptions.event_id', '=', 'events.id')
+            })
+            .whereRaw('event_subscriptions.student_id = ?', [student.id])
+            .select('events.*')
+            .select('event_subscriptions.id')
+            .limit(4)
+
+            if(events.length > 0) {
+                firstEvent = events[0]
+                if(events.length > 1) 
+                    nextEvents = events.slice(1)
+    
+                participantsAmount = await Database
+                .from('event_subscriptions')
+                .whereRaw('event_id = ?', [firstEvent.event_id])
+                .count('student_id')
+                .firstOrFail()
+
+                eventOrganizer = await Database
+                .from('users')
+                .join('event_organizers', (query) => {
+                  query.on('users.id', '=', 'event_organizers.user_id')
+                })
+                .whereRaw('event_organizers.event_id = ?', [firstEvent.event_id])
+                .select('users.name')
+                .firstOrFail()
+            }
+        }
+        return view.render('account/landingPage', { user: this.user, 
+                nullPhoto : nullPhoto, student : student, studentCampus : studentCampusName, 
+                events : events, firstEvent : firstEvent, nextEvents : nextEvents, 
+                numberCertificates : certificatesNumber, numberEventsCreated : eventsCreatedNumber,
+                numberParticipants: participantsAmount, organizer: eventOrganizer })
     }
 
     public async createEventView({ auth, response, view } : HttpContextContract) {
-        await auth.use('web').check()
-        if(!auth.use('web').isLoggedIn)
-            return response.redirect().toRoute('index')
-
         return view.render('events/createEvent')
     }
 
