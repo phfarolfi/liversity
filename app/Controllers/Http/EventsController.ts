@@ -245,13 +245,8 @@ export default class EventsController {
         }
     }
 
-    // public async showEvent({view} : HttpContextContract) {
-    //     return view.render('events/eventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
-    // }
-
     public async eventPageView({ params, view }: HttpContextContract) {
         // const evento = await Event.find(params.id)
-        // console.log(evento)
         return view.render('events/eventPage', { events : this.events, mainEvent : this.mainEvent, subscribers : this.subscribers})
     }
 
