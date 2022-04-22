@@ -3,24 +3,50 @@
 
 @section('content')
     <div class="row" style="width:100%;">
-        <div style="margin: 30px 0;">
-            <h1 class="text-center"><strong>Eventos ativos</strong></h1>
-            <div class="row px-5">
-                @each((event, index) in events)
-                    <div class="col-md-6 col-xl-4 mb-3">
-                        <div class="event-img mb-2">
-                            <img src="{{event.photo}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0">
-                        </div>
-                        <div class="d-flex justify-content-between py-2">
-                            <div class="card-text" style="max-width: 75%"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></div>
-                            <div class="card-text d-flex justify-content-end flex-column align-items-end">
-                                <a type="submit" style="font-size: 0.75rem;" class="btn btn-block btn-primary submit mb-1 rounded-pill" href="{{ route('eventPage.view') }}"><span>Ver mais</span></a>
-                                <div class="card-text" style="font-size: 0.75rem;"><strong>{{ event.subscribersNumber }} participante(s)</strong></div>
+        @if(events.length > 0) 
+            <div style="margin: 30px 0;">
+                <h1 class="text-center"><strong>Eventos ativos</strong></h1>
+                <div class="row px-5">
+                    @each((event, index) in activeEvents)
+                        <div class="col-md-6 col-xl-4 mb-3">
+                            <div class="event-img mb-2">
+                                <img src="{{event.photo}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0">
+                            </div>
+                            <div class="d-flex justify-content-between py-2">
+                                <div class="card-text" style="max-width: 75%"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></div>
+                                <div class="card-text d-flex justify-content-end flex-column align-items-end">
+                                    <a type="submit" style="font-size: 0.75rem;" class="btn btn-block btn-primary submit mb-1 rounded-pill" href="{{ route('eventPage.view') }}"><span>Ver mais</span></a>
+                                    <div class="card-text" style="font-size: 0.75rem;"><strong>{{ event.subscribersNumber }} participante(s)</strong></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endeach
+                    @endeach
+                </div>
             </div>
+            <hr>
+            <div style="margin: 30px 0;">
+                <h1 class="text-center"><strong>Eventos inativos</strong></h1>
+                <div class="row px-5">
+                    @each((event, index) in inactiveEvents)
+                        <div class="col-md-6 col-xl-4 mb-3">
+                            <div class="event-img mb-2">
+                                <img src="{{event.photo}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0">
+                            </div>
+                            <div class="d-flex justify-content-between py-2">
+                                <div class="card-text" style="max-width: 75%"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></div>
+                                <div class="card-text d-flex justify-content-end flex-column align-items-end">
+                                    <a type="submit" style="font-size: 0.75rem;" class="btn btn-block btn-primary submit mb-1 rounded-pill" href="{{ route('eventPage.view') }}"><span>Ver mais</span></a>
+                                    <div class="card-text" style="font-size: 0.75rem;"><strong>{{ event.subscribersNumber }} participante(s)</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    @endeach
+                </div>
+            </div>
+        @else 
+        <div class="text-center" style="margin: 50px 0; min-height: 840px;">
+            <h3>Não existem eventos cadastrados aprovados no momento! :(</h3>
         </div>
+        @end
     </div>
 @endsection

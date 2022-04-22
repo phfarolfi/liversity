@@ -251,21 +251,32 @@ export default class EventsController {
     }
 
     public async showEvents({view} : HttpContextContract) {
-        var eventsQuery = await Database.rawQuery(
-            'select e.id, e.name, e.photo, e.event_date from events e order by e.event_date')
-        var events = eventsQuery.rows
-        for(var event of events) {
-             var participantsAmountQuery = await Database.rawQuery(
-                "select count(student_id) from event_subscriptions es where :column1: = :eventId:",
-                {
-                    column1: 'es.event_id',
-                    eventId: event.id
-                }
-            )
-            event.subscribersNumber = participantsAmountQuery.rows[0].count
-        }
+        var events = await Database
+        .from('events')
+        // .whereRaw('status_id = ?', [1]) //descomentar para quando tiver funcionando a parte de alterar o evento para aprovado/reprovado
+        .select('events.*')
 
-        return view.render('events/eventsPage', { events : events })
+        if(events.length > 0) {
+            for(var event of events) {
+                var subscribersNumber = await Database
+                .from('event_subscriptions')
+                .whereRaw('event_id = ?', [event.id])
+                .count('student_id')
+                .firstOrFail()
+                event.subscribersNumber = subscribersNumber['count(`student_id`)']; 
+            }
+        }
+        
+        var dateNow = new Date()
+        var activeEvents = events.filter(function(event) {
+            return new Date(event.limit_subscription_date) > dateNow
+        })
+
+        var inactiveEvents = events.filter(function(event) {
+            return new Date(event.limit_subscription_date) <= dateNow
+        })
+
+        return view.render('events/eventsPage', { events: events, activeEvents : activeEvents, inactiveEvents : inactiveEvents })
     }
 
     // Página de participantes 
