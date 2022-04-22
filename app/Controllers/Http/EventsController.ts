@@ -5,6 +5,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Student from 'App/Models/Student'
 import EventOrganizer from 'App/Models/EventOrganizer'
 import Campus from 'App/Models/Campus'
+import Category from 'App/Models/Category'
 
 export default class EventsController {
     public events = {
@@ -118,7 +119,7 @@ export default class EventsController {
         }
     }
 
-    public async index({auth, view, response} : HttpContextContract) {
+    public async index({auth, view} : HttpContextContract) {
         //landing page (homepage)
         var userId = auth.user!.id;
         var events: any[] = []
@@ -209,28 +210,31 @@ export default class EventsController {
                 numberParticipants: participantsAmount, organizer: eventOrganizer })
     }
 
-    public async createEventView({ auth, response, view } : HttpContextContract) {
-        return view.render('events/createEvent')
+    public async createEventView({ view } : HttpContextContract) {
+        var categories = await Category.query().orderBy('id', 'asc')
+        var campuses = await Campus.query().orderBy('name', 'asc')
+        return view.render('events/createEvent', { categories: categories, campuses: campuses})
     }
 
     public async createEvent({auth, request, response, session} : HttpContextContract) {
-        const { name, eventDate, category,  limitSubscriptionDate , description, linkCommunicationGroup /*,photo, document*/ } = request.all()
+        const newEvent = request.all()
 
-        if(!name || !eventDate ||  !category || !limitSubscriptionDate || !description || !linkCommunicationGroup /*|| !photo || !document*/) {
+        if(!newEvent.name || !newEvent.eventDate || !newEvent.limitSubscriptionDate || !newEvent.category ||
+            !newEvent.description || !newEvent.local || !newEvent.campus || !newEvent.linkCommunicationGroup ||
+            !newEvent.photo || !newEvent.document) {
             session.flashExcept(['createEvent'])
             session.flash({ errors: { createEvent: 'Preencha todos os campos solicitados' } })
             return response.redirect().toRoute('createEvent.view')
         }
 
+        
         try {
-            var event = await Event.create({ name: name, eventDate: eventDate, initialSubscriptionDate: new Date(), 
-                limitSubscriptionDate: limitSubscriptionDate, description: description, categoryId:category, 
-                local:'Campus', linkCommunicationGroup: linkCommunicationGroup, 
-                photo: "https://liversity-app.s3.amazonaws.com/events/photo/andrei-stratu-kcJsQ3PJrYU-unsplash.jpg", 
-                document: "https://liversity-app.s3.amazonaws.com/events/photo/andrei-stratu-kcJsQ3PJrYU-unsplash.jpg", 
-                campusId: 1, statusId:1 });
+            // var dateNow = new Date().toISOString().split('T')[0];
+            var event = await Event.create({ name: newEvent.name, eventDate: newEvent.eventDate, initialSubscriptionDate: new Date(), 
+                limitSubscriptionDate: newEvent.limitSubscriptionDate, description: newEvent.description, categoryId: newEvent.category, 
+                local: newEvent.local, campusId: newEvent.campus, linkCommunicationGroup: newEvent.linkCommunicationGroup, 
+                photo: newEvent.photo, document: newEvent.document, statusId: 2 });
 
-            await auth.check()
             await EventOrganizer.create({ userId: auth.user!.id, eventId: event.id} )
             response.redirect().toRoute('eventPage.view')
         } catch {
@@ -248,7 +252,7 @@ export default class EventsController {
     public async eventPageView({ params, view }: HttpContextContract) {
         // const evento = await Event.find(params.id)
         // console.log(evento)
-        return view.render('events/eventPage', { events : this.events, user : this.user, mainEvent : this.mainEvent, subscribers : this.subscribers})
+        return view.render('events/eventPage', { events : this.events, mainEvent : this.mainEvent, subscribers : this.subscribers})
     }
 
     public async showEvents({view} : HttpContextContract) {
