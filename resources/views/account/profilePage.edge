@@ -46,17 +46,37 @@
                     </ul>
                 </div>
             </div>
+
             <h4 style="color: black; font-weight: 700;">Interesses</h4>
-            <div class="card mb-5" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
-                <div class="d-flex p-0 justify-content-center" style="min-height: 128px;">
-                    @if(interests.length < 1)
-                        <p class="text-dark mt-3" style="max-height: 23px;">Você ainda não cadastrou seus interesses</p>
-                    @else
-                        @each((interest, index) in interests)
-                            <p class="card-text p-1 rounded m-1"  style="max-height: 23px; background-color: #C6F5FF; color: #0d6efd; font-size: 0.75rem;">#&nbsp;{{ interest.name }}</p>
-                        @endeach
-                    @endif
+            <div class="d-flex px-5 mb-5 card" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
+                @if(interests.length > 0)
+                <div class="card-body d-flex justify-content-center">
+                    @each((interest, index) in interests)
+                        <p class="card-text p-1 rounded m-1" style="background-color: #C6F5FF; color: #0d6efd;">
+                            #&nbsp;{{ interest.name }}
+                        </p>
+                    @endeach
                 </div>
+                @else
+                <div class="card-body d-flex justify-content-center">
+                   <p class="card-text p-2 rounded m-1">Você ainda não cadastrou seus interesses</p>
+                </div>
+                @end
+            </div>
+
+            <h4 style="color: black; font-weight: 700;">Atividades extracurriculares que já participou</h4>
+            <div class="card" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
+                @if(student?.extracurricularActivities != null)
+                <div class="card-body d-flex justify-content-center">
+                    <p class="card-text p-1 rounded m-1">
+                        {{student?.extracurricularActivities}}
+                    </p>
+                </div>
+                @else
+                <div class="card-body d-flex justify-content-center">
+                   <p class="card-text p-2 rounded m-1">Você ainda não cadastrou as atividades extracurriculares que já participou fora do liversity</p>
+                </div>
+                @end
             </div>
         </section>
         <section class="col-3">
@@ -76,7 +96,12 @@
                         <select value="{{ student?.genderId != null? student?.genderId : ''}}" name="genderId" class="form-select" id="genderId">
                             <option value="">Selecione o seu gênero</option>
                             @each(gender in genders)
-                                <option value="{{ gender.id }}">{{ gender.name }}</option>
+                                <option value="{{ gender.id }}" 
+                                @if(student?.genderId != null && gender.id == student?.genderId)
+                                selected
+                                @endif
+                                >
+                                    {{ gender.name }}</option>
                             @endeach
                         </select>
                     </div>
@@ -101,7 +126,12 @@
                         <select value="{{ student?.campusId != null? student?.campusId : '' }}" class="form-select" name="campusId" id="campus">
                             <option value="">Selecione o campus</option>
                             @each(campus in campuses)
-                                <option value="{{ campus.id }}">{{ campus.name }}</option>
+                                <option value="{{ campus.id }}"
+                                @if(student?.campusId != null && campus.id == student?.campusId)
+                                selected
+                                @endif
+                                >
+                                {{ campus.name }}</option>
                             @endeach
                         </select>
                     </div>
@@ -110,13 +140,17 @@
                         <label for="interests" class="form-label">Interesses</label><br>
                         <select name="interests" class="form-select" id="interests" multiple>
                             @each(category in categories)
-                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                <option value="{{ category.id }}"
+                                @if(interestsIdSelected.length > 0 && interestsIdSelected.includes(category.id))
+                                selected
+                                @endif
+                                >{{ category.name }}</option>
                             @endeach
                         </select>
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="extracurricularActivities" class="form-label">Atividades extracurriculares que já fez</label><br>
-                        <textarea name="extracurricularActivities" value="{{ student?.extracurricularActivities != null? student?.extracurricularActivities : '' }}" type="text" class="form-control" id="extracurricularActivities" rows="2"></textarea>
+                        <textarea name="extracurricularActivities" type="text" class="form-control" id="extracurricularActivities" rows="3">{{ student?.extracurricularActivities != null? student?.extracurricularActivities : '' }}</textarea>
                     </div>
                     <div class="mb-3 picture inline-block form-entry">
                         <label for="photo" class="form-label">Foto de rosto (.jpeg/.png)</label><br>

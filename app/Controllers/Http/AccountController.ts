@@ -122,20 +122,9 @@ export default class AccountController {
             await studentProfile.save()
         }
 
-        var interests = await Database
-        .from('interests')
-        .join('categories', (query) => {
-          query.on('interests.category_id', '=', 'categories.id')
-        })
-        .whereRaw('interests.student_id = ?', [studentProfile!.id])
-        .select('categories.id')
-        interests = interests.map((interest) => interest.id)
-        
-        //fazer lógica para remover todos os que foram marcados como interesses antes e adicionar todos os novos que foram adicionados nesse update
+        await Interest.query().where('student_id', studentProfile!.id).delete()        
         for(let interest of profile.interests) {
-            if(!(interests.find((int) => int == interest))) {
-                await Interest.create({ studentId: studentProfile!.id, categoryId: interest });
-            }
+            await Interest.create({ studentId: studentProfile!.id, categoryId: interest });
         }
 
         return response.redirect().toRoute('userProfile.view')
@@ -159,11 +148,14 @@ export default class AccountController {
         .whereRaw('interests.student_id = ?', [student!.id])
         .select('categories.id')
         .select('categories.name')
-    
+
+        var interestsIdSelected = interests.map((interest) => interest.id)
+
         if(!student?.completedProfile)
-            return view.render('account/profilePage', { genders: genders, campuses: campuses, categories: categories, user: user, nullPhoto: nullPhoto, interests : interests })
+            return view.render('account/profilePage', { genders: genders, campuses: campuses, categories: categories, user: user, nullPhoto: nullPhoto, interests : interests, interestsIdSelected: interestsIdSelected })
         else
             return view.render('account/profilePage', { genders: genders, campuses: campuses, categories: categories, user: user, student: student.$attributes, birthDate : birthDate,
-                                                        studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto, interests : interests })
+                                                        studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto, interests : interests,
+                                                        interestsIdSelected: interestsIdSelected })
     }
 }

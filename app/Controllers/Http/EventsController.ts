@@ -143,7 +143,6 @@ export default class EventsController {
             if(student.campus_id) {
                 var studentCampus = await Campus.findByOrFail('id', student.campus_id)
                 if(studentCampus) {
-                    console.log(studentCampus)
                     var studentCampusName = studentCampus?.$attributes.name
                 }
             }
