@@ -11,9 +11,8 @@
 .top-right .submit {
     font-style: normal;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 17px;
-    border-radius: 40px;
 }
 
 .searchbar {
@@ -49,7 +48,6 @@
 
 .top-right .submit span {
     display: flex;
-    padding-top: 4px;
 }
 
 .navbar-collapse {

@@ -10,22 +10,32 @@
 
     </head>
     <body class="container">
-        <main>
+        <main id="login-page">
             <div class="login-page">
                 
                 <h1 class="title">Login</h1>
-                <label class="new-user-label">É novo usuário? <a href="/SignUp">Então crie uma conta!</a></label>
-                <form class="login-form">
+                <label class="new-user-label">Novo usuário? <a href="{{ route('signUp.view') }}">Crie uma conta!</a></label>
+                <form class="login-form" action="{{ route('login.authenticate') }}" method="POST">
                     <div class="mb-3 login-email">
-                        <label for="exampleInputEmail1" class="form-label">E-mail</label><br>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="email" class="form-label">E-mail</label><br>
+                        <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                    <div class="login-password">
+                        <label for="password" class="form-label">Senha</label><br>
+                        <input name="password" type="password" class="form-control" id="password">
                     </div>
-                    <div class="mb-3 login-password">
-                        <label for="exampleInputPassword1" class="form-label">Senha</label><br>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
+                    @if(flashMessages.all()?.errors)
+                        <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors.login }}</small></p>
+                    @endif
+                    <div style=
+                        @if(flashMessages.all()?.errors)
+                            "margin-top: 8px;"
+                        @else
+                            "margin-top: 40px;"
+                        @endif
+                    )>
+                        <a class="lost-password" href="{{ route('forgotPassword.view') }}">Esqueci minha senha</a>
+                        <button type="submit" class="btn btn-primary submit">Entrar</button>
                     </div>
-                    <a class="lost-password" href="/ForgotPassword">Esqueceu a senha?</a>
-                    <a type="submit" class="btn btn-primary submit" href="/Home">Entrar</a>
                 </form>
             </div>
         </main>

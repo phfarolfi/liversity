@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -20,19 +21,29 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-//pegar essa informação do cookie / sessão mais para frente
-var estalogado = false;
-if(!estalogado) 
-{
-    Route.on('/').redirect('/Login')
-}
-else {
-   Route.on('/').redirect('/Home') 
-}
-Route.get('/Login', 'AccountController.login'),
-Route.get('/ForgotPassword', 'AccountController.forgotPassword')
-Route.get('/SignUp', 'AccountController.signUp')
-Route.get('/Home', 'EventosController.index')
-Route.get('/Evento', 'EventosController.abrirEvento')
-Route.get('/CriarEvento', 'EventosController.criarEvento')
-// Route.get('/:id', 'EventosController.index')
+Route.get('/', async ({ auth,response }) => {
+    await auth.use('web').check()
+    if(!auth.use('web').isLoggedIn)
+      return response.redirect().toRoute('login.view')
+    else
+      return response.redirect().toRoute('index')
+})
+
+Route.get('/Login', 'AccountController.loginView').as('login.view')
+Route.post('/Login', 'AccountController.authenticate').as('login.authenticate')
+Route.get('/SignUp', 'AccountController.signUpView').as('signUp.view')
+Route.post('/SignUp', 'AccountController.createUser').as('signUp.createUser')
+Route.get('/ForgotPassword', 'AccountController.forgotPasswordView').as('forgotPassword.view')
+
+Route.get('/Home', 'EventsController.index').as('index').middleware('auth');
+Route.get('/Logout', 'AccountController.logout').as('logout').middleware('auth');
+Route.get('/ProfilePage', 'AccountController.userProfileView').as('userProfile.view').middleware('auth');
+Route.post('/ProfilePage', 'AccountController.updateProfile').as('userProfile.update').middleware('auth');
+Route.get('/CreateEvent', 'EventsController.createEventView').as('createEvent.view').middleware('auth');
+Route.post('/CreateEvent', 'EventsController.createEvent').as('createEvent.create').middleware('auth');
+
+Route.get('/EventPage', 'EventsController.eventPageView').as('eventPage.view').middleware('auth');
+// Route.get('/EventPage/:id', 'EventsController.eventPageView')
+//   .where('id', /^[0-9]$/)
+//   .as('eventPage.view')
+Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middleware('auth');

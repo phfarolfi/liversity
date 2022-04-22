@@ -1,2 +1,7 @@
 import '../css/app.css'
 import '../css/partials/header.css'
+import '../css/partials/footer.css'
+import '../css/account/login.css'
+import '../css/events/create-event.css'
+import '../css/events/event-page.css'
+import '../css/account/edit-profile.css'

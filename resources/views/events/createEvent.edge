@@ -1,0 +1,78 @@
+@layout('layouts/main')
+@set('title', 'liversity - Perfil do Usuário')
+
+@section('content')
+    <div id="profile-page" class="d-flex justify-content-between m-5 px-3" style="margin-right: auto; margin-left: auto;">
+        <section class="col-4" style="margin-right: auto; margin-left: auto;">
+            <div id="edit-profile" class="form-page d-inline-block">
+                <div>
+                    <h1 class="title">Novo evento</h1> 
+                    <br>
+                    <form class="form" action="{{ route('createEvent.create') }}" method="POST">
+                        <div class="mb-3 form-entry">
+                            <label for="name" class="form-label">Nome do evento</label><br>
+                            <input name="name" type="text" class="form-control" id="name">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="eventDate" class="form-label">Data do evento</label><br>
+                            <input name="eventDate" type="date" class="form-control" id="eventDate">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="limitSubscriptionDate" class="form-label">Data limite de inscrição no evento</label><br>
+                            <input name= "limitSubscriptionDate" type="date" class="form-control" id="limitSubscriptionDate">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="category" class="form-label">Categoria de atividade</label><br>
+                            <select class="form-select" name="category" id="category">
+                                <option value="">Selecione a categoria do evento</option>
+                                @each(category in categories)
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                @endeach
+                            </select>
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="description" class="form-label">Descrição do evento</label><br>
+                            <textarea name= "description" type="text" class="form-control" id="description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="local" class="form-label">Local</label><br>
+                            <input name="local" type="text" class="form-control" id="local">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="campus" class="form-label">Campus</label><br>
+                            <select class="form-select" name="campus" id="campus">
+                                <option value="">Selecione o campus em que o evento estará cadastrado</option>
+                                @each(campus in campuses)
+                                    <option value="{{ campus.id }}">{{ campus.name }}</option>
+                                @endeach
+                            </select>
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="linkCommunicationGroup" class="form-label">Link de grupo do evento</label><br>
+                            <input name="linkCommunicationGroup" type="link" class="form-control" id="linkCommunicationGroup">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="photo" class="form-label">Foto do evento (.jpeg/.png)</label><br>
+                            <input name="photo" type="text" class="form-control" id="photo">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="document" class="form-label">Documento de oficialização do evento (.pdf)</label><br>
+                            <input name="document" type="text" class="form-control" id="document">
+                        </div>
+                        @if(flashMessages.all()?.errors)
+                            <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors.createEvent }}</small></p>
+                        @endif
+                        <div style=
+                            @if(flashMessages.all()?.errors)
+                                "margin-top: 8px;"
+                            @else
+                                "margin-top: 40px;"
+                            @endif
+                        )>
+                        <button type="submit" class="btn btn-primary submit">Criar novo evento</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+@endsection

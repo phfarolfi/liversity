@@ -1,0 +1,64 @@
+#create-event {
+  min-width: 560px;
+}
+
+.form-container {
+  background-color: #1B1B1B !important;
+}
+
+.form-page {
+  background-color: white;
+  padding: 50px;
+  border-radius: 3px;
+  width: 480px;
+}
+
+.form-entry {
+  color: #777777;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 14px;
+  margin: 0;
+}
+
+#myFile{
+  margin-top: 8px;
+}
+
+.event-images {
+  font-size: 0.875rem;
+}
+
+.form-control, .form-select {
+  border: 0;
+  border-bottom: 2px solid #CFCFCF ;
+  border-radius: 2px;
+  padding-left: 0;
+}
+
+.form-control:focus, .form-select:focus {
+  box-shadow: none;
+  border-bottom: 2px solid #0085FF;
+}
+
+.event-date {
+  margin-bottom: 30px;
+}
+
+#description {
+  height: 140px;
+  min-height: 140px;
+  max-height: 140px;
+}
+
+.form .submit {
+  font-size: 0.875rem;
+  padding: 5px 20px;
+  border-radius: 20px;
+  float: right;
+  bottom: 0px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+  margin-top: 20px;
+}
