@@ -33,5 +33,17 @@
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21"
-  }
+  },
+  "description": "liversity é um sistema de gerenciamento de atividades extracurriculares da Universidade Federal Rural do Rio de Janeiro (UFRRJ) a ser desenvolvido por estudantes de Ciência da Computação na disciplina de Programação Web 2021-2, ministrada pelo docente Filipe Braida.",
+  "main": "webpack.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdacostaalmeida/liversity.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gdacostaalmeida/liversity/issues"
+  },
+  "homepage": "https://github.com/gdacostaalmeida/liversity#readme"
 }
