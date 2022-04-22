@@ -47,3 +47,5 @@ Route.get('/EventPage', 'EventsController.eventPageView').as('eventPage.view').m
 //   .where('id', /^[0-9]$/)
 //   .as('eventPage.view')
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middleware('auth');
+
+Route.get('/EventParticipants', 'EventsController.eventPageParticipantsView').as('eventParticipants.view').middleware('auth');

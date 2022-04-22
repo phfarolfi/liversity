@@ -267,4 +267,40 @@ export default class EventsController {
 
         return view.render('events/eventsPage', { events : events })
     }
+
+    // Página de participantes 
+
+    public async eventPageParticipantsView ({view} : HttpContextContract ){
+        
+        var participantes = {
+            1: {
+                id: 1,
+                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
+                name: "Usuario 1"
+            },
+            2: {
+                id: 2,
+                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
+                name: "Usuario 2"
+            },
+            3: {
+                id: 3,
+                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
+                name: "Usuario 3"
+            },
+            4: {
+                id: 4,
+                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
+                name: "Usuario 4"
+            },
+            5: {
+                id: 5,
+                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
+                name: "Usuario 5"
+            }
+        }
+
+        return view.render('events/eventParticipant', {participantes:participantes})
+        
+    }
 }

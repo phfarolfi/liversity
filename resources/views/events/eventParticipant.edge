@@ -1,0 +1,19 @@
+@layout('layouts/main')
+@set('title', 'liversity - Participantes do Evento')
+
+@section('content')
+
+<div class="row px-5">
+    @each((participante, index) in participantes)
+        <div class="col-md-6 col-xl-4 mb-3">
+           
+            <p>{{participante.name}}</p>
+            <div class="user-1">
+                <img src="{{participante.foto}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0">
+            </div>
+
+        </div>
+    @endeach
+</div>
+
+@endsection
