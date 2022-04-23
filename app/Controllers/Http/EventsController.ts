@@ -98,24 +98,40 @@ export default class EventsController {
 
     public async index({auth, view} : HttpContextContract) {
         //landing page (homepage)
+        var userId = auth.user!.id;
+        var events: any[] = []
+        var firstEvent: any = {}
+        var nextEvents: any[] = []
+        var interests: any[] = []
+        var participantsAmount = 0
+        var eventOrganizer = ''
         var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
+
+        var eventsCreatedNumber = await Database
+        .from('event_organizers')
+        .whereRaw('user_id = ?', [userId])
+        .count('event_id')
+        .firstOrFail()
+        eventsCreatedNumber = eventsCreatedNumber['count(`event_id`)'];
+
+        interests = await Database
+        .from('interests')
+        .join('categories', (query) => {
+        query.on('interests.category_id', '=', 'categories.id')
+        })
+        .whereRaw('interests.user_id = ?', [auth.user!.id])
+        .select('categories.id')
+        .select('categories.name')
+
+        if(auth.user!.campusId) {
+            var userCampus = await Campus.findByOrFail('id', auth.user!.campusId)
+            if(userCampus) {
+                var userCampusName = userCampus?.$attributes.name
+            }
+        }
+
         if(auth.user!.profileId == 2) {
             //if user is a student
-            var userId = auth.user!.id;
-            var events: any[] = []
-            var firstEvent: any = {}
-            var nextEvents: any[] = []
-            var interests: any[] = []
-            var participantsAmount = 0
-            var eventOrganizer = ''
-
-            if(auth.user!.campusId) {
-                var userCampus = await Campus.findByOrFail('id', auth.user!.campusId)
-                if(userCampus) {
-                    var userCampusName = userCampus?.$attributes.name
-                }
-            }
-
             var student = await Database
             .from('students')
             .join('users', (query) => {
@@ -134,22 +150,6 @@ export default class EventsController {
                 .count('attendance')
                 .firstOrFail()
                 certificatesNumber = certificatesNumber['count(`attendance`)'];
-
-                var eventsCreatedNumber = await Database
-                .from('event_organizers')
-                .whereRaw('user_id = ?', [userId])
-                .count('event_id')
-                .firstOrFail()
-                eventsCreatedNumber = eventsCreatedNumber['count(`event_id`)'];
-
-                interests = await Database
-                .from('interests')
-                .join('categories', (query) => {
-                query.on('interests.category_id', '=', 'categories.id')
-                })
-                .whereRaw('interests.user_id = ?', [auth.user!.id])
-                .select('categories.id')
-                .select('categories.name')
 
                 events = await Database
                 .from('event_subscriptions')
@@ -183,6 +183,7 @@ export default class EventsController {
                 }
             }
             return view.render('account/landingPage', {
+                    user: auth.user!.$attributes,
                     nullPhoto : nullPhoto, student : student, userCampusName : userCampusName, 
                     events : events, firstEvent : firstEvent, nextEvents : nextEvents, interests: interests,
                     numberCertificates : certificatesNumber, numberEventsCreated : eventsCreatedNumber,
@@ -190,7 +191,7 @@ export default class EventsController {
         }
         else {
             //if user is an admin
-            return view.render('account/landingPage', {  nullPhoto : nullPhoto })
+            return view.render('account/landingPage', { user: auth.user!.$attributes, nullPhoto : nullPhoto, interests: interests })
         }
     }
 
