@@ -6,8 +6,8 @@ export default class EventOrganizers extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('user_id').unsigned().references('users.id').notNullable()
-      table.integer('event_id').unsigned().references('events.id').notNullable()
+      table.integer('user_id').unsigned().references('users.id').notNullable().onDelete('CASCADE')
+      table.integer('event_id').unsigned().references('events.id').notNullable().onDelete('CASCADE')
       table.unique(['user_id', 'event_id'])
 
       /**

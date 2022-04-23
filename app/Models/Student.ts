@@ -9,18 +9,6 @@ export default class Student extends BaseModel {
   public userId: number
 
   @column()
-  public completedProfile: boolean
-
-  @column()
-  public birthDate: Date
-
-  @column()
-  public genderId: number
-
-  @column()
-  public cpf: string
-
-  @column()
   public numberEnrollment: string
 
   @column()
@@ -28,12 +16,6 @@ export default class Student extends BaseModel {
 
   @column()
   public extracurricularActivities: string
-
-  @column()
-  public photo: string
-
-  @column()
-  public campusId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

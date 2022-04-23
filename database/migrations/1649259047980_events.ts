@@ -6,13 +6,13 @@ export default class Events extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.string('name').notNullable()
+      table.string('name', 100).notNullable()
       table.date('event_date').notNullable()
       table.date('initial_subscription_date').notNullable()
       table.date('limit_subscription_date').notNullable()
       table.string('description').notNullable()
       table.integer('category_id').unsigned().references('categories.id').notNullable()
-      table.string('local').notNullable()
+      table.string('local', 100).notNullable()
       table.integer('campus_id').unsigned().references('campuses.id').notNullable()
       table.string('link_communication_group').notNullable()
       table.string('photo').notNullable()

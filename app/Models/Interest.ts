@@ -6,7 +6,7 @@ export default class Interest extends BaseModel {
   public id: number
 
   @column()
-  public studentId: number
+  public userId: number
 
   @column()
   public categoryId: number

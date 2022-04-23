@@ -6,16 +6,10 @@ export default class Students extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('user_id').unsigned().references('users.id').notNullable()
-      table.boolean('completed_profile').notNullable()
-      table.date('birth_date')
-      table.integer('gender_id').unsigned().references('genders.id')
-      table.string('cpf')
-      table.string('number_enrollment')
-      table.string('course')
+      table.integer('user_id').unsigned().references('users.id').notNullable().onDelete('CASCADE')
+      table.string('number_enrollment', 15)
+      table.string('course', 50)
       table.string('extracurricular_activities')
-      table.string('photo')
-      table.integer('campus_id').unsigned().references('campuses.id')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
