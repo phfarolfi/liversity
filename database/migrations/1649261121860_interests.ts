@@ -6,9 +6,9 @@ export default class Interests extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('student_id').unsigned().references('students.id').notNullable()
+      table.integer('user_id').unsigned().references('users.id').notNullable().onDelete('CASCADE')
       table.integer('category_id').unsigned().references('categories.id').notNullable()
-      table.unique(['student_id', 'category_id'])
+      table.unique(['user_id', 'category_id'])
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

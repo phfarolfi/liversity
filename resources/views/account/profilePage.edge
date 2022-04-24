@@ -7,7 +7,7 @@
             <h4 style="color: black; font-weight: 700;">Seu perfil</h4>
             <div class="d-flex px-5 mb-5 justify-content-center flex-wrap" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
                 <div class="profile-pic-container mt-4 mx-4">
-                    <img src="{{ student?.photo != null? student?.photo : nullPhoto}}" class="profile-pic">
+                    <img src="{{ user?.photo != null? user?.photo : nullPhoto}}" class="profile-pic">
                 </div>
                 <div class="card-body d-flex justify-content-center mt-2">
                     <ul class="list-group" style="font-size: 1.125rem;">
@@ -17,31 +17,33 @@
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Data de Nascimento:&nbsp;</label>
-                            <p>{{ birthDate != null? birthDate : '' }}</p>
+                            <p>{{ user?.birthDate != null? user?.birthDate.toLocaleDateString() : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Gênero:&nbsp;</label>
-                            <p>{{ student?.genderId != null? studentGender : '' }}</p>
+                            <p>{{ user?.genderId != null? studentGender : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">CPF:&nbsp;</label>
-                            <p>{{ student?.cpf != null? student?.cpf : '' }}</p>
+                            <p>{{ user?.cpf != null? user?.cpf : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">E-mail:&nbsp;</label>
                             <p>{{ user?.email != null? user?.email : '' }}</p>
                         </li>
-                        <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
-                            <label for="">Matrícula:&nbsp;</label>
-                            <p>{{ student?.numberEnrollment != null? student?.numberEnrollment : '' }}</p>
-                        </li>
-                        <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
-                            <label for="">Curso:&nbsp;</label>
-                            <p>{{ student?.course != null? student?.course : '' }}</p>
-                        </li>
+                        @if(user?.profileId == 2)
+                            <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
+                                <label for="">Matrícula:&nbsp;</label>
+                                <p>{{ student?.numberEnrollment != null? student?.numberEnrollment : '' }}</p>
+                            </li>
+                            <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
+                                <label for="">Curso:&nbsp;</label>
+                                <p>{{ student?.course != null? student?.course : '' }}</p>
+                            </li>
+                        @endif
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Campus:&nbsp;</label>
-                            <p>{{  student?.campusId != null? studentCampus : '' }}</p>
+                            <p>{{  user?.campusId != null? studentCampus : '' }}</p>
                         </li>
                     </ul>
                 </div>
@@ -64,6 +66,7 @@
                 @end
             </div>
 
+            @if(user?.profileId == 2)
             <h4 style="color: black; font-weight: 700;">Atividades extracurriculares que já participou</h4>
             <div class="card" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
                 @if(student?.extracurricularActivities != null)
@@ -78,8 +81,15 @@
                 </div>
                 @end
             </div>
+            @endif
         </section>
-        <section class="col-4">
+        <section class=
+            @if(user?.profileId == 2)
+                "col-4"
+            @else
+                "col-7"
+            @end
+            >
             <h4 style="color: black; font-weight: 700;">Editar perfil</h4>
             <div id="edit-profile" class="form-page d-inline-block">
                 <form class="form" action="{{ route('userProfile.update') }}" method="POST">
@@ -89,15 +99,15 @@
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="birthDate" class="form-label">Data de nascimento</label><br>
-                        <input name="birthDate" value="{{ student?.birthDate }}" type="date" class="form-control" id="birthDate">
+                        <input name="birthDate" value="{{ user?.birthDate != null? birthDate : '' }}" type="date" class="form-control" id="birthDate">
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="genderId" class="form-label">Gênero</label><br>
-                        <select value="{{ student?.genderId != null? student?.genderId : ''}}" name="genderId" class="form-select" id="genderId">
+                        <select value="{{ user?.genderId != null? user?.genderId : ''}}" name="genderId" class="form-select" id="genderId">
                             <option value="">Selecione o seu gênero</option>
                             @each(gender in genders)
                                 <option value="{{ gender.id }}" 
-                                @if(student?.genderId != null && gender.id == student?.genderId)
+                                @if(user?.genderId != null && gender.id == user?.genderId)
                                 selected
                                 @endif
                                 >
@@ -107,12 +117,13 @@
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="cpf" class="form-label">CPF</label><br>
-                        <input name="cpf" value="{{ student?.cpf != null? student?.cpf : ''}}" type="text" class="form-control" id="cpf">
+                        <input name="cpf" value="{{ user?.cpf != null? user?.cpf : ''}}" type="text" class="form-control" id="cpf">
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="email" class="form-label">E-mail</label><br>
                         <input name="email" value="{{ user?.email != null? user?.email : '' }}" type="email" class="form-control" id="email" readonly>
                     </div>
+                    @if(user?.profileId == 2)
                     <div class="mb-3 form-entry">
                         <label for="numberEnrollment" class="form-label">Matrícula da UFRRJ</label><br>
                         <input name="numberEnrollment" type="text" value="{{ student?.numberEnrollment != null? student?.numberEnrollment : '' }}" class="form-control" id="numberEnrollment">
@@ -121,13 +132,14 @@
                         <label for="course" class="form-label">Curso da graduação</label><br>
                         <input name="course" type="text" value="{{ student?.course != null? student?.course : '' }}" class="form-control" id="course">
                     </div>
+                    @endif
                     <div class="mb-3 form-entry">
-                        <label for="campusId" class="form-label">Campus em que estuda</label><br>
-                        <select value="{{ student?.campusId != null? student?.campusId : '' }}" class="form-select" name="campusId" id="campus">
+                        <label for="campusId" class="form-label">Campus</label><br>
+                        <select value="{{ user?.campusId != null? user?.campusId : '' }}" class="form-select" name="campusId" id="campus">
                             <option value="">Selecione o campus</option>
                             @each(campus in campuses)
                                 <option value="{{ campus.id }}"
-                                @if(student?.campusId != null && campus.id == student?.campusId)
+                                @if(user?.campusId != null && campus.id == user?.campusId)
                                 selected
                                 @endif
                                 >
@@ -148,13 +160,15 @@
                             @endeach
                         </select>
                     </div>
+                    @if(user?.profileId == 2)
                     <div class="mb-3 form-entry">
                         <label for="extracurricularActivities" class="form-label">Atividades extracurriculares que já fez</label><br>
                         <textarea name="extracurricularActivities" type="text" class="form-control" id="extracurricularActivities" rows="3">{{ student?.extracurricularActivities != null? student?.extracurricularActivities : '' }}</textarea>
                     </div>
+                    @endif
                     <div class="mb-3 picture inline-block form-entry">
                         <label for="photo" class="form-label">Foto de rosto (.jpeg/.png)</label><br>
-                        <input name="photo" value="{{ student?.photo != null? student?.photo : ''}}" type="text" class="form-control" id="photo">
+                        <input name="photo" value="{{ user?.photo != null? user?.photo : ''}}" type="text" class="form-control" id="photo">
                     </div>
                     @if(flashMessages.all()?.errors)
                         <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors.editProfile }}</small></p>
@@ -170,20 +184,22 @@
                 </form>
             </div>
         </section>
-        <section class="col-3">
-            <h4 style="color: black; font-weight: 700;">Histórico de eventos participados</h4>
-            <div class="card events-history">
-                <div class="d-flex p-0 justify-content-center">
-                    @if(!user.eventsParticipated)
-                    <p class="text-dark mt-3">Você ainda não participou de nenhum evento</p>
-                    @else
-                        @each((event, index) in user.eventsParticipated)
-                            <img class="card-img-top" src="{{ event.photo }}" style="max-height: 600px; object-fit: cover; width: 100%; border-radius: 10px;">
-                            <p class="card-text p-1 rounded m-1" style="background-color: #C6F5FF; color: #0d6efd; font-size: 0.75rem;">{{ event.name }}</p>
-                        @endeach
-                    @endif
+        @if(user?.profileId == 2)
+            <section class="col-3">
+                <h4 style="color: black; font-weight: 700;">Histórico de eventos participados</h4>
+                <div class="card events-history">
+                    <div class="d-flex p-0 justify-content-center">
+                        @if(!user.eventsParticipated)
+                        <p class="text-dark mt-3">Você ainda não participou de nenhum evento</p>
+                        @else
+                            @each((event, index) in user.eventsParticipated)
+                                <img class="card-img-top" src="{{ event.photo }}" style="max-height: 600px; object-fit: cover; width: 100%; border-radius: 10px;">
+                                <p class="card-text p-1 rounded m-1" style="background-color: #C6F5FF; color: #0d6efd; font-size: 0.75rem;">{{ event.name }}</p>
+                            @endeach
+                        @endif
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
     </div>
 @endsection

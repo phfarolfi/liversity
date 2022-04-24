@@ -10,13 +10,13 @@ export default class Events extends BaseSchema {
       table.date('event_date').notNullable()
       table.date('initial_subscription_date').notNullable()
       table.date('limit_subscription_date').notNullable()
-      table.string('description').notNullable()
+      table.string('description',1500).notNullable()
       table.integer('category_id').unsigned().references('categories.id').notNullable()
       table.string('local').notNullable()
       table.integer('campus_id').unsigned().references('campuses.id').notNullable()
       table.string('link_communication_group').notNullable()
-      table.string('photo').notNullable()
-      table.string('document').notNullable()
+      table.string('photo',500).notNullable()
+      table.string('document',500).notNullable()
       table.integer('status_id').unsigned().references('statuses.id').notNullable()
       
       /**

@@ -20,6 +20,24 @@ export default class User extends BaseModel {
 
   @column()
   public profileId: number
+  
+  @column()
+  public completedProfile: boolean
+
+  @column()
+  public birthDate: Date
+
+  @column()
+  public cpf: string
+
+  @column()
+  public genderId: number
+
+  @column()
+  public campusId: number
+
+  @column()
+  public photo: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

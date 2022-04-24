@@ -6,11 +6,15 @@ export default class UsersSchema extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.string('name', 255).notNullable()
-      table.string('email', 255).notNullable()
-      table.string('password', 180).notNullable()
-      table.string('remember_me_token').nullable()
+      table.string('name').notNullable()
+      table.string('email').notNullable()
+      table.string('password').notNullable()
       table.integer('profile_id').notNullable()
+      table.boolean('completed_profile').notNullable()
+      table.date('birth_date')
+      table.string('cpf')
+      table.string('photo',500)
+      table.string('remember_me_token').nullable()
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
