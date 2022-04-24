@@ -95,11 +95,18 @@ export default class AccountController {
         const profile = request.all();
 
         if(!profile.name || !profile.birthDate || !profile.genderId || !profile.cpf ||
-            !profile.email || !profile.numberEnrollment || !profile.course ||
-            !profile.campusId || !profile.extracurricularActivities || !profile.photo) {
+            !profile.email || !profile.campusId || !profile.photo) {
             session.flashExcept(['editProfile'])
             session.flash({ errors: { editProfile: 'Preencha todos os campos solicitados' } })
             return response.redirect().toRoute('AccountController.userProfileView')
+        }
+
+        if(auth.user!.profileId == 2) {
+            if(!profile.numberEnrollment || !profile.course || !profile.extracurricularActivities) {
+                session.flashExcept(['editProfile'])
+                session.flash({ errors: { editProfile: 'Preencha todos os campos solicitados' } })
+                return response.redirect().toRoute('AccountController.userProfileView')
+            }
         }
 
         var user = await User.findBy('email', profile.email)
@@ -114,12 +121,14 @@ export default class AccountController {
             await user.save()
         }
 
-        var studentProfile = await Student.findBy('userId', auth.user!.id)
-        if(studentProfile) {
-            studentProfile.numberEnrollment = profile.numberEnrollment
-            studentProfile.course = profile.course
-            studentProfile.extracurricularActivities = profile.extracurricularActivities
-            await studentProfile.save()
+        if(auth.user!.profileId == 2) {
+            var studentProfile = await Student.findBy('userId', auth.user!.id)
+            if(studentProfile) {
+                studentProfile.numberEnrollment = profile.numberEnrollment
+                studentProfile.course = profile.course
+                studentProfile.extracurricularActivities = profile.extracurricularActivities
+                await studentProfile.save()
+            }
         }
 
         await Interest.query().where('user_id', user!.id).delete()        
@@ -139,8 +148,9 @@ export default class AccountController {
         var student = await Student.findBy('userId', user!.id)
         var studentGender = await Gender.findBy('id', user!.genderId)
         var studentCampus = await Campus.findBy('id', user!.campusId)
-        var birthDate = new Date(user!.birthDate)
-        var birthDateFormatted = birthDate.getFullYear() + '-' + birthDate.getMonth() + '-' + birthDate.getDate()
+        const offset = user!.birthDate.getTimezoneOffset()
+        var birthDate = new Date(user!.birthDate.getTime() - (offset*60*1000))
+        var birthDateFormatted = birthDate.toISOString().split('T')[0]
         var interests = await Database
         .from('interests')
         .join('categories', (query) => {

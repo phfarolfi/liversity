@@ -2,7 +2,7 @@
 @set('title', 'liversity - Página Inicial')
 
 @section('content')
-    <div class="d-flex justify-content-between mx-5 mt-4 px-3" id="landing-page">
+    <div class="d-flex justify-content-between mx-5 mt-4 px-3" id="landing-page" style="min-height: 840px;">
         <div class="col-md-2">
             <h4 style="color: black; font-weight: 700;">Suas informações</h4>
             <div class="d-flex mb-5 justify-content-center flex-wrap" style="height: 450px; border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
@@ -13,6 +13,7 @@
                     <h4 class="card-text text-dark mb-5"><strong>{{ user?.name }}</strong></h4>
                     <div>
                         <ul class="list-group d-flex justify-content-center" style="font-size: 1.125rem;">
+                            @if(user?.profileId == 2)
                             <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
                                 <div class="d-flex">
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
@@ -21,6 +22,16 @@
                                     <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ student?.course != null ? student?.course : 'Curso não informado' }}</p>
                                 </div>
                             </li>
+                            @else
+                                <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
+                                    <div class="d-flex">
+                                        <div class="me-2 d-flex justify-content-center" style="width: 20px;">
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                        <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">Administrador</p>
+                                    </div>
+                                </li>
+                            @end
                             <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
                                 <div class="d-flex">
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
@@ -29,6 +40,7 @@
                                     <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ userCampusName != null? userCampusName : 'Campus não informado' }}</p>
                                 </div>
                             </li>
+                            @if(user?.profileId == 2)
                             <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
                                 <div class="d-flex">
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
@@ -36,6 +48,7 @@
                                     </div>
                                     <p style="font-size: 0.75rem; font-weight: 400; text-align: start;">{{ numberCertificates }} certificado(s)</p>
                             </li>
+                            @endif
                             <li class="d-flex list-group-item text-dark mb-3 p-0 justify-content-center" style="border: 0;">
                                 <div class="d-flex">
                                     <div class="me-2 d-flex justify-content-center" style="width: 20px;">
@@ -64,44 +77,58 @@
                 @end
             </div>
         </div>
-        @if(events?.length > 0)
-            <div class="col-md-7" style="min-height: 840px;">
-                <h4 style="color: black; font-weight: 700;">Acontecerá em breve</h4>
-                <div class="card mb-5" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
-                    <div class="p-3">
-                        <img class="card-img-top" src="{{ events.length <= 0 ? '' : events[0].photo }}" style="max-height: 600px; object-fit: cover; width: 100%; border-radius: 10px;">
-                    </div>
-                    <h4 class="px-4" style="color: black; font-weight: 700; font-size: 1.5rem;"><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ events.length <= 0 ? '' : events[0].name }}</a></h4>
-                    <div class="d-flex justify-content-between px-4 pb-4">
-                        <div style="width: 70%;">
-                            <p style="color: #777777; text-align: justify;">{{ events.length <= 0 ? '' : events[0].description }}</p>
+        @if(user?.profileId == 2) 
+            @if(events?.length > 0)
+                <div class=
+                    @if(events?.length > 1)
+                        "col-md-7"
+                    @else
+                        "col-md-9"
+                    @end
+                    style="min-height: 840px;">
+                    <h4 style="color: black; font-weight: 700;">Acontecerá em breve</h4>
+                    <div class="card mb-5" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
+                        <div class="p-3">
+                            <img class="card-img-top" src="{{ events.length <= 0 ? '' : events[0].photo }}" style="max-height: 600px; object-fit: cover; width: 100%; border-radius: 10px;">
                         </div>
-                        <div style="color: #777777">
-                            <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-calendar-day"></i></div>{{ events.length <= 0 ? '' : events[0].event_date.toLocaleDateString() }}</span>
-                            <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-people-group"></i></div>{{ numberParticipants }} participante(s)</span>
-                            <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-person-chalkboard"></i></div>{{ organizer }}</span>
-                            <span class="d-flex"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-location-dot"></i></div>{{ events.length <= 0 ? '': events[0].local }}</span>
+                        <h4 class="px-4" style="color: black; font-weight: 700; font-size: 1.5rem;"><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ events.length <= 0 ? '' : events[0].name }}</a></h4>
+                        <div class="d-flex justify-content-between px-4 pb-4">
+                            <div style="width: 70%;">
+                                <p style="color: #777777; text-align: justify;">{{ events.length <= 0 ? '' : events[0].description }}</p>
+                            </div>
+                            <div style="color: #777777">
+                                <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-calendar-day"></i></div>{{ events.length <= 0 ? '' : events[0].event_date.toLocaleDateString() }}</span>
+                                <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-people-group"></i></div>{{ numberParticipants }} participante(s)</span>
+                                <span class="d-flex mb-3"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-person-chalkboard"></i></div>{{ organizer }}</span>
+                                <span class="d-flex"><div class="me-2 d-flex justify-content-center" style="width: 20px;"><i class="fa-solid fa-location-dot"></i></div>{{ events.length <= 0 ? '': events[0].local }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-2">
-                <h4 style="color: black; font-weight: 700;">Próximos eventos</h4>
-                <div class="card mb-5" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
-                    @each((event, index) in nextEvents)
-                        <div class="p-4">
-                            <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
-                            <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
+                @if(events?.length > 1)
+                    <div class="col-md-2">
+                        <h4 style="color: black; font-weight: 700;">Próximos eventos</h4>
+                        <div class="card mb-5" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
+                            @each((event, index) in nextEvents)
+                                <div class="p-4">
+                                    <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
+                                    <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
+                                </div>
+                            @endeach
                         </div>
-                    @endeach
-                </div>
+                    </div>
+                @endif
+            @else
+            <div class="col-md-9 text-center"> <!-- student -->
+                <h4 style="color: black; font-weight: 700;">Eventos em que você está inscrito(a)</h4>
+                <h5>Poxa! Você ainda não está inscrito(a) nos eventos disponíveis!</h5>
+                <h5>Clique <a href="{{ route('listEvents') }}">aqui</a> para visualizar o mural de atividades que temos disponíveis.</h5>
             </div>
+            @end
         @else
-        <div class="col-md-9 text-center" style="min-height: 840px;">
-            <h4 style="color: black; font-weight: 700;">Eventos em que você está inscrito(a)</h4>
-            <h5>Poxa! Você ainda não está inscrito(a) nos eventos disponíveis!</h5>
-            <h5>Clique <a href="{{ route('listEvents') }}">aqui</a> para visualizar o mural de atividades que temos disponíveis.</h5>
-        </div>
+            <div class="col-md-9 text-center"> <!-- admin -->
+                <h4 style="color: black; font-weight: 700;">Funcionalidades de Administrador</h4>
+            </div>
         @end
     </div>
 @endsection

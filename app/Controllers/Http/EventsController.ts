@@ -99,12 +99,7 @@ export default class EventsController {
     public async index({auth, view} : HttpContextContract) {
         //landing page (homepage)
         var userId = auth.user!.id;
-        var events: any[] = []
-        var firstEvent: any = {}
-        var nextEvents: any[] = []
         var interests: any[] = []
-        var participantsAmount = 0
-        var eventOrganizer = ''
         var nullPhoto = 'https://liversity-app.s3.amazonaws.com/students/photo/default-profile.jpg'
 
         var eventsCreatedNumber = await Database
@@ -132,6 +127,12 @@ export default class EventsController {
 
         if(auth.user!.profileId == 2) {
             //if user is a student
+            var events: any[] = []
+            var firstEvent: any = {}
+            var nextEvents: any[] = []
+            var participantsAmount = 0
+            var eventOrganizer = ''
+
             var student = await Database
             .from('students')
             .join('users', (query) => {
@@ -158,9 +159,9 @@ export default class EventsController {
                 })
                 .whereRaw('event_subscriptions.student_id = ?', [student.id])
                 .select('events.*')
-                .select('event_subscriptions.id')
+                .select('event_subscriptions.id as event_subscriptions.id')
                 .limit(4)
-
+                
                 if(events.length > 0) {
                     firstEvent = events[0]
                     if(events.length > 1) 
@@ -168,18 +169,20 @@ export default class EventsController {
         
                     participantsAmount = await Database
                     .from('event_subscriptions')
-                    .whereRaw('event_id = ?', [firstEvent.event_id])
+                    .whereRaw('event_id = ?', [firstEvent.id])
                     .count('student_id')
                     .firstOrFail()
+                    participantsAmount = participantsAmount['count'];
 
                     eventOrganizer = await Database
                     .from('users')
                     .join('event_organizers', (query) => {
                     query.on('users.id', '=', 'event_organizers.user_id')
                     })
-                    .whereRaw('event_organizers.event_id = ?', [firstEvent.event_id])
+                    .whereRaw('event_organizers.event_id = ?', [firstEvent.id])
                     .select('users.name')
                     .firstOrFail()
+                    eventOrganizer = eventOrganizer['name'];
                 }
             }
             return view.render('account/landingPage', {
@@ -191,7 +194,7 @@ export default class EventsController {
         }
         else {
             //if user is an admin
-            return view.render('account/landingPage', { user: auth.user!.$attributes, nullPhoto : nullPhoto, interests: interests })
+            return view.render('account/landingPage', { user: auth.user!.$attributes, nullPhoto : nullPhoto, interests: interests, numberEventsCreated : eventsCreatedNumber })
         }
     }
 
