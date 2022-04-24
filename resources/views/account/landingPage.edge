@@ -127,7 +127,37 @@
             @end
         @else
             <div class="col-md-9 text-center"> <!-- admin -->
-                <h4 style="color: black; font-weight: 700;">Funcionalidades de Administrador</h4>
+                <h4 style="color: black; font-weight: 700;">Funcionalidades</h4>
+                <div style="display: inline-block; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px" class="col-md-3 m-3 p-5 event-card">
+                    <a style="color: #46444c;" href="{{ route('index') }}">
+                        <div class="mb-3">
+                            <i class="fa-solid fa-3x fa-user-gear"></i>
+                        </div>
+                        <div>
+                            Cadastrar Administrador
+                        </div>
+                    </a>
+                </div>
+                <div style="display: inline-block; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px" class="col-md-3 m-3 p-5 event-card">
+                    <a style="color: #46444c;" href="{{ route('index') }}">
+                        <div class="mb-3">
+                            <i class="fa-solid fa-3x fa-chalkboard-user"></i>
+                        </div>
+                        <div>
+                            Cadastrar Docente
+                        </div>
+                    </a>
+                </div>
+                <div style="display: inline-block; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px" class="col-md-3 m-3 p-5 event-card">
+                    <a style="color: #46444c;" href="{{ route('index') }}">
+                        <div class="mb-3">
+                            <i class="fa-solid fa-3x fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            Avaliar Eventos
+                        </div>
+                    </a>
+                </div>
             </div>
         @end
     </div>

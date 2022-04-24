@@ -198,10 +198,10 @@ export default class EventsController {
         }
     }
 
-    public async createEventView({ view } : HttpContextContract) {
+    public async createEventView({ auth, view} : HttpContextContract) {
         var categories = await Category.query().orderBy('id', 'asc')
         var campuses = await Campus.query().orderBy('name', 'asc')
-        return view.render('events/createEvent', { categories: categories, campuses: campuses})
+        return view.render('events/createEvent', { completedProfile: auth.user!.completedProfile, categories: categories, campuses: campuses})
     }
 
     public async createEvent({auth, request, response, session} : HttpContextContract) {

@@ -7,6 +7,9 @@
             <div id="edit-profile" class="form-page d-inline-block">
                 <div>
                     <h1 class="title">Novo evento</h1> 
+                    @if(!completedProfile)
+                        <p class="text-danger mt-2"><small>Apenas usuários com o perfil atualizado podem criar eventos!<br>Por favor, atualize as informações de seu perfil.</small></p>
+                    @endif
                     <br>
                     <form class="form" action="{{ route('createEvent.create') }}" method="POST">
                         <div class="mb-3 form-entry">
@@ -59,8 +62,8 @@
                             <label for="document" class="form-label">Documento de oficialização do evento (.pdf)</label><br>
                             <input name="document" type="text" class="form-control" id="document">
                         </div>
-                        @if(flashMessages.all()?.errors)
-                            <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors.createEvent }}</small></p>
+                        @if(flashMessages.all()?.errors?.createEvent)
+                            <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors?.createEvent }}</small></p>
                         @endif
                         <div style=
                             @if(flashMessages.all()?.errors)
@@ -69,7 +72,12 @@
                                 "margin-top: 40px;"
                             @endif
                         )>
-                        <button type="submit" class="btn btn-primary submit">Criar novo evento</button>
+                        <button type="submit" class="btn btn-primary submit" 
+                        @if(!completedProfile)
+                            disabled="disabled"
+                        @endif
+                        >
+                        Criar novo evento</button>
                     </form>
                 </div>
             </div>
