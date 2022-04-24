@@ -71,7 +71,6 @@ export default class AccountController {
             return response.redirect().toRoute('AccountController.signUpView')
         }
         try {
-            //profileId == 1 (admin) and profileId == 2 (student)
             var userCreated = await User.create({ name: name, email: email, password: password, profileId: 2, completedProfile: false });
             await Student.create({ userId: userCreated.id })
             response.redirect().toRoute('login.view')
@@ -208,5 +207,42 @@ export default class AccountController {
         session.flashExcept(['createAdmin'])
         session.flash({ success: { createAdmin: 'Administrador cadastrado com sucesso!' } })
         return response.redirect().toRoute('AccountController.createAdminView')
+    }
+
+    public async createProfessorView({auth, view} : HttpContextContract) {
+        if(auth.user!.profileId == 1) {
+            return view.render('account/createProfessor', {completedProfile : auth.user!.completedProfile})
+        }
+        else {
+            return view.render('errors/unauthorized')
+        }
+    }
+
+    public async createProfessor({auth, request, response, session} : HttpContextContract) {
+        const professor = request.all()
+
+        if(auth.user!.profileId != 1) {
+            session.flashExcept(['createProfessor'])
+            session.flash({ errors: { createProfessor: 'Não foi possível cadastrar o docente.' } })
+            return response.redirect().toRoute('AccountController.createProfessorView')
+        }
+
+        if(!professor.name || !professor.email || !professor.password) {
+            session.flashExcept(['createProfessor'])
+            session.flash({ errors: { createProfessor: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('AccountController.createProfessorView')
+        }
+
+        var userAlreadyExist = await User.findBy('email', professor.email);
+        if(userAlreadyExist != null) {
+            session.flashExcept(['createProfessor'])
+            session.flash({ errors: { createProfessor: 'Já existe uma conta associada ao e-mail inserido' } })
+            return response.redirect().toRoute('AccountController.createProfessorView')
+        }
+
+        await User.create({ name: professor.name, email: professor.email, password: professor.password, profileId: 3, completedProfile: false });
+        session.flashExcept(['createProfessor'])
+        session.flash({ success: { createProfessor: 'Docente cadastrado com sucesso!' } })
+        return response.redirect().toRoute('AccountController.createProfessorView')
     }
 }

@@ -194,7 +194,7 @@ export default class EventsController {
         }
         else {
             //if user is an admin
-            return view.render('account/landingPage', { user: auth.user!.$attributes, nullPhoto : nullPhoto, interests: interests, numberEventsCreated : eventsCreatedNumber })
+            return view.render('account/landingPage', { user: auth.user!.$attributes, userCampusName : userCampusName, nullPhoto : nullPhoto, interests: interests, numberEventsCreated : eventsCreatedNumber })
         }
     }
 

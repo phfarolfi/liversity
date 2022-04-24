@@ -39,16 +39,20 @@ Route.get('/Home', 'EventsController.index').as('index').middleware('auth');
 Route.get('/Logout', 'AccountController.logout').as('logout').middleware('auth');
 Route.get('/ProfilePage', 'AccountController.userProfileView').as('userProfile.view').middleware('auth');
 Route.post('/ProfilePage', 'AccountController.updateProfile').as('userProfile.update').middleware('auth');
+Route.get('CreateAdmin', 'AccountController.createAdminView').as('createAdmin.view').middleware('auth');
+Route.post('/CreateAdmin', 'AccountController.createAdmin').as('createAdmin.create').middleware('auth');
+Route.get('CreateProfessor', 'AccountController.createProfessorView').as('createProfessor.view').middleware('auth');
+Route.post('/CreateProfessor', 'AccountController.createProfessor').as('createProfessor.create').middleware('auth');
+
 Route.get('/CreateEvent', 'EventsController.createEventView').as('createEvent.view').middleware('auth');
 Route.post('/CreateEvent', 'EventsController.createEvent').as('createEvent.create').middleware('auth');
-
 Route.get('/EventPage', 'EventsController.eventPageView').as('eventPage.view').middleware('auth');
 // Route.get('/EventPage/:id', 'EventsController.eventPageView')
 //   .where('id', /^[0-9]$/)
 //   .as('eventPage.view')
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middleware('auth');
-
 Route.get('/EventParticipants', 'EventsController.eventPageParticipantsView').as('eventParticipants.view').middleware('auth');
 
-Route.get('CreateAdmin', 'AccountController.createAdminView').as('createAdmin.view').middleware('auth');
-Route.post('/CreateAdmin', 'AccountController.createAdmin').as('createAdmin.create').middleware('auth');
+Route.get('/*', async ({ view, }) => {
+  return view.render('errors/not-found')
+})
