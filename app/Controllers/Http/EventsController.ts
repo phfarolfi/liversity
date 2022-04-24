@@ -112,7 +112,7 @@ export default class EventsController {
         .whereRaw('user_id = ?', [userId])
         .count('event_id')
         .firstOrFail()
-        eventsCreatedNumber = eventsCreatedNumber['count(`event_id`)'];
+        eventsCreatedNumber = eventsCreatedNumber['count'];
 
         interests = await Database
         .from('interests')
@@ -149,7 +149,7 @@ export default class EventsController {
                 .andWhereRaw('attendance = ?', [true])
                 .count('attendance')
                 .firstOrFail()
-                certificatesNumber = certificatesNumber['count(`attendance`)'];
+                certificatesNumber = certificatesNumber['count'];
 
                 events = await Database
                 .from('event_subscriptions')
@@ -248,7 +248,7 @@ export default class EventsController {
                 .whereRaw('event_id = ?', [event.id])
                 .count('student_id')
                 .firstOrFail()
-                event.subscribersNumber = subscribersNumber['count(`student_id`)']; 
+                event.subscribersNumber = subscribersNumber['count']; 
             }
         }
         

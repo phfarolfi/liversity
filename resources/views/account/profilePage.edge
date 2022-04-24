@@ -17,7 +17,7 @@
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Data de Nascimento:&nbsp;</label>
-                            <p>{{ birthDate != null? birthDate : '' }}</p>
+                            <p>{{ user?.birthDate != null? user?.birthDate.toLocaleDateString() : '' }}</p>
                         </li>
                         <li class="d-flex list-group-item text-dark mb-2 align-items-center p-0" style="border: 0;">
                             <label for="">Gênero:&nbsp;</label>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="birthDate" class="form-label">Data de nascimento</label><br>
-                        <input name="birthDate" value="{{ user?.birthDate }}" type="date" class="form-control" id="birthDate">
+                        <input name="birthDate" value="{{ user?.birthDate != null? birthDate : '' }}" type="date" class="form-control" id="birthDate">
                     </div>
                     <div class="mb-3 form-entry">
                         <label for="genderId" class="form-label">Gênero</label><br>

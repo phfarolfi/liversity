@@ -136,11 +136,11 @@ export default class AccountController {
         var campuses = await Campus.query().orderBy('name', 'asc')
         var categories = await Category.query().orderBy('id', 'asc')
         var user = await User.findBy('email', auth.user!.email)
-        console.log(user)
         var student = await Student.findBy('userId', user!.id)
         var studentGender = await Gender.findBy('id', user!.genderId)
         var studentCampus = await Campus.findBy('id', user!.campusId)
-        var birthDate = new Date(user?.birthDate + ' 00:00:00').toLocaleDateString()
+        var birthDate = new Date(user!.birthDate)
+        var birthDateFormatted = birthDate.getFullYear() + '-' + birthDate.getMonth() + '-' + birthDate.getDate()
         var interests = await Database
         .from('interests')
         .join('categories', (query) => {
@@ -155,7 +155,7 @@ export default class AccountController {
         if(!user?.completedProfile)
             return view.render('account/profilePage', { genders: genders, campuses: campuses, categories: categories, user: user, nullPhoto: nullPhoto, interests : interests, interestsIdSelected: interestsIdSelected })
         else
-            return view.render('account/profilePage', { genders: genders, campuses: campuses, categories: categories, user: user, student: student?.$attributes, birthDate : birthDate,
+            return view.render('account/profilePage', { genders: genders, campuses: campuses, categories: categories, user: user, student: student?.$attributes, birthDate : birthDateFormatted,
                                                         studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto, interests : interests,
                                                         interestsIdSelected: interestsIdSelected })
     }

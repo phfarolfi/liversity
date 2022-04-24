@@ -7,9 +7,9 @@ export default class Students extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.integer('user_id').unsigned().references('users.id').notNullable().onDelete('CASCADE')
-      table.string('number_enrollment', 15)
-      table.string('course', 50)
-      table.string('extracurricular_activities')
+      table.string('number_enrollment')
+      table.string('course')
+      table.string('extracurricular_activities',500)
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
