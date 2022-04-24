@@ -241,6 +241,14 @@ export default class EventsController {
         // .whereRaw('status_id = ?', [1]) //descomentar para quando tiver funcionando a parte de alterar o evento para aprovado/reprovado
         .select('events.*')
 
+        var campuses = await Database
+        .from('campuses')
+        .select('campuses.*')
+
+        var categories = await Database
+        .from('categories')
+        .select('categories.*')
+
         if(events.length > 0) {
             for(var event of events) {
                 var subscribersNumber = await Database
@@ -261,7 +269,7 @@ export default class EventsController {
             return new Date(event.limit_subscription_date) <= dateNow
         })
 
-        return view.render('events/eventsPage', { events: events, activeEvents : activeEvents, inactiveEvents : inactiveEvents })
+        return view.render('events/eventsPage', { events: events, activeEvents : activeEvents, inactiveEvents : inactiveEvents, campuses : campuses, categories : categories })
     }
 
     // Página de participantes 
