@@ -2,6 +2,45 @@
 @set('title', 'liversity - Mural de eventos')
 
 @section('content')
+
+<div class="events-page-filter">
+    <h2>Status do Evento</h2>
+    <select name="inscricoes">
+        <option value="a">Todos</option>
+        <option value="b">Inscricões Abertas</option>
+        <option value="c">Inscricões Fechadas</option>
+    </select>
+</div>
+
+<div class="events-page-filter">
+    <h2>Campus</h2>
+    <select name="campuses">
+        <option value="a">Todos</option>
+        @each((campus, index) in campuses)
+            <option value="{{campus.id}}">{{campus.name}}</option>
+        @endeach
+    </select>
+</div>
+
+<div class="events-page-filter">
+    <h2>Categoria</h2>
+    <select name="categories">
+        <option value="a">Todos</option>
+        @each((category, index) in categories)
+            <option value="{{category.id}}">{{category.name}}</option>
+        @endeach
+    </select>
+</div>
+
+<div class="events-page-filter">
+    <h2>Ordenar por</h2>
+    <select name="inscricoes">
+        <option value="a">Criados recentemente</option>
+        <option value="b">Inscricões encerrando em breve</option>
+        <option value="c">Acontecerão em breve</option>
+    </select>
+</div>
+
     <div class="row" style="width:100%; min-height: 840px;">
         @if(events.length > 0) 
             @if(activeEvents.length > 0)

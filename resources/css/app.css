@@ -198,6 +198,22 @@ main code {
   border-radius: 150px;
 }
 
+.events-page-filter{
+  display: inline-block;
+  margin: 40px 40px 0px 40px;
+
+}
+.events-page-filter h2{
+  font-size: 20px;
+  font-weight: bold;
+  color: #46444c;
+}
+
+.events-page-filter select{
+  padding: 5px;
+  color: #46444c;
+}
+
 @media screen and (max-width: 1370px) {
   body {
     overflow-x: scroll;
@@ -222,3 +238,5 @@ main code {
 .event-card:hover {
   box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.25);
 }
+
+
