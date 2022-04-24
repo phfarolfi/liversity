@@ -2,6 +2,12 @@
 @set('title', 'liversity - Perfil do Usuário')
 
 @section('content')
+    @if(flashMessages.all()?.success?.editProfile)
+    <script>
+        Swal.fire('Perfil Atualizado!', 'Seu perfil foi atualizado com sucesso!', 'success')
+    </script>
+    @endif
+
     <div id="profile-page" class="d-flex justify-content-between m-5 px-3" style="min-height: 900px;">
         <section class="col-4">
             <h4 style="color: black; font-weight: 700;">Seu perfil</h4>

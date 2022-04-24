@@ -2,6 +2,12 @@
 @set('title', 'liversity - Criar Evento')
 
 @section('content')
+    @if(flashMessages.all()?.success?.createEvent)
+    <script>
+        Swal.fire('Evento Cadastrado!', 'Aguarde a avaliação do evento que será realizada pelos administradores do sistema.\nO evento será publicado no mural de atividades caso seja aprovado.', 'success')
+    </script>
+    @endif
+
     <div id="profile-page" class="d-flex justify-content-between m-5 px-3" style="margin-right: auto; margin-left: auto;">
         <section class="col-4" style="margin-right: auto; margin-left: auto;">
             <div id="edit-profile" class="form-page d-inline-block">

@@ -73,6 +73,8 @@ export default class AccountController {
         try {
             var userCreated = await User.create({ name: name, email: email, password: password, profileId: 2, completedProfile: false });
             await Student.create({ userId: userCreated.id })
+            session.flashExcept(['signUp'])
+            session.flash({ success: { signUp: 'Conta cadastrada com sucesso!' } })
             response.redirect().toRoute('login.view')
         } catch {
             session.flashExcept(['signUp'])
@@ -135,6 +137,8 @@ export default class AccountController {
             await Interest.create({ userId: user!.id, categoryId: interest });
         }
 
+        session.flashExcept(['editProfile'])
+        session.flash({ success: { editProfile: 'Perfil atualizado!' } })
         return response.redirect().toRoute('userProfile.view')
     }
 

@@ -215,16 +215,17 @@ export default class EventsController {
             return response.redirect().toRoute('createEvent.view')
         }
 
-        
         try {
-            // var dateNow = new Date().toISOString().split('T')[0];
             var event = await Event.create({ name: newEvent.name, eventDate: newEvent.eventDate, initialSubscriptionDate: new Date(), 
                 limitSubscriptionDate: newEvent.limitSubscriptionDate, description: newEvent.description, categoryId: newEvent.category, 
                 local: newEvent.local, campusId: newEvent.campus, linkCommunicationGroup: newEvent.linkCommunicationGroup, 
                 photo: newEvent.photo, document: newEvent.document, statusId: 2 });
 
             await EventOrganizer.create({ userId: auth.user!.id, eventId: event.id} )
-            response.redirect().toRoute('eventPage.view')
+            session.flashExcept(['createEvent'])
+            session.flash({ success: { createEvent: 'Evento cadastrado com sucesso! Aguarde a avaliação dos administradores em relação à atividade.' } })
+            response.redirect().toRoute('createEvent.view')
+
         } catch {
             session.flashExcept(['createEvent'])
             session.flash({ errors: { createEvent: 'Não foi possível realizar o cadastro do evento' } })

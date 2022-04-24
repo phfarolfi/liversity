@@ -4,12 +4,26 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>liversity - Login</title>
+        <style>
+            .swal2-styled.swal2-confirm {
+              background-color: #0d6efd !important;
+            }
+            .swal2-styled.swal2-confirm:focus {
+                box-shadow: 0 0 0 3px rgb(13 110 253 / 50%) !important;
+            }
+        </style>
         @entryPointStyles('app')
         @entryPointScripts('app')
 
     </head>
     <body class="container">
+        @if(flashMessages.all()?.success?.signUp)
+        <script>
+            Swal.fire('Conta Cadastrada!', 'Seu cadastro foi realizado com sucesso!', 'success')
+        </script>
+        @endif
         <main id="login-page">
             <div class="login-page">
                 
