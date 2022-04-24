@@ -2,6 +2,12 @@
 @set('title', 'liversity - Cadastrar Administrador')
 
 @section('content')
+    @if(flashMessages.all()?.success?.createAdmin)
+    <script>
+        Swal.fire('Administrador Cadastrado!', 'Cadastro do administrador realizado com sucesso!', 'success')
+    </script>
+    @endif
+
     <div id="profile-page" class="d-flex justify-content-between m-5 mb-5 px-3" style="margin-right: auto; margin-left: auto; min-height: 650px;">
         <section class="col-6" style="margin-right: auto; margin-left: auto;">
             <div id="edit-profile" class="form-page d-inline-block">
@@ -11,7 +17,7 @@
                         <p class="text-danger mt-2"><small>Apenas usuários com o perfil atualizado podem cadastrar um novo administrador!<br>Por favor, atualize as informações de seu perfil.</small></p>
                     @endif
                     <br>
-                    <form class="form" action="{{ route('createEvent.create') }}" method="POST">
+                    <form class="form" action="{{ route('createAdmin.create') }}" method="POST">
                         <div class="mb-3 login-name">
                             <label for="name" class="form-label">Nome Completo</label><br>
                             <input name="name" type="text" class="form-control" autocomplete="off" id="name">
@@ -24,8 +30,8 @@
                             <label for="password" class="form-label">Senha Temporária</label><br>
                             <input name="password" type="password" class="form-control" autocomplete="off" id="password">
                         </div>
-                        @if(flashMessages.all()?.errors?.createEvent)
-                            <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors?.createEvent }}</small></p>
+                        @if(flashMessages.all()?.errors?.createAdmin)
+                            <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors?.createAdmin }}</small></p>
                         @endif
                         <div style=
                             @if(flashMessages.all()?.errors)

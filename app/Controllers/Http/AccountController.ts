@@ -181,4 +181,32 @@ export default class AccountController {
             return view.render('errors/unauthorized')
         }
     }
+
+    public async createAdmin({auth, request, response, session} : HttpContextContract) {
+        const admin = request.all()
+
+        if(auth.user!.profileId != 1) {
+            session.flashExcept(['createAdmin'])
+            session.flash({ errors: { createAdmin: 'Não foi possível cadastrar o administrador.' } })
+            return response.redirect().toRoute('AccountController.createAdminView')
+        }
+
+        if(!admin.name || !admin.email || !admin.password) {
+            session.flashExcept(['createAdmin'])
+            session.flash({ errors: { createAdmin: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('AccountController.createAdminView')
+        }
+
+        var userAlreadyExist = await User.findBy('email', admin.email);
+        if(userAlreadyExist != null) {
+            session.flashExcept(['createAdmin'])
+            session.flash({ errors: { createAdmin: 'Já existe uma conta associada ao e-mail inserido' } })
+            return response.redirect().toRoute('AccountController.createAdminView')
+        }
+
+        await User.create({ name: admin.name, email: admin.email, password: admin.password, profileId: 1, completedProfile: false });
+        session.flashExcept(['createAdmin'])
+        session.flash({ success: { createAdmin: 'Administrador cadastrado com sucesso!' } })
+        return response.redirect().toRoute('AccountController.createAdminView')
+    }
 }

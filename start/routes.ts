@@ -51,3 +51,4 @@ Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middlew
 Route.get('/EventParticipants', 'EventsController.eventPageParticipantsView').as('eventParticipants.view').middleware('auth');
 
 Route.get('CreateAdmin', 'AccountController.createAdminView').as('createAdmin.view').middleware('auth');
+Route.post('/CreateAdmin', 'AccountController.createAdmin').as('createAdmin.create').middleware('auth');
