@@ -13,8 +13,6 @@ export default class UsersSchema extends BaseSchema {
       table.boolean('completed_profile').notNullable()
       table.date('birth_date')
       table.string('cpf', 20)
-      table.integer('gender_id').unsigned().references('genders.id')
-      table.integer('campus_id').unsigned().references('campuses.id')
       table.string('photo')
       table.string('remember_me_token').nullable()
 
