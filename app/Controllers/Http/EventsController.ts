@@ -276,27 +276,37 @@ export default class EventsController {
             1: {
                 id: 1,
                 foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Usuario 1"
+                name: "Rodrigo Mello da Silva",
+                campus: "Nova Iguaçu",
+                curso: "Ciência da Computação"
             },
             2: {
                 id: 2,
                 foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Usuario 2"
+                name: "Aline Vitória Moreira da Silva",
+                campus: "Seropédica",
+                curso: "Ciências Econômicas"
             },
             3: {
                 id: 3,
                 foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Usuario 3"
+                name: "Claudio Dias Guilhermino",
+                campus: "Seropédica",
+                curso: "Sistemas de Informação"
             },
             4: {
                 id: 4,
                 foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Usuario 4"
+                name: "Giovanna Cochette Chonso",
+                campus: "Nova Iguaçu",
+                curso: "Pedagogia"
             },
             5: {
                 id: 5,
                 foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Usuario 5"
+                name: "Jefferson Figueiredo dos Santos",
+                campus: "Três Rios",
+                curso: "Direito"
             }
         }
 
