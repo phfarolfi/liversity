@@ -213,3 +213,12 @@ main code {
 .list-group-item {
   background: none;
 }
+
+.event-card {
+  transition: box-shadow .3s;
+  border-radius: 5px;
+}
+
+.event-card:hover {
+  box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.25);
+}
