@@ -169,4 +169,13 @@ export default class AccountController {
                                                         studentGender: studentGender?.name, studentCampus: studentCampus?.name, nullPhoto: nullPhoto, interests : interests,
                                                         interestsIdSelected: interestsIdSelected })
     }
+
+    public async createAdminView({auth, view} : HttpContextContract) {
+        if(auth.user!.profileId == 1) {
+            return view.render('account/createAdmin', {completedProfile : auth.user!.completedProfile})
+        }
+        else {
+            return view.render('errors/unauthorized')
+        }
+    }
 }

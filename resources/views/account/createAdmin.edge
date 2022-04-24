@@ -1,0 +1,48 @@
+@layout('layouts/main')
+@set('title', 'liversity - Cadastrar Administrador')
+
+@section('content')
+    <div id="profile-page" class="d-flex justify-content-between m-5 mb-5 px-3" style="margin-right: auto; margin-left: auto; min-height: 650px;">
+        <section class="col-6" style="margin-right: auto; margin-left: auto;">
+            <div id="edit-profile" class="form-page d-inline-block">
+                <div>
+                    <h1 class="title">Novo Administrador</h1> 
+                    @if(!completedProfile)
+                        <p class="text-danger mt-2"><small>Apenas usuários com o perfil atualizado podem cadastrar um novo administrador!<br>Por favor, atualize as informações de seu perfil.</small></p>
+                    @endif
+                    <br>
+                    <form class="form" action="{{ route('createEvent.create') }}" method="POST">
+                        <div class="mb-3 login-name">
+                            <label for="name" class="form-label">Nome Completo</label><br>
+                            <input name="name" type="text" class="form-control" autocomplete="off" id="name">
+                        </div>
+                        <div class="mb-3 login-email">
+                            <label for="email" class="form-label">E-mail da UFRRJ</label><br>
+                            <input name="email" type="email" class="form-control" id="email" autocomplete="off" placeholder="ex.: discente@ufrrj.br">
+                        </div>
+                        <div class="mb-3 login-password">
+                            <label for="password" class="form-label">Senha Temporária</label><br>
+                            <input name="password" type="password" class="form-control" autocomplete="off" id="password">
+                        </div>
+                        @if(flashMessages.all()?.errors?.createEvent)
+                            <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors?.createEvent }}</small></p>
+                        @endif
+                        <div style=
+                            @if(flashMessages.all()?.errors)
+                                "margin-top: 8px;"
+                            @else
+                                "margin-top: 40px;"
+                            @endif
+                        )>
+                        <button type="submit" class="btn btn-primary submit" 
+                        @if(!completedProfile)
+                            disabled="disabled"
+                        @endif
+                        >
+                        Cadastrar administrador</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+@endsection

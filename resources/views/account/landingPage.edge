@@ -2,7 +2,7 @@
 @set('title', 'liversity - Página Inicial')
 
 @section('content')
-    <div class="d-flex justify-content-between mx-5 mt-4 px-3" id="landing-page" style="min-height: 840px;">
+    <div class="d-flex justify-content-between mx-5 mt-4 mb-5 px-3" id="landing-page">
         <div class="col-md-2">
             <h4 style="color: black; font-weight: 700;">Suas informações</h4>
             <div class="d-flex mb-5 justify-content-center flex-wrap" style="height: 450px; border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
@@ -85,7 +85,7 @@
                     @else
                         "col-md-9"
                     @end
-                    style="min-height: 840px;">
+                    >
                     <h4 style="color: black; font-weight: 700;">Acontecerá em breve</h4>
                     <div class="card mb-5" style="border-radius: 10px; border: 0; -webkit-box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2); box-shadow: 0px 0px 40px 3px rgba(0,0,0,0.2);">
                         <div class="p-3">
@@ -129,7 +129,7 @@
             <div class="col-md-9 text-center"> <!-- admin -->
                 <h4 style="color: black; font-weight: 700;">Funcionalidades</h4>
                 <div style="display: inline-block; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px" class="col-md-3 m-3 p-5 event-card">
-                    <a style="color: #46444c;" href="{{ route('index') }}">
+                    <a style="color: #46444c;" href="{{ route('createAdmin.view') }}">
                         <div class="mb-3">
                             <i class="fa-solid fa-3x fa-user-gear"></i>
                         </div>
