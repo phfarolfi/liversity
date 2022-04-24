@@ -26,7 +26,7 @@
         <div class="col-md-4" >
             <div class="event-sidebar">
             <div class="section-participantes">
-            <h4 class="event-sidebar-title">Participantes ({{mainEvent.subscribersNumber}})</h4>
+            <a href="{{ route('eventParticipants.view') }}"><h4 class="event-sidebar-title">Participantes ({{mainEvent.subscribersNumber}})</h4></a>
             @each((subscriber, index) in subscribers)
                 <img src="{{subscriber.photo}}" class="card-img-top" style="border-radius: 50%; max-width:100px;">
             @endeach

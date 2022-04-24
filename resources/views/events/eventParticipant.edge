@@ -1,19 +1,22 @@
 @layout('layouts/main')
 @set('title', 'liversity - Participantes do Evento')
 
-@section('content')
+<div class="d-flex justify-content-between mx-5 mt-4 px-3" style="min-height: 840px;">
+    <div class="col-12">
+    <!-- Conteudo da página --> 
+        <h1>Participantes inscritos neste evento</h1> <!-- Título --> 
 
-<div class="row px-5">
-    @each((participante, index) in participantes)
-        <div class="col-md-6 col-xl-4 mb-3">
-           
-            <p>{{participante.name}}</p>
-            <div class="user-1">
-                <img src="{{participante.foto}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0">
-            </div>
-
-        </div>
-    @endeach
+        @each((participante, index) in participantes)
+                <div class="user-1">
+                    <img src="{{participante.foto}}">
+                    <div id="info">
+                        <p>{{participante.name}}</p>
+                        <h3>• Campus: {{participante.campus}} </h3>
+                        <h3>• Curso: {{participante.curso}} </h3>
+                    </div>
+                </div>
+        @endeach
+    </div>
 </div>
-
+    
 @endsection
