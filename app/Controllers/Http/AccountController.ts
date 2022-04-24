@@ -92,6 +92,53 @@ export default class AccountController {
         return view.render('account/forgotPassword')
     }
 
+    public async changePasswordView({ auth, response, view } : HttpContextContract) {
+        return view.render('account/changePassword')
+    }
+
+    public async changePassword({auth, request, response, session} : HttpContextContract) {
+        const passwords = request.all()
+
+        if(!passwords.actualPassword || !passwords.newPassword || !passwords.newPasswordRepeat) {
+            session.flashExcept(['changePassword'])
+            session.flash({ errors: { changePassword: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('AccountController.changePasswordView')
+        }
+
+        if(passwords.newPassword.length < 8) {
+            session.flashExcept(['changePassword'])
+            session.flash({ errors: { changePassword: 'A nova senha deve ser composta por no mínimo 8 caracteres' } })
+            return response.redirect().toRoute('AccountController.changePasswordView')
+        }
+
+        if(passwords.newPassword != passwords.newPasswordRepeat) {
+            session.flashExcept(['changePassword'])
+            session.flash({ errors: { changePassword: 'Os campos relacionados à nova senha não coincidem' } })
+            return response.redirect().toRoute('AccountController.changePasswordView')
+        }
+
+        if(!(await User.verifyPassword(auth.user!.password, passwords.actualPassword)))
+        {
+            session.flashExcept(['changePassword'])
+            session.flash({ errors: { changePassword: 'A senha informada não bate com a sua senha atual' } })
+            return response.redirect().toRoute('AccountController.changePasswordView')
+        }
+
+        try {
+            var user = await User.findBy('id', auth.user!.id);
+            user!.password = passwords.newPassword
+            await user!.save()
+            session.flashExcept(['changePassword'])
+            session.flash({ success: { changePassword: 'Senha alterada com sucesso!' } })
+            return response.redirect().toRoute('AccountController.changePasswordView')
+        } catch {
+            session.flashExcept(['changePassword'])
+            session.flash({ errors: { changePassword: 'Não foi possível alterar sua senha.' } })
+            return response.redirect().toRoute('AccountController.changePasswordView')
+        }
+    }
+
+
     public async updateProfile({request, response, session, auth} : HttpContextContract) {
         const profile = request.all();
 

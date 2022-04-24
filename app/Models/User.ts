@@ -51,4 +51,8 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  public static async verifyPassword(realPasswordHash: string, actualPassword: string) {
+    return Hash.verify(realPasswordHash, actualPassword)
+  }
 }

@@ -37,6 +37,8 @@ Route.get('/ForgotPassword', 'AccountController.forgotPasswordView').as('forgotP
 
 Route.get('/Home', 'EventsController.index').as('index').middleware('auth');
 Route.get('/Logout', 'AccountController.logout').as('logout').middleware('auth');
+Route.get('/ChangePassword', 'AccountController.changePasswordView').as('changePassword.view').middleware('auth');
+Route.post('/ChangePassword', 'AccountController.changePassword').as('changePassword.update').middleware('auth');
 Route.get('/ProfilePage', 'AccountController.userProfileView').as('userProfile.view').middleware('auth');
 Route.post('/ProfilePage', 'AccountController.updateProfile').as('userProfile.update').middleware('auth');
 Route.get('CreateAdmin', 'AccountController.createAdminView').as('createAdmin.view').middleware('auth');
