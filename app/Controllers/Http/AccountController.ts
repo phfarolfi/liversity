@@ -148,9 +148,12 @@ export default class AccountController {
         var student = await Student.findBy('userId', user!.id)
         var studentGender = await Gender.findBy('id', user!.genderId)
         var studentCampus = await Campus.findBy('id', user!.campusId)
-        const offset = user!.birthDate.getTimezoneOffset()
-        var birthDate = new Date(user!.birthDate.getTime() - (offset*60*1000))
-        var birthDateFormatted = birthDate.toISOString().split('T')[0]
+        var birthDateFormatted = ''
+        if(user!.birthDate != null) {
+            const offset = user!.birthDate.getTimezoneOffset()
+            var birthDate = new Date(user!.birthDate.getTime() - (offset*60*1000))
+            birthDateFormatted = birthDate.toISOString().split('T')[0]
+        }
         var interests = await Database
         .from('interests')
         .join('categories', (query) => {
