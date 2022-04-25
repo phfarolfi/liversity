@@ -148,6 +148,19 @@ export default class EventsController {
             return response.redirect().toRoute('createEvent.view')
         }
 
+        var dateNow = new Date()
+        if(new Date(newEvent.eventDate) < dateNow) {
+            session.flashExcept(['createEvent'])
+            session.flash({ errors: { createEvent: 'A data do evento deve ser maior ou igual à data de hoje' } })
+            return response.redirect().toRoute('createEvent.view')
+        }
+
+        if(newEvent.eventDate < newEvent.limitSubscriptionDate) {
+            session.flashExcept(['createEvent'])
+            session.flash({ errors: { createEvent: 'A data limite para inscrições deve ser inferior ou igual à data do evento' } })
+            return response.redirect().toRoute('createEvent.view')
+        }
+
         try {
             var event = await Event.create({ name: newEvent.name, eventDate: newEvent.eventDate, initialSubscriptionDate: new Date(), 
                 limitSubscriptionDate: newEvent.limitSubscriptionDate, description: newEvent.description, categoryId: newEvent.category, 
@@ -167,7 +180,7 @@ export default class EventsController {
         }
     }
 
-    public async eventPageView({ params, view }: HttpContextContract) {
+    public async eventPageView({ auth, params, view }: HttpContextContract) {
         var dateNow = new Date()
         const event = await Event.find(params.id)
         var subscribers: any[] = []
@@ -191,9 +204,25 @@ export default class EventsController {
             .select('users.photo')
             .limit(5)
         }  
-        console.log(subscribers)
 
-        return view.render('events/eventPage', { event : event, dateNow : dateNow, events : this.events, subscribersNumber: subscribersNumber, subscribers: subscribers })
+        var eventCampus = await Campus.findByOrFail('id', event!.campusId)
+        if(eventCampus) {
+            var campusName = eventCampus?.$attributes.name
+        }
+
+        var eventOrganizer = await Database
+            .from('users')
+            .join('event_organizers', (query) => {
+            query.on('users.id', '=', 'event_organizers.user_id')
+            })
+            .whereRaw('event_organizers.event_id = ?', [event!.id])
+            .select('users.name')
+            .firstOrFail()
+            eventOrganizer = eventOrganizer['name'];
+
+        return view.render('events/eventPage', { event : event, dateNow : dateNow, events : this.events, 
+                                                subscribersNumber: subscribersNumber, subscribers: subscribers, campusName: campusName, 
+                                                eventOrganizer: eventOrganizer, completedProfile: auth.user!.completedProfile, profileId: auth.user!.profileId})
     }
 
     public async showEvents({view} : HttpContextContract) {
