@@ -14,87 +14,20 @@ export default class EventsController {
             name: "Violino",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu scelerisque felis imperdiet proin fermentum leo vel. Ultrices tincidunt arcu non sodales neque. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Purus sit amet volutpat consequat mauris. Commodo ullamcorper a lacus vestibulum sed arcu non odio. A iaculis at erat pellentesque adipiscing commodo elit.",
             photo: "images/events/evento-violino.jpg",
-            date: "30/02/2022",
-            subscribersNumber: 5,
-            organizer: "Ciclano D. Tal",
-            local: "Auditório"
         },
         2: {
             id: 2,
             name: "Dança",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu scelerisque felis imperdiet proin fermentum leo vel. Ultrices tincidunt arcu non sodales neque. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Purus sit amet volutpat consequat mauris. Commodo ullamcorper a lacus vestibulum sed arcu non odio. A iaculis at erat pellentesque adipiscing commodo elit.",
             photo: "images/events/evento-danca.jpg",
-            date: "30/03/2022",
-            subscribersNumber: 15,
-            organizer: "Ciclana D. Tal",
-            local: "Salão de dança"
         },
         3: {
             id: 3,
             name: "Esportes",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu scelerisque felis imperdiet proin fermentum leo vel. Ultrices tincidunt arcu non sodales neque. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Purus sit amet volutpat consequat mauris. Commodo ullamcorper a lacus vestibulum sed arcu non odio. A iaculis at erat pellentesque adipiscing commodo elit.",
             photo: "images/events/evento-esporte.jpg",
-            date: "30/04/2022",
-            subscribersNumber: 20,
-            organizer: "Fulana D. Tal",
-            local: "Quadra"
         }
     }
-
-    public subscribers = {
-        1: {
-            id: 1,
-            photo: "images/users/estudante.jpg", 
-            name: "Fulano D. Tal", 
-            course: "Ciência da Computação", 
-            campus: "Nova Iguaçu - IM", 
-            certificatesNumber: 32, 
-            eventsCreated: 11,
-            preferences: this.events
-        },
-        2: {
-            id: 2,
-            photo: "images/users/estudante.jpg", 
-            name: "Fulano D. Tal", 
-            course: "Ciência da Computação", 
-            campus: "Nova Iguaçu - IM", 
-            certificatesNumber: 32, 
-            eventsCreated: 11,
-            preferences: this.events
-        },
-        3: {
-            id: 3,
-            photo: "images/users/estudante.jpg", 
-            name: "Fulano D. Tal", 
-            course: "Ciência da Computação", 
-            campus: "Nova Iguaçu - IM", 
-            certificatesNumber: 32, 
-            eventsCreated: 11,
-            preferences: this.events
-        },
-        4: {
-            id: 4,
-            photo: "images/users/estudante.jpg", 
-            name: "Fulano D. Tal", 
-            course: "Ciência da Computação", 
-            campus: "Nova Iguaçu - IM", 
-            certificatesNumber: 32, 
-            eventsCreated: 11,
-            preferences: this.events
-        },
-        5: {
-            id: 5,
-            photo: "images/users/estudante.jpg", 
-            name: "Fulano D. Tal", 
-            course: "Ciência da Computação", 
-            campus: "Nova Iguaçu - IM", 
-            certificatesNumber: 32, 
-            eventsCreated: 11,
-            preferences: this.events
-        }
-    }
-
-    public mainEvent = this.events[1];
 
     public async index({auth, view} : HttpContextContract) {
         //landing page (homepage)
@@ -237,8 +170,30 @@ export default class EventsController {
     public async eventPageView({ params, view }: HttpContextContract) {
         var dateNow = new Date()
         const event = await Event.find(params.id)
+        var subscribers: any[] = []
+        var subscribersNumber = await Database
+            .from('event_subscriptions')
+            .whereRaw('event_id = ?', [params.id])
+            .count('student_id')
+            .firstOrFail()
+        subscribersNumber = subscribersNumber['count'];
 
-        return view.render('events/eventPage', { event : event, dateNow : dateNow, events : this.events, mainEvent: this.mainEvent, subscribers : this.subscribers})
+        if(subscribersNumber > 0) {
+            subscribers =  await Database
+            .from('event_subscriptions')
+            .join('students', (query) => {
+                query.on('event_subscriptions.student_id', '=', 'students.id')
+            })
+            .join('users', (query) => {
+                query.on('students.user_id', '=', 'users.id')
+            })
+            .whereRaw('event_id = ?', [params.id])
+            .select('users.photo')
+            .limit(5)
+        }  
+        console.log(subscribers)
+
+        return view.render('events/eventPage', { event : event, dateNow : dateNow, events : this.events, subscribersNumber: subscribersNumber, subscribers: subscribers })
     }
 
     public async showEvents({view} : HttpContextContract) {

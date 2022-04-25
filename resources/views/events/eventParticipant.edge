@@ -52,22 +52,20 @@
         <h1>Participantes inscritos neste evento</h1> <!-- Título --> 
 
         @each((subscriber, index) in subscribers)
-            @if(subscriber.completed_profile)
-                <div class="user-1">
-                    <img src="{{subscriber.photo}}">
-                    <div id="info">
-                        <p>{{subscriber.name}}</p>
-                        @if(subscriber.campus_id == 1)
-                            <h3>• Campus: IM - Instituto Multidisciplinar</h3>
-                        @elseif(subscriber.campus_id == 1)
-                            <h3>• Campus: ITR - Três Rios</h3>
-                        @else
-                            <h3>• Campus: Seropédica</h3>
-                        @end
-                        <h3>• Curso: {{subscriber.course}} </h3>
-                    </div>
+            <div class="user-1">
+                <img src="{{subscriber.photo}}" class="card-img-top" style="border-radius: 50%; object-fit: cover; width:80px; height: 80px;">
+                <div id="info">
+                    <p>{{subscriber.name}}</p>
+                    @if(subscriber.campus_id == 1)
+                        <h3>• Campus: IM - Instituto Multidisciplinar</h3>
+                    @elseif(subscriber.campus_id == 2)
+                        <h3>• Campus: ITR - Três Rios</h3>
+                    @elseif(subscriber.campus_id == 3)
+                        <h3>• Campus: Seropédica</h3>
+                    @end
+                    <h3>• Curso: {{subscriber.course}} </h3>
                 </div>
-            @endif
+            </div>
         @endeach
     </div>
 </div>
