@@ -1,0 +1,62 @@
+@layout('layouts/main')
+@set('title', 'liversity - Avaliar Eventos')
+
+@section('content')
+    @if(flashMessages.all()?.success?.evaluateEvent && flashMessages.all()?.success?.statusId == '1')
+        <script>
+            Swal.fire('Evento Aprovado!', 'O evento foi marcado como aprovado!', 'success')
+        </script>
+    @elseif(flashMessages.all()?.success?.evaluateEvent && flashMessages.all()?.success?.statusId == '3')
+        <script>
+            Swal.fire('Evento Reprovado!', 'O evento foi marcado como reprovado!', 'error')
+        </script>
+    @end
+
+    <div id="profile-page" class="d-flex justify-content-between m-5 px-3" style="margin-right: auto; margin-left: auto;">
+        <section class="col-12" style="margin-right: auto; margin-left: auto;">
+            <div class="text-center">
+                <h1>Avaliação de Eventos</h1>
+                @if(!completedProfile)
+                    <h5 class="text-danger mt-2">
+                        Apenas usuários com o perfil atualizado podem avaliar os eventos pendentes! Por favor, atualize as informações de seu perfil.
+                    </h5>
+                @else
+                    <h5>Nesta página, você poderá aprovar ou reprovar os eventos pendentes que foram cadastrados por outros administradores, docentes ou discentes.</h5>
+                @end
+            </div>
+            @if(events.length > 0)
+                <div class="row px-5" style="margin-top:20px;">
+                @each((event, index) in events)
+                    <div class="col-md-4 mb-3 p-1 event-card" style="border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; margin-right:30px">
+                        <div class="event-img mb-3">
+                            <img src="{{event.photo}}" style="object-fit: cover; height: 200px;" class="card-img-top mt-2 rounded-0">
+                        </div>
+                        <div class="d-flex justify-content-between pb-2 px-1">
+                            <div class="card-text" style="max-width: 75%"><strong>{{ event.name }}</strong></div>
+                            <div class="card-text d-flex justify-content-end flex-column align-items-end">
+                                <a style="font-size: 0.75rem;" class="btn btn-block btn-primary submit mb-1 rounded-pill" target="_blank" href="{{ route('eventPage.view') }}"><span>Ver mais</span></a>
+                            </div>
+                        </div>
+                        @if(completedProfile)
+                        <div class="d-flex justify-content-center pb-2 px-1">
+                            <a style="font-size: 0.75rem; margin-right:10px;" class="btn btn-block btn-success submit mb-1 rounded-pill" 
+                                href="{{ route('evaluateEvents.update', { eventId: event.id, statusId: 1 }) }}">
+                                <span>Aprovar Evento</span>
+                            </a>
+                            <a style="font-size: 0.75rem;" class="btn btn-block btn-danger submit mb-1 rounded-pill" 
+                                href="{{ route('evaluateEvents.update', { eventId: event.id, statusId: 3 }) }}">
+                                <span>Reprovar Evento</span>
+                            </a>
+                        </div>
+                        @endif
+                    </div>
+                @endeach
+                </div>
+            @else
+                <div class="text-center" style="margin-top:100px;">
+                    <h3>Não existem eventos pendentes para serem avaliados no momento!</h3>
+                </p>
+            @end
+        </section>
+    </div>
+@endsection

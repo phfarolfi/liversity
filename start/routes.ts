@@ -54,6 +54,8 @@ Route.get('/EventPage', 'EventsController.eventPageView').as('eventPage.view').m
 //   .as('eventPage.view')
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middleware('auth');
 Route.get('/EventParticipants', 'EventsController.eventPageParticipantsView').as('eventParticipants.view').middleware('auth');
+Route.get('/EvaluateEvents', 'EventsController.evaluateEventsView').as('evaluateEvents.view').middleware('auth');
+Route.get('/EvaluateEvents/:eventId/:statusId', 'EventsController.evaluateEvents').where('eventId', /^[0-9]$/).as('evaluateEvents.update').middleware('auth');
 
 Route.get('/*', async ({ view, }) => {
   return view.render('errors/not-found')

@@ -48,7 +48,7 @@
                     <h1 class="text-center"><strong>Eventos ativos</strong></h1>
                     <div class="row px-5">
                         @each((event, index) in activeEvents)
-                            <div class="col-md-6 col-xl-4 mb-3 p-1 event-card">
+                            <div class="col-md-6 col-xl-4 mb-3 p-1 event-card" style="margin-right:15px">
                                 <div class="event-img mb-3">
                                     <img src="{{event.photo}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0" href="{{ route('eventPage.view') }}">
                                 </div>
@@ -87,7 +87,7 @@
                 </div>
             @endif
         @else 
-        <div class="text-center" style="margin: 50px 0;>
+        <div class="text-center" style="margin: 50px 0;">
             <h3>Não existem eventos cadastrados aprovados no momento! :(</h3>
         </div>
         @end

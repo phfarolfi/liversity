@@ -242,7 +242,7 @@ export default class EventsController {
     public async showEvents({view} : HttpContextContract) {
         var events = await Database
         .from('events')
-        // .whereRaw('status_id = ?', [1]) //descomentar para quando tiver funcionando a parte de alterar o evento para aprovado/reprovado
+        .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
         .select('events.*')
 
         var campuses = await Database
@@ -320,5 +320,37 @@ export default class EventsController {
 
         return view.render('events/eventParticipant', {participantes:participantes})
         
+    }
+
+    public async evaluateEventsView({ auth, params, view }: HttpContextContract) {
+        if(auth.user!.profileId == 1) {
+            var events = await Database
+            .from('events')
+            .whereRaw('status_id = ?', [2]) //get only pending events
+            .select('events.*')
+            .orderBy('event_date', 'asc')
+
+            return view.render('events/evaluateEvents', {completedProfile : auth.user!.completedProfile, events: events})
+        }
+        else {
+            return view.render('errors/unauthorized')
+        }
+    }
+
+    public async evaluateEvents({ auth, session, response, params }: HttpContextContract) {
+        if(auth.user!.profileId != 1) {
+            session.flashExcept(['evaluateEvent'])
+            session.flash({ errors: { evaluateEvent: 'Não foi possível avaliar o evento.' } })
+            return response.redirect().toRoute('EventsController.evaluateEventsView')
+        }
+
+        var event = await Event.findBy('id', params.eventId)
+        event!.statusId = params.statusId
+        await event!.save()
+        
+        session.flashExcept(['evaluateEvent'])
+        session.flashExcept(['statusId'])
+        session.flash({ success: { evaluateEvent: 'Status de evento atualizado com sucesso!', statusId: params.statusId } })
+        return response.redirect().toRoute('EventsController.evaluateEventsView')
     }
 }
