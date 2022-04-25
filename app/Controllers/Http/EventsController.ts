@@ -243,7 +243,6 @@ export default class EventsController {
             subscribersNumber = subscribersNumber['count'];
 
             if(subscribersNumber > 0) {
-                // select u.* from event_subscriptions es join students s on es.student_id = s.id join users u on s.user_id = u.id where es.event_id = 1
                 subscribers =  await Database
                 .from('event_subscriptions')
                 .join('students', (query) => {
@@ -259,11 +258,38 @@ export default class EventsController {
                 .select('users.campus_id')
                 .select('users.completed_profile')
             }
-            
-            console.log(subscribers)
 
         return view.render('events/eventParticipant', { subscribersNumber: subscribersNumber, subscribers: subscribers })
-        
+    }
+
+    public async manageEventParticipantsView ({params, view} : HttpContextContract ){
+        var subscribers: any[] = []
+        var subscribersNumber = await Database
+            .from('event_subscriptions')
+            .whereRaw('event_id = ?', [params.id])
+            .count('student_id')
+            .firstOrFail()
+        subscribersNumber = subscribersNumber['count'];
+
+        if(subscribersNumber > 0) {
+            subscribers =  await Database
+            .from('event_subscriptions')
+            .join('students', (query) => {
+                query.on('event_subscriptions.student_id', '=', 'students.id')
+            })
+            .join('users', (query) => {
+                query.on('students.user_id', '=', 'users.id')
+            })
+            .whereRaw('event_id = ?', [params.id])
+            .select('users.photo')
+            .select('users.name')
+            .select('students.course')
+            .select('students.number_enrollment')
+            .select('users.campus_id')
+            .select('users.completed_profile')
+        }
+
+        return view.render('events/manageEventParticipants', { subscribersNumber: subscribersNumber, subscribers: subscribers })
     }
 
     public async evaluateEventsView({ auth, params, view }: HttpContextContract) {

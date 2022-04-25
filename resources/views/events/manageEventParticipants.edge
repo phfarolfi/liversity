@@ -1,0 +1,73 @@
+@layout('layouts/main')
+@set('title', 'liversity - Participantes do Evento')
+
+@section('content')
+<style>
+    h1 {
+        margin-left: 20px;
+        margin-top: 25px;
+        color: black;
+        font-size: 25px;
+        font-weight: bold;
+    }
+    h3 {
+        font-size: 12px;
+        margin-left 100px;
+    }
+
+    p {
+        color: brown;
+        margin-bottom: 5px;
+        
+    }
+
+    .user-1 img {
+        margin-left: 25px;
+        margin-top: 10px;
+        max-width: 60px;
+        max-height: 60px;
+    }
+
+    .user-1 p {
+        margin-left: 90px;
+        margin-top: -40px;
+
+    }
+
+    .user-1 h3 {
+        margin-left: 110px;
+        margin-top: -5px;
+        font-weight: bold;
+    }
+
+    .user-1 #info {
+        margin-top: -53px;
+    }
+
+</style>
+
+<div class="d-flex justify-content-between mx-5 mt-4 px-3" style="min-height: 840px;">
+    <div class="col-12">
+    <!-- Conteudo da página --> 
+        <h1>Participantes inscritos neste evento</h1> <!-- Título --> 
+
+        @each((subscriber, index) in subscribers)
+            <div class="user-1">
+                <img src="{{subscriber.photo}}" class="card-img-top" style="border-radius: 50%; object-fit: cover; width:80px; height: 80px;">
+                <div id="info">
+                    <p>{{subscriber.name}}</p>
+                    @if(subscriber.campus_id == 1)
+                        <h3>• Campus: IM - Instituto Multidisciplinar</h3>
+                    @elseif(subscriber.campus_id == 2)
+                        <h3>• Campus: ITR - Três Rios</h3>
+                    @elseif(subscriber.campus_id == 3)
+                        <h3>• Campus: Seropédica</h3>
+                    @end
+                    <h3>• Curso: {{subscriber.course}} </h3>
+                </div>
+            </div>
+        @endeach
+    </div>
+</div>
+    
+@endsection

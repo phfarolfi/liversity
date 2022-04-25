@@ -48,11 +48,12 @@ Route.post('/CreateProfessor', 'AccountController.createProfessor').as('createPr
 
 Route.get('/CreateEvent', 'EventsController.createEventView').as('createEvent.view').middleware('auth');
 Route.post('/CreateEvent', 'EventsController.createEvent').as('createEvent.create').middleware('auth');
-Route.get('/EventPage/:id', 'EventsController.eventPageView').where('eventId', /^[0-9]$/).as('eventPage.view').middleware('auth');
-Route.get('/EventParticipants/:id', 'EventsController.eventPageParticipantsView').where('eventId', /^[0-9]$/).as('eventParticipants.view').middleware('auth');
+Route.get('/EventPage/:id', 'EventsController.eventPageView').where('id', /^[0-9]$/).as('eventPage.view').middleware('auth');
+Route.get('/EventParticipants/:id', 'EventsController.eventPageParticipantsView').where('id', /^[0-9]$/).as('eventParticipants.view').middleware('auth');
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middleware('auth');
 Route.get('/EvaluateEvents', 'EventsController.evaluateEventsView').as('evaluateEvents.view').middleware('auth');
 Route.get('/EvaluateEvents/:eventId/:statusId', 'EventsController.evaluateEvents').where('eventId', /^[0-9]$/).as('evaluateEvents.update').middleware('auth');
+Route.get('/ManageEventParticipants/:id', 'EventsController.manageEventParticipantsView').where('id', /^[0-9]$/).as('manageEventParticipants.view').middleware('auth');
 
 Route.get('/*', async ({ view, }) => {
   return view.render('errors/not-found')
