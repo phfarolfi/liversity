@@ -2,44 +2,62 @@
 @set('title', 'liversity - Evento')
 
 @section('content')
+    @if(event.statusId == '2')
+    <div class="col-md-12 text-center">
+        <h1 class="text-danger">Evento em Análise!</h1>
+    </div>
+    @endif
     <div class="d-flex" style="margin-top: 20px; height: 100vh;">
-  
-        <div class="col-md-8">
+        <div class="
+        @if(event.statusId == '2')
+            col-md-12
+        @else
+            col-md-8
+        @end
+        ">
             <div class="info">
-                <h1 class="event-title">{{ mainEvent.name }}</h1>
+                <h1 class="event-title">{{ event.name }}</h1>
                 <p class="event-info">
-                    <span><i class="fa-solid fa-calendar-day" style="margin-top:50px;"></i>&nbsp;&nbsp;&nbsp;{{ mainEvent.date }}</span>
+                    <!-- Colocar: data de limite de inscrição ; data de evento; local e campus do evento; 
+                        pegar as informações corretas com a query; 
+                        apenas permitir que usuários admin e quem organizou tenham acesso à página se for status pendente (2) -->
+                    <span><i class="fa-solid fa-calendar-day" style="margin-top:50px;"></i>&nbsp;&nbsp;&nbsp;{{ event.event_date }}</span>
                     <span><i class="fa-solid fa-person-chalkboard" style="margin-top:10px;"></i>&nbsp;&nbsp;{{ mainEvent.organizer }}</span>
-                    <span><i class="fa-solid fa-location-dot" style="margin-top:10px;"></i>&nbsp;&nbsp;&nbsp;{{ mainEvent.local }}</span>
+                    <span><i class="fa-solid fa-location-dot" style="margin-top:10px;"></i>&nbsp;&nbsp;&nbsp;{{ event.local }}</span>
                 </p>
                 <div class="event-buttons">
                     <a class="btn btn-primary submit" href="#" role="button">Inscreva-se</a>
                     <a class="btn btn-outline-secondary submit" href="#" role="button">Acessar evento</a>
                 </div>
-                <p class="event-details">{{ mainEvent.description }}</p>
+                <p class="event-details">{{ event.description }}</p>
                 <span class="principal-image">
-                    <img class="card-img-top" src="{{ mainEvent.photo }}" style="max-height: 370px;">
+                    <img class="card-img-top" src="{{ event.photo }}" style="max-height: 370px;">
                 </span>
             </div>
         </div>
 
+        @if(event.statusId == '1')
         <div class="col-md-4" >
             <div class="event-sidebar">
             <div class="section-participantes">
-            <a href="{{ route('eventParticipants.view') }}"><h4 class="event-sidebar-title">Participantes ({{mainEvent.subscribersNumber}})</h4></a>
+            <a href="{{ route('eventParticipants.view', {id: event.id}) }}"><h4 class="event-sidebar-title">Participantes ({{mainEvent.subscribersNumber}})</h4></a>
             @each((subscriber, index) in subscribers)
                 <img src="{{subscriber.photo}}" class="card-img-top" style="border-radius: 50%; max-width:100px;">
             @endeach
             </div>
-
-            <div class="section-galeria">
-            <h4 class="event-sidebar-title">Galeria</h4>
-            @each((event, index) in events)
-                <img src="{{event.photo}}" class="card-img-top" style="max-width:200px; margin-right: 5px; margin-bottom: 10px;">
-            @endeach
+            
+            <!-- adicionar as validações de se existe também alguma foto ou vídeo na galeria -->
+            @if(event.eventDate <= dateNow) 
+                <div class="section-galeria">
+                    <h4 class="event-sidebar-title">Galeria</h4>
+                    @each((event, index) in events)
+                        <img src="{{event.photo}}" class="card-img-top" style="max-width:200px; margin-right: 5px; margin-bottom: 10px;">
+                    @endeach
+                </div>
             </div>
-            </div>
+            @endif
         </div>
+        @endif
     </div>
     
 @endsection

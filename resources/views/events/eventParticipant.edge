@@ -51,15 +51,23 @@
     <!-- Conteudo da página --> 
         <h1>Participantes inscritos neste evento</h1> <!-- Título --> 
 
-        @each((participante, index) in participantes)
+        @each((subscriber, index) in subscribers)
+            @if(subscriber.completed_profile)
                 <div class="user-1">
-                    <img src="{{participante.foto}}">
+                    <img src="{{subscriber.photo}}">
                     <div id="info">
-                        <p>{{participante.name}}</p>
-                        <h3>• Campus: {{participante.campus}} </h3>
-                        <h3>• Curso: {{participante.curso}} </h3>
+                        <p>{{subscriber.name}}</p>
+                        @if(subscriber.campus_id == 1)
+                            <h3>• Campus: IM - Instituto Multidisciplinar</h3>
+                        @elseif(subscriber.campus_id == 1)
+                            <h3>• Campus: ITR - Três Rios</h3>
+                        @else
+                            <h3>• Campus: Seropédica</h3>
+                        @end
+                        <h3>• Curso: {{subscriber.course}} </h3>
                     </div>
                 </div>
+            @endif
         @endeach
     </div>
 </div>

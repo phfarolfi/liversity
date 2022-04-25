@@ -100,7 +100,7 @@
                         <div class="p-3">
                             <img class="card-img-top" src="{{ events.length <= 0 ? '' : events[0].photo }}" style="max-height: 600px; object-fit: cover; width: 100%; border-radius: 10px;">
                         </div>
-                        <h4 class="px-4" style="color: black; font-weight: 700; font-size: 1.5rem;"><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ events.length <= 0 ? '' : events[0].name }}</a></h4>
+                        <h4 class="px-4" style="color: black; font-weight: 700; font-size: 1.5rem;"><a href="{{ route('eventPage.view', {id: events[0].id}) }}" style="color: #000000">{{ events.length <= 0 ? '' : events[0].name }}</a></h4>
                         <div class="d-flex justify-content-between px-4 pb-4">
                             <div style="width: 70%;">
                                 <p style="color: #777777; text-align: justify;">{{ events.length <= 0 ? '' : events[0].description }}</p>
@@ -121,7 +121,7 @@
                             @each((event, index) in nextEvents)
                                 <div class="p-4">
                                     <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
-                                    <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
+                                    <span class="card-text"><strong><a href="{{ route('eventPage.view', {id: event.id}) }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
                                 </div>
                             @endeach
                         </div>

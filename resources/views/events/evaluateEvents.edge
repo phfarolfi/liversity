@@ -34,7 +34,7 @@
                         <div class="d-flex justify-content-between pb-2 px-1">
                             <div class="card-text" style="max-width: 75%">{{ event.name }}</div>
                             <div class="card-text d-flex justify-content-end flex-column align-items-end">
-                                <a style="font-size: 0.75rem;" class="btn btn-block btn-primary submit mb-1 rounded-pill" target="_blank" href="{{ route('eventPage.view') }}"><span>Ver mais</span></a>
+                                <a style="font-size: 0.75rem;" class="btn btn-block btn-primary submit mb-1 rounded-pill" target="_blank" href="{{ route('eventPage.view', {id: event.id}) }}"><span>Ver mais</span></a>
                             </div>
                         </div>
                         @if(completedProfile)

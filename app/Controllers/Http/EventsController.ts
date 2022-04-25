@@ -235,8 +235,10 @@ export default class EventsController {
     }
 
     public async eventPageView({ params, view }: HttpContextContract) {
-        // const evento = await Event.find(params.id)
-        return view.render('events/eventPage', { events : this.events, mainEvent : this.mainEvent, subscribers : this.subscribers})
+        var dateNow = new Date()
+        const event = await Event.find(params.id)
+
+        return view.render('events/eventPage', { event : event, dateNow : dateNow, events : this.events, mainEvent: this.mainEvent, subscribers : this.subscribers})
     }
 
     public async showEvents({view} : HttpContextContract) {
@@ -276,49 +278,36 @@ export default class EventsController {
         return view.render('events/eventsPage', { events: events, activeEvents : activeEvents, inactiveEvents : inactiveEvents, campuses : campuses, categories : categories })
     }
 
-    // Página de participantes 
+    public async eventPageParticipantsView ({params, view} : HttpContextContract ){
+            var subscribers: any[] = []
+            var subscribersNumber = await Database
+                .from('event_subscriptions')
+                .whereRaw('event_id = ?', [params.id])
+                .count('student_id')
+                .firstOrFail()
+            subscribersNumber = subscribersNumber['count'];
 
-    public async eventPageParticipantsView ({view} : HttpContextContract ){
-        
-        var participantes = {
-            1: {
-                id: 1,
-                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Rodrigo Mello da Silva",
-                campus: "Nova Iguaçu",
-                curso: "Ciência da Computação"
-            },
-            2: {
-                id: 2,
-                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Aline Vitória Moreira da Silva",
-                campus: "Seropédica",
-                curso: "Ciências Econômicas"
-            },
-            3: {
-                id: 3,
-                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Claudio Dias Guilhermino",
-                campus: "Seropédica",
-                curso: "Sistemas de Informação"
-            },
-            4: {
-                id: 4,
-                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Giovanna Cochette Chonso",
-                campus: "Nova Iguaçu",
-                curso: "Pedagogia"
-            },
-            5: {
-                id: 5,
-                foto: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png",
-                name: "Jefferson Figueiredo dos Santos",
-                campus: "Três Rios",
-                curso: "Direito"
+            if(subscribersNumber > 0) {
+                // select u.* from event_subscriptions es join students s on es.student_id = s.id join users u on s.user_id = u.id where es.event_id = 1
+                subscribers =  await Database
+                .from('event_subscriptions')
+                .join('students', (query) => {
+                    query.on('event_subscriptions.student_id', '=', 'students.id')
+                })
+                .join('users', (query) => {
+                    query.on('students.user_id', '=', 'users.id')
+                })
+                .whereRaw('event_id = ?', [params.id])
+                .select('users.photo')
+                .select('users.name')
+                .select('students.course')
+                .select('users.campus_id')
+                .select('users.completed_profile')
             }
-        }
+            
+            console.log(subscribers)
 
-        return view.render('events/eventParticipant', {participantes:participantes})
+        return view.render('events/eventParticipant', { subscribersNumber: subscribersNumber, subscribers: subscribers })
         
     }
 
