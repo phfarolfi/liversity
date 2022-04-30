@@ -22,4 +22,12 @@ p {
     #profile-page {
         width: 1400px;
     }
-  }
+}
+
+.card-body {
+    flex-wrap: wrap;
+}
+
+.card-text {
+    max-width: 470px;
+}

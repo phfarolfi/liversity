@@ -263,10 +263,6 @@ export default class EventsController {
     }
 
     public async userEvents({ auth, response, view } : HttpContextContract) {
-        await auth.use('web').check()
-        if(auth.use('web').isLoggedIn)
-            return response.redirect().toRoute('userEvents')
-
         return view.render('events/userEvents')
     }
 
