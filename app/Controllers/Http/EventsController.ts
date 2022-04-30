@@ -262,6 +262,14 @@ export default class EventsController {
         return view.render('events/eventsPage', { events: events, activeEvents : activeEvents, inactiveEvents : inactiveEvents, campuses : campuses, categories : categories })
     }
 
+    public async userEvents({ auth, response, view } : HttpContextContract) {
+        await auth.use('web').check()
+        if(auth.use('web').isLoggedIn)
+            return response.redirect().toRoute('userEvents')
+
+        return view.render('events/userEvents')
+    }
+
     public async eventPageParticipantsView ({params, view} : HttpContextContract ){
             var subscribers: any[] = []
             var subscribersNumber = await Database

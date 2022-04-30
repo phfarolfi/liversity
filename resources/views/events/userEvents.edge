@@ -1,0 +1,47 @@
+@layout('layouts/main')
+@set('title', 'liversity - Seus Eventos')
+
+@section('content')
+    <div id="user-events">
+        <h1></h1>
+        <section class="col-3">
+            <h4>Aprovados</h4>
+            <div>
+                <div>
+                    @each((event, index) in approvedEvents)
+                        <div class="p-4">
+                            <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
+                            <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
+                        </div>
+                    @endeach
+                </div>
+            </div>
+        </section>
+        <section class="col-3">
+            <h4>Pendentes</h4>
+            <div>
+                <div>
+                    @each((event, index) in approvedEvents)
+                        <div class="p-4">
+                            <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
+                            <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
+                        </div>
+                    @endeach
+                </div>
+            </div>
+        </section>
+        <section class="col-3">
+            <h4>Recusados</h4>
+            <div>
+                <div>
+                    @each((event, index) in approvedEvents)
+                        <div class="p-4">
+                            <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
+                            <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
+                        </div>
+                    @endeach
+                </div>
+            </div>
+        </section>
+    </div>
+@endsection

@@ -48,6 +48,7 @@ Route.post('/CreateProfessor', 'AccountController.createProfessor').as('createPr
 
 Route.get('/CreateEvent', 'EventsController.createEventView').as('createEvent.view').middleware('auth');
 Route.post('/CreateEvent', 'EventsController.createEvent').as('createEvent.create').middleware('auth');
+Route.get('/UserEvents', 'EventsController.userEvents').as('userEvents').middleware('auth');
 Route.get('/EventPage/:id', 'EventsController.eventPageView').where('id', /^[0-9]$/).as('eventPage.view').middleware('auth');
 Route.get('/EventParticipants/:id', 'EventsController.eventPageParticipantsView').where('id', /^[0-9]$/).as('eventParticipants.view').middleware('auth');
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middleware('auth');

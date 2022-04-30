@@ -138,7 +138,6 @@ export default class AccountController {
         }
     }
 
-
     public async updateProfile({request, response, session, auth} : HttpContextContract) {
         const profile = request.all();
 
