@@ -2,79 +2,62 @@
 @set('title', 'liversity - Mural de eventos')
 
 @section('content')
+<div class="events-page-top">
+    <div class="events-page-filter">
+        <h2>Status do Evento</h2>
+        <select name="inscricoes">
+            <option value="a">Todos</option>
+            <option value="b">Inscrições Abertas</option>
+            <option value="c">Inscrições Fechadas</option>
+        </select>
+    </div>
 
-<div class="events-page-filter">
-    <h2>Status do Evento</h2>
-    <select name="inscricoes">
-        <option value="a">Todos</option>
-        <option value="b">Inscricões Abertas</option>
-        <option value="c">Inscricões Fechadas</option>
-    </select>
+    <div class="events-page-filter">
+        <h2>Campus</h2>
+        <select name="campuses">
+            <option value="a">Todos</option>
+            @each((campus, index) in campuses)
+                <option value="{{campus.id}}">{{campus.name}}</option>
+            @endeach
+        </select>
+    </div>
+
+    <div class="events-page-filter">
+        <h2>Categoria</h2>
+        <select name="categories">
+            <option value="a">Todos</option>
+            @each((category, index) in categories)
+                <option value="{{category.id}}">{{category.name}}</option>
+            @endeach
+        </select>
+    </div>
+
+    <div class="events-page-filter">
+        <h2>Ordenar por</h2>
+        <select name="inscricoes">
+            <option value="a">Criados recentemente</option>
+            <option value="b">Inscrições encerrando em breve</option>
+            <option value="c">Acontecerão em breve</option>
+        </select>
+    </div>
+
+    <div class="events-page-filter">
+        <button type="submit" class="btn btn-primary submit">Filtrar</button>
+    </div>
 </div>
 
-<div class="events-page-filter">
-    <h2>Campus</h2>
-    <select name="campuses">
-        <option value="a">Todos</option>
-        @each((campus, index) in campuses)
-            <option value="{{campus.id}}">{{campus.name}}</option>
-        @endeach
-    </select>
-</div>
-
-<div class="events-page-filter">
-    <h2>Categoria</h2>
-    <select name="categories">
-        <option value="a">Todos</option>
-        @each((category, index) in categories)
-            <option value="{{category.id}}">{{category.name}}</option>
-        @endeach
-    </select>
-</div>
-
-<div class="events-page-filter">
-    <h2>Ordenar por</h2>
-    <select name="inscricoes">
-        <option value="a">Criados recentemente</option>
-        <option value="b">Inscricões encerrando em breve</option>
-        <option value="c">Acontecerão em breve</option>
-    </select>
-</div>
-
-    <div class="row" style="width:100%;>
+    <div class="row" style=width:100%;>
         @if(events.length > 0) 
-            @if(activeEvents.length > 0)
+            @if(events.length > 0)
                 <div style="margin: 30px 0;">
-                    <h1 class="text-center"><strong>Eventos ativos</strong></h1>
+                    <h1 class="text-center"><strong>Eventos</strong></h1>
                     <div class="row px-5">
-                        @each((event, index) in activeEvents)
+                        @each((event, index) in events)
                             <div class="col-md-6 col-xl-4 mb-3 p-1 event-card" style="margin-right:15px">
                                 <div class="event-img mb-3">
                                     <img src="{{event.photo}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0" href="{{ route('eventPage.view', {id: event.id}) }}">
                                 </div>
                                 <div class="d-flex justify-content-between pb-2 px-1">
-                                    <div class="card-text" style="max-width: 75%"><strong><a href="{{ route('eventPage.view', {id: event.id}) }}" style="color: #000000">{{ event.name }}</a></strong></div>
-                                    <div class="card-text d-flex justify-content-end flex-column align-items-end">
-                                        <a type="submit" style="font-size: 0.75rem;" class="btn btn-block btn-primary submit mb-1 rounded-pill" href="{{ route('eventPage.view', {id: event.id}) }}"><span>Ver mais</span></a>
-                                        <div class="card-text" style="font-size: 0.75rem;"><strong>{{ event.subscribersNumber }} participante(s)</strong></div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endeach
-                    </div>
-                </div>
-            @endif
-            @if(inactiveEvents.length > 0)
-                <hr>
-                <div style="margin: 30px 0;">
-                    <h1 class="text-center"><strong>Eventos inativos</strong></h1>
-                    <div class="row px-5">
-                        @each((event, index) in inactiveEvents)
-                            <div class="col-md-6 col-xl-4 mb-3">
-                                <div class="event-img mb-2">
-                                    <img src="{{event.photo}}" style="object-fit: cover; height: 400px;" class="card-img-top mt-2 rounded-0">
-                                </div>
-                                <div class="d-flex justify-content-between py-2">
                                     <div class="card-text" style="max-width: 75%"><strong><a href="{{ route('eventPage.view', {id: event.id}) }}" style="color: #000000">{{ event.name }}</a></strong></div>
                                     <div class="card-text d-flex justify-content-end flex-column align-items-end">
                                         <a type="submit" style="font-size: 0.75rem;" class="btn btn-block btn-primary submit mb-1 rounded-pill" href="{{ route('eventPage.view', {id: event.id}) }}"><span>Ver mais</span></a>

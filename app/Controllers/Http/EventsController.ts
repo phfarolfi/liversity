@@ -230,6 +230,7 @@ export default class EventsController {
         .from('events')
         .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
         .select('events.*')
+        .orderBy('created_at', 'desc')
 
         var campuses = await Database
         .from('campuses')
@@ -260,6 +261,94 @@ export default class EventsController {
         })
 
         return view.render('events/eventsPage', { events: events, activeEvents : activeEvents, inactiveEvents : inactiveEvents, campuses : campuses, categories : categories })
+    }
+
+    public async filterEvents(request, {view} : HttpContextContract) {
+        const newFilters = request.all()
+        var dateNow = new Date()
+
+        if(newFilters.campuses === "Inscrições encerrando em breve"){
+            var events = await Database
+            .from('events')
+            .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
+            .andWhereRaw('limit_subsciption_date > ?', [dateNow])
+            .select('events.*')
+            .orderBy('limit_subsciption_date', 'desc')
+        }
+        else if(newFilters.campuses === "Acontecerão em breve"){
+            var events = await Database
+            .from('events')
+            .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
+            .andWhereRaw('event_date > ?', [dateNow])
+            .select('events.*')
+            .orderBy('event_date', 'desc')
+        }
+        else {
+            var events = await Database
+            .from('events')
+            .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
+            .select('events.*')
+            .orderBy('created_at', 'desc')    
+        }
+
+        var campuses = await Database
+        .from('campuses')
+        .select('campuses.*')
+
+        var categories = await Database
+        .from('categories')
+        .select('categories.*')
+
+        if(events.length > 0) {
+            for(var event of events) {
+                var subscribersNumber = await Database
+                .from('event_subscriptions')
+                .whereRaw('event_id = ?', [event.id])
+                .count('student_id')
+                .firstOrFail()
+                event.subscribersNumber = subscribersNumber['count']; 
+            }
+        }
+
+        if(newFilters.campuses != "Todos")
+            events = events.filter(function(event) {
+                return event.campus.name === newFilters.campuses
+            })
+
+        if(newFilters.categories != "Todos")
+            events = events.filter(function(event) {
+                return event.category.name === newFilters.categories
+            })
+
+        if(newFilters.status === "Inscrições Abertas")
+            events = events.filter(function(event) {
+                return new Date(event.limit_subscription_date) > dateNow
+            })
+
+        else if(newFilters.status === "Inscrições Fechadas")
+            events = events.filter(function(event) {
+                return new Date(event.limit_subscription_date) <= dateNow
+            })
+
+        return view.render('events/eventsPage', { events: events, campuses : campuses, categories : categories })
+    }
+
+    public async searchEvents(request, {view} : HttpContextContract) {
+        const newSearch = request.all()
+
+        const events = Database
+            .raw(
+                'select * from events order by similarity (name, ?)', [newSearch.search]
+            )
+            .wrap('(', ')')
+
+            Database
+            .from('events')
+            .orderBy(events, 'desc')
+
+        var events = await Database
+
+        return view.render('events/eventsPage', { events: events, campuses : campuses, categories : categories })
     }
 
     public async userEvents({ auth, response, view } : HttpContextContract) {

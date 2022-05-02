@@ -199,7 +199,7 @@ main code {
 
 .events-page-filter{
   display: inline-block;
-  margin: 40px 40px 0px 40px;
+  margin-right: 40px;
 
 }
 .events-page-filter h2{
@@ -211,6 +211,14 @@ main code {
 .events-page-filter select{
   padding: 5px;
   color: #46444c;
+}
+
+.events-page-filter button{
+  border-radius: 40px;
+}
+
+.events-page-top{
+  margin: 40px 0px 40px 40px;
 }
 
 @media screen and (max-width: 1370px) {
