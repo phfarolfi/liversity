@@ -6,6 +6,7 @@ import Student from 'App/Models/Student'
 import EventOrganizer from 'App/Models/EventOrganizer'
 import Campus from 'App/Models/Campus'
 import Category from 'App/Models/Category'
+import EventSubscription from 'App/Models/EventSubscription'
 
 export default class EventsController {
     public events = {
@@ -183,46 +184,107 @@ export default class EventsController {
     public async eventPageView({ auth, params, view }: HttpContextContract) {
         var dateNow = new Date()
         const event = await Event.find(params.id)
-        var subscribers: any[] = []
-        var subscribersNumber = await Database
-            .from('event_subscriptions')
-            .whereRaw('event_id = ?', [params.id])
-            .count('student_id')
-            .firstOrFail()
-        subscribersNumber = subscribersNumber['count'];
-
-        if(subscribersNumber > 0) {
-            subscribers =  await Database
-            .from('event_subscriptions')
-            .join('students', (query) => {
-                query.on('event_subscriptions.student_id', '=', 'students.id')
-            })
-            .join('users', (query) => {
-                query.on('students.user_id', '=', 'users.id')
-            })
-            .whereRaw('event_id = ?', [params.id])
-            .select('users.photo')
-            .limit(5)
-        }  
-
-        var eventCampus = await Campus.findByOrFail('id', event!.campusId)
-        if(eventCampus) {
-            var campusName = eventCampus?.$attributes.name
-        }
 
         var eventOrganizer = await Database
-            .from('users')
-            .join('event_organizers', (query) => {
-            query.on('users.id', '=', 'event_organizers.user_id')
-            })
-            .whereRaw('event_organizers.event_id = ?', [event!.id])
-            .select('users.name')
-            .firstOrFail()
-            eventOrganizer = eventOrganizer['name'];
+        .from('users')
+        .join('event_organizers', (query) => {
+        query.on('users.id', '=', 'event_organizers.user_id')
+        })
+        .whereRaw('event_organizers.event_id = ?', [event!.id])
+        .select('users.name')
+        .select('users.id')
+        .firstOrFail()
+        var eventOrganizerName = eventOrganizer['name'];
+        var eventOrganizerId = eventOrganizer['id'];
 
-        return view.render('events/eventPage', { event : event, dateNow : dateNow, events : this.events, 
+        var subscribedOnEvent = await Database
+        .from('event_subscriptions')
+        .join('students', (query) => {
+            query.on('students.id', '=', 'event_subscriptions.student_id')
+        })
+        .whereRaw('event_id = ?', [params.id])
+        .andWhereRaw('students.user_id = ?', [auth.user!.id])
+        .select('students.user_id')
+        .first()
+        
+        console.log(subscribedOnEvent)
+        if(subscribedOnEvent) {
+            if(subscribedOnEvent['user_id'] == auth.user!.id)
+                subscribedOnEvent = true
+            else
+                subscribedOnEvent = false
+        }
+        else {
+            subscribedOnEvent = false
+        }
+        console.log(subscribedOnEvent)
+
+        if(event!.statusId != 1 && eventOrganizerId != auth.user!.id && auth.user!.profileId != 1) {
+            return view.render('errors/unauthorized')
+        }
+        else {
+            var subscribers: any[] = []
+            var subscribersNumber = await Database
+                .from('event_subscriptions')
+                .whereRaw('event_id = ?', [params.id])
+                .count('student_id')
+                .firstOrFail()
+            subscribersNumber = subscribersNumber['count'];
+
+            if(subscribersNumber > 0) {
+                subscribers =  await Database
+                .from('event_subscriptions')
+                .join('students', (query) => {
+                    query.on('event_subscriptions.student_id', '=', 'students.id')
+                })
+                .join('users', (query) => {
+                    query.on('students.user_id', '=', 'users.id')
+                })
+                .whereRaw('event_id = ?', [params.id])
+                .select('users.photo')
+                .limit(5)
+            }  
+
+            var eventCampus = await Campus.findByOrFail('id', event!.campusId)
+            if(eventCampus) {
+                var campusName = eventCampus?.$attributes.name
+            }
+
+            var eventDateVal = new Date(event!.$attributes.eventDate);
+            eventDateVal.setHours(23, 59, 59);
+
+            var limitSubscriptionDateVal = new Date(event!.$attributes.limitSubscriptionDate);
+            limitSubscriptionDateVal.setHours(23, 59, 59);
+
+            return view.render('events/eventPage', { event : event, dateNow : dateNow, events : this.events, 
                                                 subscribersNumber: subscribersNumber, subscribers: subscribers, campusName: campusName, 
-                                                eventOrganizer: eventOrganizer, completedProfile: auth.user!.completedProfile, profileId: auth.user!.profileId})
+                                                eventOrganizerName: eventOrganizerName, eventOrganizerId: eventOrganizerId, completedProfile: auth.user!.completedProfile, profileId: auth.user!.profileId,
+                                                userId: auth.user!.id, eventDateVal: eventDateVal, limitSubscriptionDateVal: limitSubscriptionDateVal, subscribedOnEvent: subscribedOnEvent})
+        }
+    }
+
+    public async subscribeOnEvent({auth, response, session, params} : HttpContextContract) {
+        if(auth.user!.profileId == 2 && auth.user!.completedProfile == true) {
+            var student = await Student.findBy('userId', auth.user!.id)
+            var event = await Event.findBy('id', params.id)
+            console.log(event)
+            if(event != null && event!.$attributes.statusId == 1) {
+                await EventSubscription.create({ studentId: student!.id, eventId: params.id} )
+                session.flashExcept(['subscribeEvent'])
+                session.flash({ success: { subscribeEvent: 'Inscrição realizada com sucesso!' } })
+                response.redirect().toRoute('eventPage.view', {id: params.id})
+            }
+            else {
+                session.flashExcept(['subscribeEvent'])
+                session.flash({ errors: { subscribeEvent: 'Não foi possível se inscrever neste evento.' } })
+                response.redirect().toRoute('eventPage.view', {id: params.id})
+            }
+        }
+        else {
+            session.flashExcept(['subscribeEvent'])
+            session.flash({ errors: { subscribeEvent: 'Não foi possível se inscrever neste evento.' } })
+            response.redirect().toRoute('eventPage.view', {id: params.id})
+        }
     }
 
     public async showEvents({view} : HttpContextContract) {

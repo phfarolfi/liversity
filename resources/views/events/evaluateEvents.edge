@@ -6,11 +6,12 @@
         <script>
             Swal.fire('Evento Aprovado!', 'O evento foi marcado como aprovado!', 'success')
         </script>
-    @elseif(flashMessages.all()?.success?.evaluateEvent && flashMessages.all()?.success?.statusId == '3')
+    @endif
+    @if(flashMessages.all()?.success?.evaluateEvent && flashMessages.all()?.success?.statusId == '3')
         <script>
             Swal.fire('Evento Reprovado!', 'O evento foi marcado como reprovado!', 'error')
         </script>
-    @end
+    @endif
 
     <div id="profile-page" class="d-flex justify-content-between m-5 px-3" style="margin-right: auto; margin-left: auto;">
         <section style="margin-right: auto; margin-left: auto;">
