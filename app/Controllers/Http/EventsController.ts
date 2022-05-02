@@ -263,12 +263,13 @@ export default class EventsController {
         return view.render('events/eventsPage', { events: events, activeEvents : activeEvents, inactiveEvents : inactiveEvents, campuses : campuses, categories : categories })
     }
 
-    public async filterEvents(request, {view} : HttpContextContract) {
+    public async filterEvents({request, view} : HttpContextContract) {
         const newFilters = request.all()
         var dateNow = new Date()
+        var events: any[] = []
 
         if(newFilters.campuses === "Inscrições encerrando em breve"){
-            var events = await Database
+            events = await Database
             .from('events')
             .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
             .andWhereRaw('limit_subsciption_date > ?', [dateNow])
@@ -276,7 +277,7 @@ export default class EventsController {
             .orderBy('limit_subsciption_date', 'desc')
         }
         else if(newFilters.campuses === "Acontecerão em breve"){
-            var events = await Database
+            events = await Database
             .from('events')
             .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
             .andWhereRaw('event_date > ?', [dateNow])
@@ -284,7 +285,7 @@ export default class EventsController {
             .orderBy('event_date', 'desc')
         }
         else {
-            var events = await Database
+            events = await Database
             .from('events')
             .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
             .select('events.*')
@@ -336,7 +337,7 @@ export default class EventsController {
     public async searchEvents(request, {view} : HttpContextContract) {
         const newSearch = request.all()
 
-        const events = Database
+        var events = Database
             .raw(
                 'select * from events order by similarity (name, ?)', [newSearch.search]
             )
@@ -346,13 +347,41 @@ export default class EventsController {
             .from('events')
             .orderBy(events, 'desc')
 
-        var events = await Database
-
-        return view.render('events/eventsPage', { events: events, campuses : campuses, categories : categories })
+        return view.render('events/eventsPage', { events: events })
     }
 
     public async userEvents({ auth, response, view } : HttpContextContract) {
-        return view.render('events/userEvents')
+        var events = await Database
+        .from('events')
+        .join('event_organizers', (query) => {
+            query.on('events.id', '=', 'event_organizers.event_id')
+        })
+        .whereRaw('event_organizers.user_id = ?', [auth.user!.id])
+        .select('*')
+        .orderBy('event_date', 'desc')
+
+        return view.render('events/userEvents', { events: events})
+    }
+
+    public async deleteEvent({auth, response, session, params} : HttpContextContract) {
+        var event = await Event.findBy('id', params.id)
+        if(event) {
+            var eventOrganizer = await EventOrganizer.findBy('eventId', event.id);
+            if(eventOrganizer!.userId == auth.user!.id) {
+                try{
+                    await event.delete()
+                    session.flashExcept(['deleteEvent'])
+                    session.flash({ success: { deleteEvent: 'Evento excluído com sucesso!.' } })
+                    response.redirect().toRoute('userEvents.view')
+                }
+                catch {
+                    session.flashExcept(['deleteEvent'])
+                    session.flash({ errors: { deleteEvent: 'Não foi possível realizar a exclusão do evento' } })
+
+                    return response.redirect().toRoute('userEvents.view')
+                }
+            }
+        }
     }
 
     public async eventPageParticipantsView ({params, view} : HttpContextContract ){

@@ -197,6 +197,12 @@ main code {
   border-radius: 150px;
 }
 
+.event-pic {
+  object-fit: cover;
+  border: 2px solid black;
+  border-radius: 150px;
+}
+
 .events-page-filter{
   display: inline-block;
   margin-right: 40px;

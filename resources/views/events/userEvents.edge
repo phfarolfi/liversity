@@ -2,60 +2,65 @@
 @set('title', 'liversity - Seus Eventos')
 
 @section('content')
+    @if(flashMessages.all()?.success?.deleteEvent)
+    <script>
+        Swal.fire('Evento excluído!', 'O evento foi excluído com sucesso!', 'success')
+    </script>
+    @endif
+    @if(flashMessages.all()?.errors?.deleteEvent)
+    <script>
+        Swal.fire('Erro!', 'Não foi possível excluir o evento solicitado!', 'error')
+    </script>
+    @endif
+
     <div class="d-flex justify-content-center mb-4">
-        <h1>Gerenciamento de eventos criados</h1>
+        <h1>Gerenciamento de Eventos Criados</h1>
     </div>
-    <div id="user-events" class="d-flex justify-content-center">
-        <section class="ms-5 col-md-3">
-            <h4>Aprovados</h4>
-            <div class="card events-history" style="min-height: 70vh; max-height: 70vh;">
-                <div class="d-flex p-0 justify-content-center">
-                    @if(!approvedEvents)
-                        <p class="text-dark mt-3">Você não possui um evento aprovado</p>
-                    @else
-                        @each((event, index) in approvedEvents)
-                            <div class="p-4">
-                                <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
-                                <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
-                            </div>
-                        @endeach
-                    @endif
-                </div>
-            </div>
-        </section>
-        <section class="ms-5 col-md-3">
-            <h4>Pendentes</h4>
-            <div class="card events-history" style="min-height: 70vh; max-height: 70vh;">
-                <div class="d-flex p-0 justify-content-center">
-                    @if(!waitingEvents)
-                        <p class="text-dark mt-3">Você ainda não possui eventos esperando aprovação</p>
-                    @else
-                        @each((event, index) in waitingEvents)
-                            <div class="p-4">
-                                <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
-                                <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
-                            </div>
-                        @endeach
-                    @endif
-                </div>
-            </div>
-        </section>
-        <section class="ms-5 col-md-3">
-            <h4>Recusados</h4>
-            <div class="card events-history" style="min-height: 70vh; max-height: 70vh;">
-                <div class="d-flex p-0 justify-content-center">
-                    @if(!deniedEvents)
-                        <p class="text-dark mt-3">Você não possui eventos recusados</p>
-                    @else
-                        @each((event, index) in deniedEvents)
-                            <div class="p-4">
-                                <img src="{{event.photo}}" class="card-img-top mb-1 rounded">
-                                <span class="card-text"><strong><a href="{{ route('eventPage.view') }}" style="color: #000000">{{ event.name }}</a></strong></span><br><br>
-                            </div>
-                        @endeach
-                    @endif
-                </div>
-            </div>
-        </section>
+    <div class="d-flex justify-content-between m-5 px-3">
+        <table class="table table-striped">
+            <thead>
+            <tr class="text-center">
+                <th scope="col">Foto</th>
+                <th scope="col">Nome do Evento</th>
+                <th scope="col">Data do Evento</th>
+                <th scope="col">Data Limite para Inscrições</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+                @each(event in events)
+                <tr class="text-center" style="vertical-align: middle;">
+                    <td><img class="event-pic" src="{{event.photo}}" width="75" height="75" /></td>
+                    <td>{{event.name}}</td>
+                    <td>{{event.event_date.toLocaleDateString()}}</td>
+                    <td>{{event.limit_subscription_date.toLocaleDateString()}}</td>
+                    <td>
+                        @if(event.status_id == 1)
+                            Aprovado
+                        @elseif(event.status_id == 2)
+                            Pendente
+                        @else
+                            Reprovado
+                        @end
+                    </td>
+                    <td>
+                        <a href="{{ route('eventPage.view', {id: event.id}) }}">
+                            <i class="fa-solid fa-magnifying-glass" style="color: black"></i>
+                        </a>
+                    </td>
+                    <td><i class="fa-solid fa-pen-to-square" style="color: #0d6efd"></i></td>
+                    <td>
+                        <a href="{{ route('event.delete', { id: event.id }) }}">
+                            <i class="fas fa-times" style="cursor:pointer;color: red; font-size:1.5rem"></i>
+                        </a>
+                    </td>
+                </tr>
+                @endeach
+            </tbody>
+        </table>
+
     </div>
 @endsection
