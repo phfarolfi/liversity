@@ -54,6 +54,7 @@ Route.get('/UserEvents', 'EventsController.userEvents').as('userEvents.view').mi
 Route.get('/DeleteEvent/:id', 'EventsController.deleteEvent').where('id', /^[0-9]$/).as('event.delete').middleware('auth');
 Route.get('/EventPage/:id', 'EventsController.eventPageView').where('id', /^[0-9]$/).as('eventPage.view').middleware('auth');
 Route.get('/EventParticipants/:id', 'EventsController.eventPageParticipantsView').where('id', /^[0-9]$/).as('eventParticipants.view').middleware('auth');
+Route.get('/SubscribeOnEvent/:id', 'EventsController.subscribeOnEvent').where('id', /^[0-9]$/).as('subscribeOnEvent.create').middleware('auth');
 Route.get('/EventsPage', 'EventsController.showEvents').as("listEvents").middleware('auth');
 Route.post('/EventsPage','EventsController.filterEvents').as("filterEvents").middleware('auth');
 //Route.post('/EventsPage','EventsController.searchEvents').as("searchEvents").middleware('auth');

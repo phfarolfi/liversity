@@ -2,6 +2,17 @@
 @set('title', 'liversity - Evento')
 
 @section('content')
+    @if(flashMessages.all()?.success?.subscribeEvent)
+    <script>
+        Swal.fire('Inscrição bem sucedida!', 'A sua inscrição neste evento foi realizada com sucesso!', 'success')
+    </script>
+    @endif
+    @if(flashMessages.all()?.errors?.subscribeEvent)
+    <script>
+        Swal.fire('Erro!', 'Não foi possível realizar a inscrição no evento solicitado!', 'error')
+    </script>
+    @endif
+
     @if(event.statusId == '2')
     <div class="col-md-12 text-center">
         <h1 class="text-danger">Evento em Análise!</h1>
@@ -30,7 +41,7 @@
                         <span><i class="fa-solid fa-calendar-day" style="margin-top:50px;"></i> Data Limite para Inscrições:&nbsp;&nbsp;&nbsp;{{ event.limitSubscriptionDate.toLocaleDateString() }}</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span><i class="fa-solid fa-person-chalkboard" style="margin-top:10px;"></i> Organizador:&nbsp;&nbsp;{{ eventOrganizer }}</span>
+                        <span><i class="fa-solid fa-person-chalkboard" style="margin-top:10px;"></i> Organizador:&nbsp;&nbsp;{{ eventOrganizerName }}</span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span><i class="fa-solid fa-location-dot" style="margin-top:10px;"></i>&nbsp;&nbsp;&nbsp;{{ event.local }} - {{ campusName }}</span>
@@ -38,10 +49,18 @@
                 </p>
                 @if(event.statusId == '1')
                 <div class="event-buttons">
-                    @if(!completedProfile || profileId != 2)
+                    @if(eventDateVal < dateNow)
+                        <p class="text-danger">Evento já concluído!</p>
+                    @elseif(limitSubscriptionDateVal < dateNow)
+                        <p class="text-danger">Inscrições para o evento encerradas!</p>
+                    @elseif(eventOrganizerId == userId)
+                        <p class="text-danger">Você não pode se inscrever no próprio evento criado!</p>
+                    @elseif(!completedProfile || profileId != 2)
                         <p class="text-danger">Apenas discentes com perfil atualizado podem se inscrever no evento!</p>
+                    @elseif(subscribedOnEvent == true)
+                        <p class="text-danger">Você está inscrito(a) neste evento!</p>
                     @else
-                        <a class="btn btn-primary submit" href="#" role="button">Inscreva-se!</a>
+                        <a class="btn btn-primary submit" href="{{ route('subscribeOnEvent.create', { id: event.id }) }}" role="button">Inscreva-se!</a>
                         {{--  <a class="btn btn-outline-secondary submit" href="#" role="button">Acessar evento</a>  --}}
                     @end
                 </div>
