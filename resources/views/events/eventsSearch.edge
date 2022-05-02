@@ -2,22 +2,22 @@
 @set('title', 'liversity - Mural de eventos')
 
 @section('content')
-<form class="events-page-top" action="{{ route('filterEvents') }}" method="POST">
+<form class="events-page-top" action="{{ route('createEvent.create') }}" method="POST">
     <div class="events-page-filter">
         <h2>Status do Evento</h2>
         <select name="inscricoes">
-            <option value="Todos">Todos</option>
-            <option value="Inscrições Abertas">Inscrições Abertas</option>
-            <option value="Inscrições Fechadas">Inscrições Fechadas</option>
+            <option value="a">Todos</option>
+            <option value="b">Inscrições Abertas</option>
+            <option value="c">Inscrições Fechadas</option>
         </select>
     </div>
 
     <div class="events-page-filter">
         <h2>Campus</h2>
         <select name="campuses">
-            <option value="Todos">Todos</option>
+            <option value="a">Todos</option>
             @each((campus, index) in campuses)
-                <option value="{{campus.name}}">{{campus.name}}</option>
+                <option value="{{campus.id}}">{{campus.name}}</option>
             @endeach
         </select>
     </div>
@@ -25,19 +25,19 @@
     <div class="events-page-filter">
         <h2>Categoria</h2>
         <select name="categories">
-            <option value="Todos">Todos</option>
+            <option value="a">Todos</option>
             @each((category, index) in categories)
-                <option value="{{category.name}}">{{category.name}}</option>
+                <option value="{{category.id}}">{{category.name}}</option>
             @endeach
         </select>
     </div>
 
     <div class="events-page-filter">
         <h2>Ordenar por</h2>
-        <select name="status">
-            <option value="Criados recentemente">Criados recentemente</option>
-            <option value="Inscrições encerrando em breve">Inscrições encerrando em breve</option>
-            <option value="Acontecerão em breve">Acontecerão em breve</option>
+        <select name="inscricoes">
+            <option value="a">Criados recentemente</option>
+            <option value="b">Inscrições encerrando em breve</option>
+            <option value="c">Acontecerão em breve</option>
         </select>
     </div>
 

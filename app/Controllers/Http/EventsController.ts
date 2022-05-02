@@ -271,26 +271,51 @@ export default class EventsController {
         if(newFilters.campuses === "Inscrições encerrando em breve"){
             events = await Database
             .from('events')
+            .join('campuses', (query) => {
+                query.on('events.campus_id', '=', 'campuses.id')
+                })
+            .join('categories', (query) => {
+                query.on('events.category_id', '=', 'categories.id')
+                })
             .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
             .andWhereRaw('limit_subsciption_date > ?', [dateNow])
             .select('events.*')
+            .select('campuses.name AS campus_name')
+            .select('categories.name AS category_name') 
             .orderBy('limit_subsciption_date', 'desc')
         }
         else if(newFilters.campuses === "Acontecerão em breve"){
             events = await Database
             .from('events')
+            .join('campuses', (query) => {
+                query.on('events.campus_id', '=', 'campuses.id')
+                })
+            .join('categories', (query) => {
+                query.on('events.category_id', '=', 'categories.id')
+                })
             .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
             .andWhereRaw('event_date > ?', [dateNow])
             .select('events.*')
+            .select('campuses.name AS campus_name')
+            .select('categories.name AS category_name') 
             .orderBy('event_date', 'desc')
         }
         else {
             events = await Database
             .from('events')
+            .join('campuses', (query) => {
+                query.on('events.campus_id', '=', 'campuses.id')
+                })
+            .join('categories', (query) => {
+                query.on('events.category_id', '=', 'categories.id')
+                })
             .whereRaw('status_id = ?', [1]) //mural terá apenas eventos aprovados
             .select('events.*')
-            .orderBy('created_at', 'desc')    
+            .select('campuses.name AS campus_name')
+            .select('categories.name AS category_name')  
+            .orderBy('event_date', 'desc')
         }
+
 
         var campuses = await Database
         .from('campuses')
@@ -313,12 +338,13 @@ export default class EventsController {
 
         if(newFilters.campuses != "Todos")
             events = events.filter(function(event) {
-                return event.campus.name === newFilters.campuses
+                console.log(event)
+                return event.campus_name === newFilters.campuses
             })
 
         if(newFilters.categories != "Todos")
             events = events.filter(function(event) {
-                return event.category.name === newFilters.categories
+                return event.category_name === newFilters.categories
             })
 
         if(newFilters.status === "Inscrições Abertas")
