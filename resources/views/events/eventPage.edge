@@ -36,7 +36,7 @@
                         <span><i class="fa-solid fa-location-dot" style="margin-top:10px;"></i>&nbsp;&nbsp;&nbsp;{{ event.local }} - {{ campusName }}</span>
                     </div>
                 </p>
-                @if(event.statusId != '2')
+                @if(event.statusId == '1')
                 <div class="event-buttons">
                     @if(!completedProfile || profileId != 2)
                         <p class="text-danger">Apenas discentes com perfil atualizado podem se inscrever no evento!</p>

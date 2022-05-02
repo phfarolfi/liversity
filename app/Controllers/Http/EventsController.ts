@@ -363,6 +363,83 @@ export default class EventsController {
         return view.render('events/userEvents', { events: events})
     }
 
+    public async updateEventView({ auth, view, params} : HttpContextContract ) {
+        var categories = await Category.query().orderBy('id', 'asc')
+        var campuses = await Campus.query().orderBy('name', 'asc')
+        
+        var event = await Event.findBy('id', params.id)
+        var eventDateFormatted = ''
+        if(event!.eventDate != null) {
+            const offset = event!.eventDate.getTimezoneOffset()
+            var eventDate = new Date(event!.eventDate.getTime() - (offset*60*1000))
+            eventDateFormatted = eventDate.toISOString().split('T')[0]
+        }
+        var eventLimitSubsDateFormatted = ''
+        if(event!.limitSubscriptionDate != null) {
+            const offset = event!.limitSubscriptionDate.getTimezoneOffset()
+            var eventLimitSubsDate = new Date(event!.limitSubscriptionDate.getTime() - (offset*60*1000))
+            eventLimitSubsDateFormatted = eventLimitSubsDate.toISOString().split('T')[0]
+        }
+
+        return view.render('events/editEvent', { event: event, eventDate: eventDateFormatted, eventLimitSubsDate: eventLimitSubsDateFormatted,
+                                                categories: categories, campuses: campuses })
+    }
+
+    public async updateEvent({request, session, response, params} : HttpContextContract) {
+        console.log(params)
+        const updEvent = request.all()
+        console.log(updEvent)
+
+        if(!updEvent.name || !updEvent.eventDate || !updEvent.limitSubscriptionDate || 
+            !updEvent.description || !updEvent.local || !updEvent.campus || !updEvent.linkCommunicationGroup ||
+            !updEvent.photo || !updEvent.document) {
+            session.flashExcept(['updateEvent'])
+            session.flash({ errors: { updateEvent: 'Preencha todos os campos solicitados' } })
+            return response.redirect().toRoute('updateEvent.view', {id: params.id})
+        }
+
+        var dateNow = new Date()
+        if(new Date(updEvent.eventDate) < dateNow) {
+            session.flashExcept(['updateEvent'])
+            session.flash({ errors: { updateEvent: 'A data do evento deve ser maior ou igual à data de hoje' } })
+            return response.redirect().toRoute('updateEvent.view', {id: params.id})
+        }
+
+        if(updEvent.eventDate < updEvent.limitSubscriptionDate) {
+            session.flashExcept(['updateEvent'])
+            session.flash({ errors: { updateEvent: 'A data limite para inscrições deve ser inferior ou igual à data do evento' } })
+            return response.redirect().toRoute('updateEvent.view', {id: params.id})
+        }
+
+        try {
+            !updEvent.name || !updEvent.eventDate || !updEvent.limitSubscriptionDate || 
+            !updEvent.description || !updEvent.local || !updEvent.campus || !updEvent.linkCommunicationGroup ||
+            !updEvent.photo || !updEvent.document
+            var event = await Event.findBy('id', params.id)
+            if(event) {
+                event.name = updEvent.name
+                event.eventDate = updEvent.eventDate
+                event.limitSubscriptionDate = updEvent.limitSubscriptionDate
+                event.description = updEvent.description
+                event.local = updEvent.local
+                event.campusId = updEvent.campus
+                event.linkCommunicationGroup = updEvent.linkCommunicationGroup
+                event.photo = updEvent.photo
+                await event.save()
+            }
+
+            session.flashExcept(['updateEvent'])
+            session.flash({ success: { updateEvent: 'Evento atualizado com sucesso!' } })
+            response.redirect().toRoute('updateEvent.view', {id: params.id})
+
+        } catch {
+            session.flashExcept(['updateEvent'])
+            session.flash({ errors: { updateEvent: 'Não foi possível atualizar as informações do evento' } })
+
+            return response.redirect().toRoute('updateEvent.view', {id: params.id})
+        }
+    }
+
     public async deleteEvent({auth, response, session, params} : HttpContextContract) {
         var event = await Event.findBy('id', params.id)
         if(event) {

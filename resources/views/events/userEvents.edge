@@ -51,7 +51,11 @@
                             <i class="fa-solid fa-magnifying-glass" style="color: black"></i>
                         </a>
                     </td>
-                    <td><i class="fa-solid fa-pen-to-square" style="color: #0d6efd"></i></td>
+                    <td>
+                        <a href="{{ route('updateEvent.view', {id: event.id}) }}">
+                            <i class="fa-solid fa-pen-to-square" style="color: #0d6efd"></i>
+                        </a>
+                    </td>
                     <td>
                         <a href="{{ route('event.delete', { id: event.id }) }}">
                             <i class="fas fa-times" style="cursor:pointer;color: red; font-size:1.5rem"></i>

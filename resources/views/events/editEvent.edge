@@ -1,0 +1,93 @@
+@layout('layouts/main')
+@set('title', 'liversity - Criar Evento')
+
+@section('content')
+    @if(flashMessages.all()?.success?.updateEvent)
+    <script>
+        Swal.fire('Evento Atualizado!', 'As informações do evento foram atualizadas com sucesso!', 'success')
+    </script>
+    @endif
+
+    <div id="create-event" class="d-flex justify-content-between m-5 px-3" style="margin-right: auto; margin-left: auto;">
+        <section class="col-6" style="margin-right: auto; margin-left: auto;">
+            <div id="edit-profile" class="form-page d-inline-block">
+                <div>
+                    <h1 class="title">Editar evento</h1> 
+                    <br>
+                    <form class="form" action="{{ route('updateEvent.update', {id: event?.id}) }}" method="POST">
+                        <div class="mb-3 form-entry">
+                            <label for="name" class="form-label">Nome do evento</label><br>
+                            <input name="name" value="{{ event?.name != null? event?.name : ''}}" type="text" class="form-control" id="name">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="eventDate" class="form-label">Data do evento</label><br>
+                            <input name="eventDate" value="{{ event?.eventDate != null? eventDate : ''}}" type="date" class="form-control" id="eventDate">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="limitSubscriptionDate" class="form-label">Data limite de inscrição no evento</label><br>
+                            <input name= "limitSubscriptionDate" value="{{ event?.limitSubscriptionDate != null? eventLimitSubsDate : ''}}" type="date" class="form-control" id="limitSubscriptionDate">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="category" class="form-label">Categoria de atividade</label><br>
+                            <select class="form-select" name="category" id="category" disabled>
+                                <option value="">Selecione a categoria do evento</option>
+                                @each(category in categories)
+                                    <option 
+                                    @if(event?.categoryId != null && category.id == event?.categoryId)
+                                        selected
+                                    @endif
+                                    value="{{ category.id }}">{{ category.name }}</option>
+                                @endeach
+                            </select>
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="description" class="form-label">Breve descrição do evento</label><br>
+                            <textarea name= "description" type="text" class="form-control" id="description" rows="3" maxlength="1500">{{ event?.description != null? event?.description : '' }}</textarea>
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="local" class="form-label">Local</label><br>
+                            <input name="local" value="{{ event?.local != null? event?.local : ''}}" type="text" class="form-control" id="local">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="campus" class="form-label">Campus</label><br>
+                            <select class="form-select" name="campus" id="campus">
+                                <option value="">Selecione o campus em que o evento estará cadastrado</option>
+                                @each(campus in campuses)
+                                    <option
+                                    @if(event?.campusId != null && campus.id == event?.campusId)
+                                        selected
+                                    @endif
+                                    value="{{ campus.id }}">{{ campus.name }}</option>
+                                @endeach
+                            </select>
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="linkCommunicationGroup" class="form-label">Link de grupo do evento</label><br>
+                            <input name="linkCommunicationGroup" value="{{ event?.linkCommunicationGroup != null? event?.linkCommunicationGroup : ''}}" type="link" class="form-control" id="linkCommunicationGroup">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="photo" class="form-label">Foto do evento (.jpeg/.png)</label><br>
+                            <input name="photo" value="{{ event?.photo != null? event?.photo : ''}}" type="text" class="form-control" id="photo">
+                        </div>
+                        <div class="mb-3 form-entry">
+                            <label for="document" class="form-label">Documento de oficialização do evento (.pdf)</label><br>
+                            <input name="document" value="{{ event?.document != null? event?.document : ''}}" type="text" class="form-control" id="document" readonly>
+                        </div>
+                        @if(flashMessages.all()?.errors?.updateEvent)
+                            <p class="text-danger mt-2"><small>{{ flashMessages.all()?.errors?.updateEvent }}</small></p>
+                        @endif
+                        <div style=
+                            @if(flashMessages.all()?.errors)
+                                "margin-top: 8px;"
+                            @else
+                                "margin-top: 40px;"
+                            @endif
+                        )>
+                        <button type="submit" class="btn btn-primary submit">
+                        Atualizar evento</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+@endsection

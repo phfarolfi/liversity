@@ -48,6 +48,8 @@ Route.post('/CreateProfessor', 'AccountController.createProfessor').as('createPr
 
 Route.get('/CreateEvent', 'EventsController.createEventView').as('createEvent.view').middleware('auth');
 Route.post('/CreateEvent', 'EventsController.createEvent').as('createEvent.create').middleware('auth');
+Route.get('/UpdateEvent/:id', 'EventsController.updateEventView').as('updateEvent.view').middleware('auth');
+Route.post('/UpdateEvent/:id', 'EventsController.updateEvent').as('updateEvent.update').middleware('auth');
 Route.get('/UserEvents', 'EventsController.userEvents').as('userEvents.view').middleware('auth');
 Route.get('/DeleteEvent/:id', 'EventsController.deleteEvent').where('id', /^[0-9]$/).as('event.delete').middleware('auth');
 Route.get('/EventPage/:id', 'EventsController.eventPageView').where('id', /^[0-9]$/).as('eventPage.view').middleware('auth');
